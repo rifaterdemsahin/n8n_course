@@ -1,0 +1,452 @@
+{
+  "name": "Do Nothing Node - Debugging Example",
+  "nodes": [
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "workflow_start",
+              "value": "Workflow execution started"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{ new Date().toISOString() }}"
+            },
+            {
+              "name": "execution_id",
+              "value": "={{ $execution.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "start_workflow",
+      "name": "Start Workflow",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "data_source",
+              "value": "API"
+            },
+            {
+              "name": "api_endpoint",
+              "value": "https://api.example.com/users"
+            },
+            {
+              "name": "request_method",
+              "value": "GET"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "prepare_api_call",
+      "name": "Prepare API Call",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "debug_checkpoint_1",
+      "name": "Debug Checkpoint 1",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "debug_info",
+              "value": "Data prepared for API call - ready to proceed"
+            },
+            {
+              "name": "checkpoint_timestamp",
+              "value": "={{ new Date().toISOString() }}"
+            },
+            {
+              "name": "data_ready",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "log_checkpoint_1",
+      "name": "Log Checkpoint 1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        900,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.data_ready }}",
+              "operation": "equal",
+              "value2": "true"
+            }
+          ]
+        }
+      },
+      "id": "check_data_ready",
+      "name": "Check Data Ready",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "debug_checkpoint_2",
+      "name": "Debug Checkpoint 2",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "processing_status",
+              "value": "Data validated - proceeding with processing"
+            },
+            {
+              "name": "validation_timestamp",
+              "value": "={{ new Date().toISOString() }}"
+            },
+            {
+              "name": "next_step",
+              "value": "API_CALL"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "log_validation_success",
+      "name": "Log Validation Success",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1560,
+        200
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "debug_checkpoint_3",
+      "name": "Debug Checkpoint 3",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "error_status",
+              "value": "Data validation failed"
+            },
+            {
+              "name": "error_timestamp",
+              "value": "={{ new Date().toISOString() }}"
+            },
+            {
+              "name": "error_reason",
+              "value": "Data not ready for processing"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "log_validation_error",
+      "name": "Log Validation Error",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1560,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "api_response",
+              "value": "Simulated API response data"
+            },
+            {
+              "name": "response_timestamp",
+              "value": "={{ new Date().toISOString() }}"
+            },
+            {
+              "name": "status_code",
+              "value": "200"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "simulate_api_call",
+      "name": "Simulate API Call",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1780,
+        200
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "debug_checkpoint_4",
+      "name": "Debug Checkpoint 4",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2000,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "final_status",
+              "value": "Workflow completed successfully"
+            },
+            {
+              "name": "completion_timestamp",
+              "value": "={{ new Date().toISOString() }}"
+            },
+            {
+              "name": "total_checkpoints",
+              "value": "4"
+            },
+            {
+              "name": "execution_summary",
+              "value": "All debug checkpoints passed"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "final_summary",
+      "name": "Final Summary",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        2220,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "error_final_status",
+              "value": "Workflow completed with errors"
+            },
+            {
+              "name": "error_completion_timestamp",
+              "value": "={{ new Date().toISOString() }}"
+            },
+            {
+              "name": "error_summary",
+              "value": "Workflow stopped due to validation failure"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "error_final_summary",
+      "name": "Error Final Summary",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1780,
+        400
+      ]
+    }
+  ],
+  "connections": {
+    "Start Workflow": {
+      "main": [
+        [
+          {
+            "node": "Prepare API Call",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare API Call": {
+      "main": [
+        [
+          {
+            "node": "Debug Checkpoint 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Debug Checkpoint 1": {
+      "main": [
+        [
+          {
+            "node": "Log Checkpoint 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Checkpoint 1": {
+      "main": [
+        [
+          {
+            "node": "Check Data Ready",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Data Ready": {
+      "main": [
+        [
+          {
+            "node": "Debug Checkpoint 2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Debug Checkpoint 3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Debug Checkpoint 2": {
+      "main": [
+        [
+          {
+            "node": "Log Validation Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Validation Success": {
+      "main": [
+        [
+          {
+            "node": "Simulate API Call",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Debug Checkpoint 3": {
+      "main": [
+        [
+          {
+            "node": "Log Validation Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Validation Error": {
+      "main": [
+        [
+          {
+            "node": "Error Final Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simulate API Call": {
+      "main": [
+        [
+          {
+            "node": "Debug Checkpoint 4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Debug Checkpoint 4": {
+      "main": [
+        [
+          {
+            "node": "Final Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "debugging",
+      "name": "Debugging"
+    }
+  ],
+  "triggerCount": 0,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1"
+}

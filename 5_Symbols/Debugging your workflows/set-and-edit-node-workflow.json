@@ -1,0 +1,310 @@
+{
+  "name": "Set and Edit Node - Debugging Example",
+  "nodes": [
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "debug_step",
+              "value": "Starting workflow execution"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{ new Date().toISOString() }}"
+            },
+            {
+              "name": "execution_id",
+              "value": "={{ $execution.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "start_debug",
+      "name": "Start Debug Info",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "user_name",
+              "value": "John Doe"
+            },
+            {
+              "name": "user_email",
+              "value": "john.doe@example.com"
+            },
+            {
+              "name": "user_id",
+              "value": "12345"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "create_user_data",
+      "name": "Create User Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "debug_step",
+              "value": "User data created - inspecting values"
+            },
+            {
+              "name": "user_name_debug",
+              "value": "={{ $json.user_name }}"
+            },
+            {
+              "name": "user_email_debug",
+              "value": "={{ $json.user_email }}"
+            },
+            {
+              "name": "user_id_debug",
+              "value": "={{ $json.user_id }}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{ new Date().toISOString() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "debug_user_data",
+      "name": "Debug User Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.user_id }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "check_user_id",
+      "name": "Check User ID",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        900,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "debug_step",
+              "value": "User ID validation passed"
+            },
+            {
+              "name": "validation_result",
+              "value": "SUCCESS"
+            },
+            {
+              "name": "processed_user",
+              "value": "={{ $json.user_name }} ({{ $json.user_email }})"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{ new Date().toISOString() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "success_debug",
+      "name": "Success Debug Info",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1120,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "debug_step",
+              "value": "User ID validation failed"
+            },
+            {
+              "name": "validation_result",
+              "value": "FAILED"
+            },
+            {
+              "name": "error_message",
+              "value": "User ID is empty or invalid"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{ new Date().toISOString() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "error_debug",
+      "name": "Error Debug Info",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1120,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "debug_step",
+              "value": "Final workflow summary"
+            },
+            {
+              "name": "execution_time",
+              "value": "={{ new Date().toISOString() }}"
+            },
+            {
+              "name": "total_debug_steps",
+              "value": "4"
+            },
+            {
+              "name": "workflow_status",
+              "value": "COMPLETED"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "final_debug",
+      "name": "Final Debug Summary",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1340,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Start Debug Info": {
+      "main": [
+        [
+          {
+            "node": "Create User Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create User Data": {
+      "main": [
+        [
+          {
+            "node": "Debug User Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Debug User Data": {
+      "main": [
+        [
+          {
+            "node": "Check User ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check User ID": {
+      "main": [
+        [
+          {
+            "node": "Success Debug Info",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error Debug Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Success Debug Info": {
+      "main": [
+        [
+          {
+            "node": "Final Debug Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Debug Info": {
+      "main": [
+        [
+          {
+            "node": "Final Debug Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "debugging",
+      "name": "Debugging"
+    }
+  ],
+  "triggerCount": 0,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1"
+}
