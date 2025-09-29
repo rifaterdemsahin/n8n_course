@@ -166,3 +166,4 @@ Visual learning is crucial for understanding complex automation concepts. This f
 - **Licensing** - Clear licensing for visual materials
 
 This visual resource collection ensures that learners can understand n8n concepts through multiple learning modalities, making complex automation concepts accessible and engaging.
+

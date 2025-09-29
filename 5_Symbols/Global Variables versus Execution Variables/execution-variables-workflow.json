@@ -1,0 +1,212 @@
+{
+  "name": "Execution Variables Example",
+  "nodes": [
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "inputData",
+              "value": "Sample data for processing"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "start-node",
+      "name": "Start with Input Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Set execution variables during processing\nconst inputData = $input.first().json.inputData;\nconst timestamp = new Date().toISOString();\nconst processId = Math.random().toString(36).substr(2, 9);\n\n// Set execution variables\n$vars.processStartTime = timestamp;\n$vars.processId = processId;\n$vars.originalData = inputData;\n$vars.processedCount = 0;\n\n// Process the data\nconst processedData = {\n  original: inputData,\n  processed: inputData.toUpperCase(),\n  timestamp: timestamp,\n  processId: processId\n};\n\nreturn processedData;"
+      },
+      "id": "set-execution-vars",
+      "name": "Set Execution Variables",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Use execution variables in processing\nconst processId = $vars.processId;\nconst startTime = $vars.processStartTime;\nconst originalData = $vars.originalData;\n\n// Increment processed count\n$vars.processedCount = ($vars.processedCount || 0) + 1;\n\n// Calculate processing time\nconst currentTime = new Date().toISOString();\nconst processingTime = new Date(currentTime) - new Date(startTime);\n\n// Update execution variables\n$vars.lastProcessedTime = currentTime;\n$vars.totalProcessingTime = processingTime;\n\n// Process the data\nconst data = $input.first().json;\nconst result = {\n  processId: processId,\n  originalData: originalData,\n  processedData: data.processed,\n  processingTime: processingTime,\n  processedCount: $vars.processedCount,\n  timestamp: currentTime\n};\n\nreturn result;"
+      },
+      "id": "process-with-execution-vars",
+      "name": "Process with Execution Vars",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-1",
+              "leftValue": "={{ $vars.processedCount }}",
+              "rightValue": "1",
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-processed-count",
+      "name": "Check Processed Count",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        900,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Final processing using execution variables\nconst processId = $vars.processId;\nconst startTime = $vars.processStartTime;\nconst processedCount = $vars.processedCount;\nconst totalTime = $vars.totalProcessingTime;\n\n// Create final result\nconst finalResult = {\n  processId: processId,\n  startTime: startTime,\n  endTime: new Date().toISOString(),\n  processedCount: processedCount,\n  totalProcessingTime: totalTime,\n  status: 'completed',\n  data: $input.first().json\n};\n\n// Clear execution variables (optional)\n// $vars.processStartTime = null;\n// $vars.processId = null;\n// $vars.originalData = null;\n// $vars.processedCount = null;\n\nreturn finalResult;"
+      },
+      "id": "final-processing",
+      "name": "Final Processing",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "error",
+              "value": "Processing failed - processed count: {{ $vars.processedCount }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "error-handling",
+      "name": "Error Handling",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1120,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Log execution variables for debugging\nconst executionVars = {\n  processId: $vars.processId,\n  processStartTime: $vars.processStartTime,\n  originalData: $vars.originalData,\n  processedCount: $vars.processedCount,\n  lastProcessedTime: $vars.lastProcessedTime,\n  totalProcessingTime: $vars.totalProcessingTime\n};\n\nconsole.log('Execution Variables:', executionVars);\n\nreturn {\n  message: 'Execution variables logged',\n  variables: executionVars,\n  data: $input.first().json\n};"
+      },
+      "id": "log-execution-vars",
+      "name": "Log Execution Variables",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1340,
+        200
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Start with Input Data": {
+      "main": [
+        [
+          {
+            "node": "Set Execution Variables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Execution Variables": {
+      "main": [
+        [
+          {
+            "node": "Process with Execution Vars",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process with Execution Vars": {
+      "main": [
+        [
+          {
+            "node": "Check Processed Count",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Processed Count": {
+      "main": [
+        [
+          {
+            "node": "Final Processing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error Handling",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Final Processing": {
+      "main": [
+        [
+          {
+            "node": "Log Execution Variables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "your-instance-id"
+  },
+  "id": "execution-vars-example",
+  "tags": [
+    {
+      "id": "execution-variables",
+      "name": "Execution Variables"
+    }
+  ]
+}

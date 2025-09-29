@@ -172,3 +172,4 @@ These projects directly support:
 - [Video Tutorials](https://www.youtube.com/c/n8nio)
 
 This collection of practical projects provides the hands-on experience needed to master n8n automation and build real-world automation solutions.
+

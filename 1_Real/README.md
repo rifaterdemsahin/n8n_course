@@ -77,3 +77,4 @@ Each key result includes detailed tracking mechanisms:
 - **Self-Assessment**: Built-in evaluation methods for each milestone
 
 This OKR framework ensures you have a structured path to mastering n8n automation from fundamentals to production-ready implementation.
+

@@ -112,3 +112,4 @@ After engaging with materials in this folder, students will understand:
 - Community insights and experiences
 
 This theoretical foundation ensures that students understand not just how to use n8n, but why automation matters and how to apply it strategically in real-world scenarios.
+

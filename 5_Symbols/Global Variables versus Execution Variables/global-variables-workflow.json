@@ -1,0 +1,214 @@
+{
+  "name": "Global Variables Example",
+  "nodes": [
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "apiEndpoint",
+              "value": "https://api.example.com"
+            },
+            {
+              "name": "apiVersion",
+              "value": "v1"
+            },
+            {
+              "name": "timeout",
+              "value": "30000"
+            },
+            {
+              "name": "maxRetries",
+              "value": "3"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-global-vars",
+      "name": "Set Global Variables",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $vars.apiEndpoint }}/{{ $vars.apiVersion }}/users",
+        "options": {
+          "timeout": "={{ $vars.timeout }}",
+          "retry": {
+            "retries": "={{ $vars.maxRetries }}"
+          }
+        }
+      },
+      "id": "http-request",
+      "name": "HTTP Request with Global Vars",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Using global variables in code\nconst apiEndpoint = $vars.apiEndpoint;\nconst apiVersion = $vars.apiVersion;\nconst timeout = parseInt($vars.timeout);\nconst maxRetries = parseInt($vars.maxRetries);\n\n// Process the data using global variables\nconst processedData = {\n  endpoint: apiEndpoint,\n  version: apiVersion,\n  timeout: timeout,\n  retries: maxRetries,\n  timestamp: new Date().toISOString(),\n  data: $input.all()\n};\n\nreturn processedData;"
+      },
+      "id": "code-process",
+      "name": "Process with Global Vars",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-1",
+              "leftValue": "={{ $vars.apiVersion }}",
+              "rightValue": "v1",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if-condition",
+      "name": "Check API Version",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        900,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "message",
+              "value": "Using API version {{ $vars.apiVersion }} with endpoint {{ $vars.apiEndpoint }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "success-message",
+      "name": "Success Message",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1120,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "error",
+              "value": "Unsupported API version: {{ $vars.apiVersion }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "error-message",
+      "name": "Error Message",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1120,
+        400
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Set Global Variables": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request with Global Vars",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request with Global Vars": {
+      "main": [
+        [
+          {
+            "node": "Process with Global Vars",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process with Global Vars": {
+      "main": [
+        [
+          {
+            "node": "Check API Version",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check API Version": {
+      "main": [
+        [
+          {
+            "node": "Success Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "your-instance-id"
+  },
+  "id": "global-vars-example",
+  "tags": [
+    {
+      "id": "global-variables",
+      "name": "Global Variables"
+    }
+  ]
+}

@@ -104,3 +104,4 @@ After completing environment setup:
 - [Node.js Installation](https://nodejs.org/)
 
 This environment setup ensures you have a solid foundation for learning and practicing n8n automation concepts throughout the course.
+

@@ -187,3 +187,4 @@ This formula knowledge directly supports:
 - **`1_Real/`** - Achieving key results through expression mastery
 
 Mastering n8n expressions is essential for creating sophisticated, dynamic workflows that can handle complex business logic and data transformations.
+
