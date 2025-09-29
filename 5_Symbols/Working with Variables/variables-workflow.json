@@ -1,394 +1,356 @@
 {
-  "name": "Working with Variables - Demo Workflow",
-  "nodes": [
-    {
-      "parameters": {},
-      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-      "name": "Manual Trigger",
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        240,
-        300
-      ]
-    },
-    {
-      "parameters": {
-        "values": {
-          "string": [
-            {
-              "name": "sample_data",
-              "value": "={\n  \"users\": [\n    {\n      \"id\": 1,\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"email\": \"john@example.com\",\n      \"age\": 30,\n      \"active\": true,\n      \"orders\": [\n        {\"id\": 101, \"amount\": 99.99, \"status\": \"completed\"},\n        {\"id\": 102, \"amount\": 149.99, \"status\": \"pending\"}\n      ]\n    },\n    {\n      \"id\": 2,\n      \"firstName\": \"Jane\",\n      \"lastName\": \"Smith\",\n      \"email\": \"jane@example.com\",\n      \"age\": 25,\n      \"active\": true,\n      \"orders\": [\n        {\"id\": 201, \"amount\": 79.99, \"status\": \"completed\"}\n      ]\n    }\n  ]\n}"
-            }
-          ]
+    "nodes": [
+      {
+        "parameters": {
+          "content": "- Store values\n\n- Using a set node\n\n- Using Json"
         },
-        "options": {}
-      },
-      "id": "b2c3d4e5-f6g7-8901-bcde-f23456789012",
-      "name": "Initialize Sample Data",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        460,
-        300
-      ]
-    },
-    {
-      "parameters": {
-        "values": {
-          "string": [
-            {
-              "name": "full_name",
-              "value": "={{ $json.users[0].firstName + ' ' + $json.users[0].lastName }}"
-            },
-            {
-              "name": "user_age",
-              "value": "={{ $json.users[0].age }}"
-            },
-            {
-              "name": "is_adult",
-              "value": "={{ $json.users[0].age >= 18 ? 'Yes' : 'No' }}"
-            }
-          ],
-          "number": [
-            {
-              "name": "total_orders",
-              "value": "={{ $json.users[0].orders.length }}"
-            },
-            {
-              "name": "total_spent",
-              "value": "={{ $json.users[0].orders.reduce((sum, order) => sum + order.amount, 0) }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "c3d4e5f6-g7h8-9012-cdef-345678901234",
-      "name": "Extract User Variables",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        680,
-        300
-      ]
-    },
-    {
-      "parameters": {
-        "values": {
-          "string": [
-            {
-              "name": "user_summary",
-              "value": "={{ 'User: ' + $json.full_name + ', Age: ' + $json.user_age + ', Adult: ' + $json.is_adult + ', Orders: ' + $json.total_orders + ', Total Spent: $' + $json.total_spent }}"
-            },
-            {
-              "name": "formatted_json",
-              "value": "={{ JSON.stringify({\n  name: $json.full_name,\n  age: $json.user_age,\n  adult: $json.is_adult === 'Yes',\n  orderCount: $json.total_orders,\n  totalSpent: $json.total_spent,\n  averageOrder: $json.total_orders > 0 ? ($json.total_spent / $json.total_orders).toFixed(2) : 0\n}, null, 2) }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "d4e5f6g7-h8i9-0123-defg-456789012345",
-      "name": "Create Summary Data",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        900,
-        300
-      ]
-    },
-    {
-      "parameters": {
-        "values": {
-          "string": [
-            {
-              "name": "filtered_users",
-              "value": "={{ JSON.stringify($json.sample_data.users.filter(user => user.active), null, 2) }}"
-            },
-            {
-              "name": "user_emails",
-              "value": "={{ $json.sample_data.users.map(user => user.email).join(', ') }}"
-            },
-            {
-              "name": "all_order_amounts",
-              "value": "={{ JSON.stringify($json.sample_data.users.flatMap(user => user.orders.map(order => order.amount)), null, 2) }}"
-            }
-          ],
-          "number": [
-            {
-              "name": "total_revenue",
-              "value": "={{ $json.sample_data.users.reduce((userSum, user) => {\n  return userSum + user.orders.reduce((orderSum, order) => orderSum + order.amount, 0);\n}, 0) }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "e5f6g7h8-i9j0-1234-efgh-567890123456",
-      "name": "Process All Users",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1120,
-        300
-      ]
-    },
-    {
-      "parameters": {
-        "values": {
-          "string": [
-            {
-              "name": "environment_example",
-              "value": "={{ $env.NODE_ENV || 'development' }}"
-            },
-            {
-              "name": "timestamp",
-              "value": "={{ new Date().toISOString() }}"
-            },
-            {
-              "name": "workflow_id",
-              "value": "={{ $workflow.id }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "f6g7h8i9-j0k1-2345-fghi-678901234567",
-      "name": "System Variables",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1340,
-        300
-      ]
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict"
-          },
-          "conditions": [
-            {
-              "id": "condition1",
-              "leftValue": "={{ $json.total_revenue }}",
-              "rightValue": 200,
-              "operator": {
-                "type": "number",
-                "operation": "gt"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "id": "g7h8i9j0-k1l2-3456-ghij-789012345678",
-      "name": "Check Revenue Threshold",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2,
-      "position": [
-        1560,
-        300
-      ]
-    },
-    {
-      "parameters": {
-        "values": {
-          "string": [
-            {
-              "name": "status_message",
-              "value": "High revenue detected! Total: ${{ $json.total_revenue }}"
-            },
-            {
-              "name": "alert_level",
-              "value": "HIGH"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "h8i9j0k1-l2m3-4567-hijk-890123456789",
-      "name": "High Revenue Alert",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1780,
-        200
-      ]
-    },
-    {
-      "parameters": {
-        "values": {
-          "string": [
-            {
-              "name": "status_message",
-              "value": "Revenue within normal range: ${{ $json.total_revenue }}"
-            },
-            {
-              "name": "alert_level",
-              "value": "NORMAL"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "i9j0k1l2-m3n4-5678-ijkl-901234567890",
-      "name": "Normal Revenue Status",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1780,
-        400
-      ]
-    },
-    {
-      "parameters": {
-        "values": {
-          "string": [
-            {
-              "name": "final_summary",
-              "value": "={{ 'Workflow completed at ' + $json.timestamp + '\\n' +\n    'Alert Level: ' + $json.alert_level + '\\n' +\n    'Status: ' + $json.status_message + '\\n' +\n    'Environment: ' + $json.environment_example + '\\n' +\n    'Workflow ID: ' + $json.workflow_id }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "j0k1l2m3-n4o5-6789-jklm-012345678901",
-      "name": "Final Summary",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        2000,
-        300
-      ]
-    }
-  ],
-  "pinData": {},
-  "connections": {
-    "Manual Trigger": {
-      "main": [
-        [
-          {
-            "node": "Initialize Sample Data",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Initialize Sample Data": {
-      "main": [
-        [
-          {
-            "node": "Extract User Variables",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Extract User Variables": {
-      "main": [
-        [
-          {
-            "node": "Create Summary Data",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Create Summary Data": {
-      "main": [
-        [
-          {
-            "node": "Process All Users",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Process All Users": {
-      "main": [
-        [
-          {
-            "node": "System Variables",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "System Variables": {
-      "main": [
-        [
-          {
-            "node": "Check Revenue Threshold",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Check Revenue Threshold": {
-      "main": [
-        [
-          {
-            "node": "High Revenue Alert",
-            "type": "main",
-            "index": 0
-          }
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          -1536,
+          -64
         ],
-        [
-          {
-            "node": "Normal Revenue Status",
-            "type": "main",
-            "index": 0
-          }
+        "id": "0df7f1da-f180-4016-8478-0419a793f1e7",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {
+          "content": "# Working with Variables",
+          "width": 896,
+          "color": 3
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          -864,
+          -304
+        ],
+        "id": "a66dfb85-a3d7-4e7c-9e03-c7d63172c729",
+        "name": "Sticky Note1"
+      },
+      {
+        "parameters": {},
+        "id": "f67cc31e-ebba-449d-9590-e077cd79e580",
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          -1552,
+          160
         ]
-      ]
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "e012efd4-d054-4e76-aaf9-fe4df1d23e8f",
+                "name": "myUser",
+                "value": "Can",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "8f9b1145-12d5-4382-aee2-4877d660cbf3",
+        "name": "Initialize Sample Data",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -1312,
+          160
+        ]
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "0b7f3977-60de-4f65-be9c-dc0f848d57e3",
+                "name": "usersName",
+                "value": "={{ $json.myUser }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "2e72e556-9fe3-496a-84ad-3cab5edd7750",
+        "name": "Extract User Variables",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -1088,
+          160
+        ]
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "fd3fe59c-6f70-4419-a4d6-260538d1bfc3",
+                "name": "username",
+                "value": "={{ $json.usersName }}",
+                "type": "string"
+              },
+              {
+                "id": "fb59d86b-3da4-4daf-bd63-2f386e92c042",
+                "name": "=usernameLength",
+                "value": "={{ $json.usersName.length }}",
+                "type": "number"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "b83ba404-2e7b-4b53-9643-a735afa5ea36",
+        "name": "Create Summary Data",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -864,
+          160
+        ]
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "4169bb52-b5ed-4fe1-ab23-4aa8239ca4a4",
+                "name": "username",
+                "value": "={{ $json.username }}",
+                "type": "string"
+              },
+              {
+                "id": "776e1976-388b-48e6-a9e2-cd97e48b4abf",
+                "name": "resultComesFrom",
+                "value": "={{ $json.resultComesFrom }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "2c1cad4e-d7e6-42b0-b756-01ee529f848c",
+        "name": "Final Summary",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          240,
+          160
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "loose",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "condition1",
+                "leftValue": "={{ $json.usernameLength }}",
+                "rightValue": 3,
+                "operator": {
+                  "type": "number",
+                  "operation": "gt"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {
+            "looseTypeValidation": true
+          }
+        },
+        "id": "20e88d9b-6447-4ac5-b699-542876d95e04",
+        "name": "Check Lenght",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          -576,
+          160
+        ]
+      },
+      {
+        "parameters": {
+          "content": "- Convert Types when required"
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          -656,
+          -16
+        ],
+        "id": "4dc04284-af5e-44e2-a919-705f81cbbf76",
+        "name": "Sticky Note2"
+      },
+      {
+        "parameters": {
+          "content": "- Set the value at int\n- Shift left catch early"
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          -944,
+          -16
+        ],
+        "id": "a0c58aa0-f72e-4c0d-a4a5-be3bab0dc1d1",
+        "name": "Sticky Note3"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "4a21e7d4-1872-429e-8467-aa71f0682126",
+                "name": "username",
+                "value": "={{ $json.username }}",
+                "type": "string"
+              },
+              {
+                "id": "675af4a6-c174-4c90-9721-216c89a4e33d",
+                "name": "resultComesFrom",
+                "value": "Short UserName",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "a77fee3c-27bd-49d4-998a-25fe638b9ff1",
+        "name": "Short UserName",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -160,
+          256
+        ]
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "26c6bb63-ddde-4670-9491-097024ed4b5a",
+                "name": "username",
+                "value": "={{ $json.username }}",
+                "type": "string"
+              },
+              {
+                "id": "bc575f82-7a4f-4d6c-afce-e4270f1da6db",
+                "name": "resultComesFrom",
+                "value": "Long UserName",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "230404c6-8e62-4a3c-bac0-e8b7f9839123",
+        "name": "Long UserName",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -160,
+          -16
+        ]
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "Initialize Sample Data",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Initialize Sample Data": {
+        "main": [
+          [
+            {
+              "node": "Extract User Variables",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Extract User Variables": {
+        "main": [
+          [
+            {
+              "node": "Create Summary Data",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Create Summary Data": {
+        "main": [
+          [
+            {
+              "node": "Check Lenght",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Check Lenght": {
+        "main": [
+          [
+            {
+              "node": "Long UserName",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Short UserName",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Short UserName": {
+        "main": [
+          [
+            {
+              "node": "Final Summary",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Long UserName": {
+        "main": [
+          [
+            {
+              "node": "Final Summary",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
     },
-    "High Revenue Alert": {
-      "main": [
-        [
-          {
-            "node": "Final Summary",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Normal Revenue Status": {
-      "main": [
-        [
-          {
-            "node": "Final Summary",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
+    "pinData": {},
+    "meta": {
+      "instanceId": "3df7c7c6cb7e0e978bf80ded11fce953795594ae8fe07b63ac449418b447c9e7"
     }
-  },
-  "active": false,
-  "settings": {
-    "executionOrder": "v1"
-  },
-  "versionId": "1",
-  "meta": {
-    "templateCredsSetupCompleted": true
-  },
-  "id": "1",
-  "tags": [
-    {
-      "createdAt": "2024-01-15T10:00:00.000Z",
-      "updatedAt": "2024-01-15T10:00:00.000Z",
-      "id": "variables-demo",
-      "name": "Variables Demo"
-    }
-  ]
-}
+  }
