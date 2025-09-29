@@ -1,0 +1,258 @@
+{
+  "name": "Data Viewing and JSON Structure Example",
+  "nodes": [
+    {
+      "parameters": {
+        "values": {
+          "stringValues": [
+            {
+              "name": "name",
+              "value": "John Doe"
+            },
+            {
+              "name": "email",
+              "value": "john.doe@example.com"
+            },
+            {
+              "name": "age",
+              "value": "30"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b8b5b8b5-b8b5-b8b5-b8b5-b8b5b8b5b8b5",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Create sample data with different data types and structures\nconst sampleData = [\n  {\n    id: 1,\n    user: {\n      name: \"John Doe\",\n      email: \"john.doe@example.com\",\n      profile: {\n        age: 30,\n        city: \"New York\",\n        preferences: {\n          theme: \"dark\",\n          notifications: true\n        }\n      }\n    },\n    orders: [\n      {\n        orderId: \"ORD-001\",\n        items: [\n          { product: \"Laptop\", quantity: 1, price: 999.99 },\n          { product: \"Mouse\", quantity: 2, price: 29.99 }\n        ],\n        total: 1059.97,\n        date: \"2024-01-15\"\n      },\n      {\n        orderId: \"ORD-002\",\n        items: [\n          { product: \"Keyboard\", quantity: 1, price: 79.99 }\n        ],\n        total: 79.99,\n        date: \"2024-02-20\"\n      }\n    ],\n    metadata: {\n      tags: [\"vip\", \"returning\"],\n      lastLogin: \"2024-03-01T10:30:00Z\",\n      isActive: true\n    }\n  },\n  {\n    id: 2,\n    user: {\n      name: \"Jane Smith\",\n      email: \"jane.smith@example.com\",\n      profile: {\n        age: 25,\n        city: \"San Francisco\",\n        preferences: {\n          theme: \"light\",\n          notifications: false\n        }\n      }\n    },\n    orders: [\n      {\n        orderId: \"ORD-003\",\n        items: [\n          { product: \"Tablet\", quantity: 1, price: 399.99 }\n        ],\n        total: 399.99,\n        date: \"2024-03-10\"\n      }\n    ],\n    metadata: {\n      tags: [\"new\"],\n      lastLogin: \"2024-03-15T14:45:00Z\",\n      isActive: true\n    }\n  }\n];\n\nreturn sampleData.map(item => ({ json: item }));"
+      },
+      "id": "a1a2a3a4-a1a2-a3a4-a1a2-a1a2a3a4a1a2",
+      "name": "Generate Sample Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Transform data to show different JSON structures\nconst items = $input.all();\nconst transformedData = [];\n\nfor (const item of items) {\n  const data = item.json;\n  \n  // Create flattened version\n  const flattened = {\n    userId: data.id,\n    userName: data.user.name,\n    userEmail: data.user.email,\n    userAge: data.user.profile.age,\n    userCity: data.user.profile.city,\n    theme: data.user.profile.preferences.theme,\n    notifications: data.user.profile.preferences.notifications,\n    orderCount: data.orders.length,\n    totalSpent: data.orders.reduce((sum, order) => sum + order.total, 0),\n    tags: data.metadata.tags.join(', '),\n    lastLogin: data.metadata.lastLogin,\n    isActive: data.metadata.isActive\n  };\n  \n  transformedData.push({\n    json: {\n      type: \"flattened\",\n      data: flattened\n    }\n  });\n  \n  // Create aggregated version\n  const aggregated = {\n    userId: data.id,\n    user: data.user,\n    summary: {\n      orderCount: data.orders.length,\n      totalSpent: data.orders.reduce((sum, order) => sum + order.total, 0),\n      averageOrderValue: data.orders.reduce((sum, order) => sum + order.total, 0) / data.orders.length,\n      firstOrderDate: data.orders[0]?.date,\n      lastOrderDate: data.orders[data.orders.length - 1]?.date\n    },\n    metadata: data.metadata\n  };\n  \n  transformedData.push({\n    json: {\n      type: \"aggregated\",\n      data: aggregated\n    }\n  });\n  \n  // Create nested version with arrays\n  const nested = {\n    user: data.user,\n    orderDetails: data.orders.map(order => ({\n      orderId: order.orderId,\n      date: order.date,\n      total: order.total,\n      itemCount: order.items.length,\n      items: order.items.map(item => `${item.product} (x${item.quantity}) - $${item.price}`)\n    })),\n    statistics: {\n      totalOrders: data.orders.length,\n      totalItems: data.orders.reduce((sum, order) => sum + order.items.reduce((itemSum, item) => itemSum + item.quantity, 0), 0),\n      totalSpent: data.orders.reduce((sum, order) => sum + order.total, 0)\n    }\n  };\n  \n  transformedData.push({\n    json: {\n      type: \"nested\",\n      data: nested\n    }\n  });\n}\n\nreturn transformedData;"
+      },
+      "id": "b2b3b4b5-b2b3-b4b5-b2b3-b2b3b4b5b2b3",
+      "name": "Transform Data Structures",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition1",
+              "leftValue": "={{ $json.type }}",
+              "rightValue": "flattened",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "c3c4c5c6-c3c4-c5c6-c3c4-c3c4c5c6c3c4",
+      "name": "Filter Flattened Data",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        900,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition1",
+              "leftValue": "={{ $json.type }}",
+              "rightValue": "aggregated",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "d4d5d6d7-d4d5-d6d7-d4d5-d4d5d6d7d4d5",
+      "name": "Filter Aggregated Data",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        900,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition1",
+              "leftValue": "={{ $json.type }}",
+              "rightValue": "nested",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "e5e6e7e8-e5e6-e7e8-e5e6-e5e6e7e8e5e6",
+      "name": "Filter Nested Data",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        900,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract specific values to demonstrate data access\nconst item = $input.first().json;\nconst data = item.data;\n\n// Show different ways to access nested data\nconst examples = {\n  directAccess: {\n    userName: data.userName || data.user?.name,\n    orderCount: data.orderCount || data.summary?.orderCount || data.statistics?.totalOrders,\n    totalSpent: data.totalSpent || data.summary?.totalSpent || data.statistics?.totalSpent\n  },\n  conditionalAccess: {\n    hasOrders: (data.orders || data.orderDetails || []).length > 0,\n    isVipUser: (data.tags || '').includes('vip'),\n    hasNotifications: data.notifications || false\n  },\n  arrayOperations: {\n    allUserNames: item.type === 'nested' ? [data.user.name] : [data.userName],\n    orderDates: item.type === 'nested' ? data.orderDetails.map(o => o.date) : [],\n    itemNames: item.type === 'nested' ? data.orderDetails.flatMap(o => o.items) : []\n  },\n  dataType: item.type,\n  originalStructure: data\n};\n\nreturn [{ json: examples }];"
+      },
+      "id": "f6f7f8f9-f6f7-f8f9-f6f7-f6f7f8f9f6f7",
+      "name": "Data Access Examples",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        300
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Generate Sample Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Sample Data": {
+      "main": [
+        [
+          {
+            "node": "Transform Data Structures",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transform Data Structures": {
+      "main": [
+        [
+          {
+            "node": "Filter Flattened Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter Aggregated Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter Nested Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Flattened Data": {
+      "main": [
+        [
+          {
+            "node": "Data Access Examples",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Aggregated Data": {
+      "main": [
+        [
+          {
+            "node": "Data Access Examples",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Nested Data": {
+      "main": [
+        [
+          {
+            "node": "Data Access Examples",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "id": "data-viewing-workflow",
+  "tags": []
+}
