@@ -1,35 +1,73 @@
 # n8n Course Project Structure
 
-This project contains educational materials and workflows for learning n8n automation. The structure is organized to provide a comprehensive learning experience with practical examples.
+This project contains educational materials and workflows for learning n8n automation. The structure is organized to provide a comprehensive learning experience with practical examples and structured OKR (Objectives and Key Results) tracking.
 
 ## Project Overview
 
-This is an n8n course project designed to teach automation concepts through hands-on examples and structured learning materials.
+This is an n8n course project designed to teach automation concepts through hands-on examples, structured learning materials, and clear progress tracking using OKR methodology.
 
 ## Directory Structure
 
 ```
-n8n-course/
-├── n8n_course/                           # Main course content
-│   ├── outline.md                        # Course outline and curriculum
-│   └── README.md                         # Course introduction and overview
-├── Symbols/                              # Project examples and workflows
-│   └── Project - Simple Data Transformation/
-│       ├── README.md                     # Detailed explanation of the workflow
-│       └── set-node-workflow.json       # n8n workflow file
+n8n_course/
+├── 1_Real/                              # OKR Management & Course Objectives
+│   ├── objective.md                     # Main course objective
+│   ├── keyresults1.md                   # Overview of all key results
+│   ├── keyresults1.md (individual)      # KR1: Foundation Mastery
+│   ├── keyresults2.md                   # KR2: Advanced Node Proficiency
+│   ├── keyresults3.md                   # KR3: Real-World Project Implementation
+│   ├── keyresults4.md                   # KR4: Production Readiness
+│   └── README.md                        # OKR system explanation
+├── 2_Environment/                       # Environment Setup & Configuration
+│   └── README.md                        # Environment setup guides
+├── 3_Imaginary/                         # Theoretical Concepts & Planning
+│   └── README.md                        # Course theory and planning docs
+├── 4_Formula/                           # Formulas, Expressions & Calculations
+│   └── README.md                        # n8n expression guides and formulas
+├── 5_Symbols/                           # Practical Projects & Workflows
+│   ├── Project - Simple Data Transformation/
+│   │   ├── README.md                    # Detailed explanation of the workflow
+│   │   └── set-node-workflow.json      # n8n workflow file
+│   ├── Viewing Your Workflow's Data/
+│   │   ├── README.md                    # Data viewing techniques guide
+│   │   └── data-viewing-workflow.json  # Data viewing workflow
+│   └── README.md                        # Projects overview and index
+├── 6_Semblance/                         # Visual Examples & Templates
+│   └── README.md                        # Visual examples and templates
+├── 7_Testing/                           # Testing & Quality Assurance
+│   └── README.md                        # Testing strategies and QA guides
+├── outline.md                           # Course outline and curriculum
+├── README.md                            # Course introduction and overview
 └── cursor.md                            # This file - project structure guide
 ```
 
 ## How to Use This Project
 
-### 1. Course Materials (`n8n_course/`)
-- **`outline.md`**: Contains the complete course curriculum and learning path
-- **`README.md`**: Provides course introduction, prerequisites, and getting started guide
+### 1. OKR Management (`1_Real/`)
+- **`objective.md`**: Main course objective and success criteria
+- **`keyresults1.md`**: Overview linking to all individual key results
+- **Individual KR files**: Detailed breakdown of each learning milestone
+- **`README.md`**: Explanation of OKR system and progress tracking
 
-### 2. Project Examples (`Symbols/`)
+### 2. Environment Setup (`2_Environment/`)
+- **Setup guides**: n8n Cloud and self-hosted installation
+- **Configuration**: Environment variables, credentials setup
+- **`README.md`**: Complete environment setup documentation
+
+### 3. Theoretical Concepts (`3_Imaginary/`)
+- **Course planning**: Curriculum design and learning objectives
+- **Conceptual materials**: Theory behind automation principles
+- **`README.md`**: Theoretical foundations and course philosophy
+
+### 4. Formulas & Expressions (`4_Formula/`)
+- **Expression guides**: n8n expression syntax and examples
+- **Calculation formulas**: Common automation calculations
+- **`README.md`**: Complete reference for n8n expressions
+
+### 5. Practical Projects (`5_Symbols/`)
 Each project folder contains:
 - **Workflow JSON files**: Ready-to-import n8n workflows
-- **README.md**: Detailed explanations of what each workflow does and how to use it
+- **README.md**: Detailed explanations of what each workflow does and how to use it.Readme files has the architecture overwiev in mermaid than tells the overview steps to create n8n and the process of implementation
 
 #### Current Projects:
 
@@ -42,6 +80,22 @@ Each project folder contains:
     - How each node works
     - Key learning concepts
     - Expression syntax examples
+
+##### Viewing Your Workflow's Data
+- **Purpose**: Understanding JSON data structure and output navigation
+- **Files**:
+  - `data-viewing-workflow.json`: Workflow demonstrating data viewing techniques
+  - `README.md`: Guide to understanding workflow data output
+
+### 6. Visual Examples (`6_Semblance/`)
+- **Templates**: Visual workflow templates and examples
+- **Screenshots**: Interface guides and visual documentation
+- **`README.md`**: Visual learning resources and templates
+
+### 7. Testing & QA (`7_Testing/`)
+- **Testing strategies**: How to test and validate workflows
+- **Quality assurance**: Best practices for reliable automation
+- **`README.md`**: Testing methodologies and QA procedures
 
 ## Getting Started
 
