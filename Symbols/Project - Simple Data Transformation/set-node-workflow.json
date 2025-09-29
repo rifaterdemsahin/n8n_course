@@ -1,0 +1,111 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "content": "Adding a \"Set\" node to create and modify data.\n\nIntroducing simple expressions.\n\nPassing data from one node to another."
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        -96
+      ],
+      "id": "ec2451b6-ed4a-4f6b-aaaf-9a2d944aa4d4",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {},
+      "id": "28c0fa61-d535-41d0-b2a4-e7f7e08fecdf",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        -368,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "firstName",
+              "value": "Ada"
+            },
+            {
+              "name": "lastName",
+              "value": "Lovelace"
+            },
+            {
+              "name": "fullName",
+              "value": "={{$json.firstName}} {{$json.lastName}}"
+            }
+          ],
+          "number": [
+            {
+              "name": "userID",
+              "value": 1815
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7805668b-ef44-4d96-9d4d-7dbcce406356",
+      "name": "Create & Modify Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        -128,
+        32
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "96c6d83b-dcda-44f0-ae42-09d807d90fd4",
+      "name": "View Output",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        96,
+        176
+      ]
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Create & Modify Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create & Modify Data": {
+      "main": [
+        [
+          {
+            "node": "View Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {
+    "Start": [
+      {
+        "userID": 1815,
+        "firstName": "Ada",
+        "lastName": "Lovelace",
+        "fullName": " "
+      }
+    ]
+  },
+  "meta": {
+    "instanceId": "3df7c7c6cb7e0e978bf80ded11fce953795594ae8fe07b63ac449418b447c9e7"
+  }
+}
