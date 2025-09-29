@@ -9,6 +9,35 @@ The `data-viewing-workflow.json` contains a comprehensive example that shows:
 - How to access and transform data
 - Navigation techniques for the output panel
 
+### Workflow Structure Overview
+
+```mermaid
+graph TD
+    A[Manual Trigger] --> B[Generate Sample Data<br/>Code Node]
+    B --> C[Transform Data Structures<br/>Code Node]
+    C --> D[Filter by Structure Type<br/>IF Nodes]
+    
+    D --> E[Flattened Data<br/>IF: Structure = 'flattened']
+    D --> F[Aggregated Data<br/>IF: Structure = 'aggregated']
+    D --> G[Nested Data<br/>IF: Structure = 'nested']
+    
+    E --> H[Data Access Examples<br/>Code Node]
+    F --> H
+    G --> H
+    
+    H --> I[Final Output<br/>All Data Types]
+    
+    style A fill:#e1f5fe
+    style B fill:#f3e5f5
+    style C fill:#e8f5e8
+    style D fill:#fff3e0
+    style E fill:#fce4ec
+    style F fill:#f1f8e9
+    style G fill:#e0f2f1
+    style H fill:#fdf2e9
+    style I fill:#e8eaf6
+```
+
 ## Understanding the JSON Data Structure
 
 ### Basic n8n Data Format
@@ -36,6 +65,36 @@ Every item in n8n follows this structure:
 2. **Complex Types**
    - `object`: Key-value pairs (`{"name": "John", "age": 30}`)
    - `array`: Lists of values (`["item1", "item2", "item3"]`)
+
+### Data Structure Types Comparison
+
+```mermaid
+graph TB
+    A[Raw Input Data] --> B{Data Structure Choice}
+    
+    B --> C[Flattened Structure]
+    B --> D[Aggregated Structure]  
+    B --> E[Nested Structure]
+    
+    C --> F["All properties at root level<br/>• userId: 1<br/>• userName: 'John Doe'<br/>• userEmail: 'john@example.com'<br/>• userAge: 30<br/>• theme: 'dark'<br/>• orderCount: 2<br/>• totalSpent: 1139.96"]
+    
+    D --> G["Logical grouping<br/>• user: { name, email, profile }<br/>• summary: { orderCount, totalSpent }<br/>• metadata: { tags, lastLogin }"]
+    
+    E --> H["Deep nesting<br/>• user: { profile: { preferences } }<br/>• orderDetails: [ { items: [] } ]<br/>• statistics: { totals }"]
+    
+    F --> I[Easy Access<br/>$json.userName]
+    G --> J[Balanced Access<br/>$json.user.name]
+    H --> K[Complex Access<br/>$json.user.profile.preferences.theme]
+    
+    style A fill:#f0f0f0
+    style B fill:#e3f2fd
+    style C fill:#e8f5e8
+    style D fill:#fff3e0
+    style E fill:#fce4ec
+    style F fill:#f1f8e9
+    style G fill:#e0f2f1
+    style H fill:#fdf2e9
+```
 
 ### Example Data Structures in the Workflow
 
@@ -147,6 +206,38 @@ Every item in n8n follows this structure:
 
 ## Navigating the Table and JSON Views
 
+### Output Panel Navigation Flow
+
+```mermaid
+graph TD
+    A[Click on Node] --> B[Output Panel Opens]
+    B --> C{Choose View Type}
+    
+    C --> D[Table View]
+    C --> E[JSON View]
+    C --> F[Binary View]
+    
+    D --> G[Spreadsheet-like Format]
+    G --> H[• Scroll horizontally<br/>• Sort by columns<br/>• Search/filter rows<br/>• Expand nested data]
+    
+    E --> I[Raw JSON Structure]
+    I --> J[• Click arrows to expand/collapse<br/>• Use Ctrl+F to search<br/>• Copy specific values<br/>• View hierarchy]
+    
+    F --> K[Binary Data Display]
+    K --> L[• Preview files<br/>• Download files<br/>• View metadata<br/>• Handle non-text data]
+    
+    H --> M[Best for: Quick overview,<br/>Comparing records,<br/>Finding values]
+    J --> N[Best for: Understanding structure,<br/>Debugging,<br/>Copying values]
+    L --> O[Best for: Files, images,<br/>Documents,<br/>Non-text data]
+    
+    style A fill:#e1f5fe
+    style B fill:#e8f5e8
+    style C fill:#fff3e0
+    style D fill:#f3e5f5
+    style E fill:#e0f2f1
+    style F fill:#fce4ec
+```
+
 ### Output Panel Views
 
 When you click on any node in n8n, the output panel at the bottom shows your data in different formats:
@@ -175,6 +266,42 @@ When you click on any node in n8n, the output panel at the bottom shows your dat
   - Preview files directly in the browser
   - Download files to your computer
   - View file metadata (size, type, etc.)
+
+### Data Access Patterns Flow
+
+```mermaid
+flowchart TD
+    A[JSON Data Object] --> B{Access Method}
+    
+    B --> C[Direct Property Access]
+    B --> D[Nested Property Access]
+    B --> E[Array Access]
+    B --> F[Safe Access]
+    
+    C --> G["$json.userName<br/>$json.orderCount<br/>$json.totalSpent"]
+    
+    D --> H["$json.user.name<br/>$json.user.profile.age<br/>$json.user.profile.preferences.theme"]
+    
+    E --> I["$json.orders[0]<br/>$json.orders[0].items[0]<br/>$json.metadata.tags[0]"]
+    
+    F --> J["$json.user?.profile?.age<br/>$json.orders?.[0]?.items?.[0]<br/>Safe navigation"]
+    
+    G --> K[Result: Direct Value]
+    H --> L[Result: Nested Value]
+    I --> M[Result: Array Element]
+    J --> N[Result: Safe Value or undefined]
+    
+    style A fill:#f0f0f0
+    style B fill:#e3f2fd
+    style C fill:#e8f5e8
+    style D fill:#fff3e0
+    style E fill:#f3e5f5
+    style F fill:#fce4ec
+    style K fill:#e8f5e8
+    style L fill:#f1f8e9
+    style M fill:#e0f2f1
+    style N fill:#fdf2e9
+```
 
 ### Data Access Patterns
 

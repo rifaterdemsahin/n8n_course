@@ -19,6 +19,31 @@ This workflow showcases:
 3. **Create & Modify Data** (Set node) - The main node that demonstrates data manipulation
 4. **View Output** (No Operation node) - A placeholder to view the final output
 
+### Workflow Flow Diagram
+
+```mermaid
+graph TD
+    A[Sticky Note<br/>Documentation] --> B[Start<br/>Manual Trigger]
+    B --> C[Create & Modify Data<br/>Set Node]
+    C --> D[View Output<br/>No Operation Node]
+    
+    C --> E[Static Data Assignment]
+    C --> F[Dynamic Expression]
+    
+    E --> G["firstName: 'Ada'<br/>lastName: 'Lovelace'<br/>userID: 1815"]
+    F --> H["fullName: {{$json.firstName}} {{$json.lastName}}"]
+    
+    G --> I[Final Data Structure]
+    H --> I
+    I --> J["{<br/>  firstName: 'Ada',<br/>  lastName: 'Lovelace',<br/>  fullName: 'Ada Lovelace',<br/>  userID: 1815<br/>}"]
+    
+    style A fill:#e1f5fe
+    style B fill:#e8f5e8
+    style C fill:#f3e5f5
+    style D fill:#fff3e0
+    style I fill:#fce4ec
+```
+
 ### Data Structure
 
 The Set node creates the following data structure:
@@ -48,6 +73,38 @@ The Set node creates the following data structure:
 #### 3. Data Types
 - **String values**: firstName, lastName, fullName
 - **Number values**: userID
+
+### Data Processing Flow
+
+```mermaid
+flowchart TD
+    A[Input: Empty or Existing Data] --> B{Set Node Processing}
+    
+    B --> C[Static Assignment]
+    B --> D[Expression Evaluation]
+    
+    C --> E["firstName = 'Ada'<br/>(String)"]
+    C --> F["lastName = 'Lovelace'<br/>(String)"]
+    C --> G["userID = 1815<br/>(Number)"]
+    
+    D --> H["Expression: {{$json.firstName}} {{$json.lastName}}"]
+    H --> I[String Concatenation]
+    I --> J["fullName = 'Ada Lovelace'<br/>(String)"]
+    
+    E --> K[Data Object Assembly]
+    F --> K
+    G --> K
+    J --> K
+    
+    K --> L[Output: Complete Data Structure]
+    
+    style A fill:#f0f0f0
+    style B fill:#e3f2fd
+    style C fill:#e8f5e8
+    style D fill:#fff3e0
+    style K fill:#f3e5f5
+    style L fill:#e8f5e8
+```
 
 ## How to Use This Workflow
 
