@@ -1,0 +1,540 @@
+{
+  "name": "Daily Weather Report Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * *"
+            }
+          ]
+        }
+      },
+      "id": "cron-trigger",
+      "name": "Daily 8 AM Trigger",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "city",
+              "value": "New York"
+            },
+            {
+              "name": "countryCode",
+              "value": "US"
+            },
+            {
+              "name": "units",
+              "value": "metric"
+            },
+            {
+              "name": "emailRecipient",
+              "value": "your-email@example.com"
+            },
+            {
+              "name": "emailSubject",
+              "value": "Daily Weather Report - {{$now.format('MMMM DD, YYYY')}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-configuration",
+      "name": "Set Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://api.openweathermap.org/data/2.5/weather",
+        "options": {
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "q",
+                "value": "={{$json.city}},{{$json.countryCode}}"
+              },
+              {
+                "name": "appid",
+                "value": "={{$credentials.openWeatherMap.apiKey}}"
+              },
+              {
+                "name": "units",
+                "value": "={{$json.units}}"
+              }
+            ]
+          },
+          "timeout": 10000
+        }
+      },
+      "id": "fetch-weather-data",
+      "name": "Fetch Weather Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [680, 300],
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "openweathermap-credentials",
+          "name": "OpenWeatherMap API Credentials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.openweathermap.org/data/2.5/forecast",
+        "options": {
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "q",
+                "value": "={{$node['Set Configuration'].json.city}},{{$node['Set Configuration'].json.countryCode}}"
+              },
+              {
+                "name": "appid",
+                "value": "={{$credentials.openWeatherMap.apiKey}}"
+              },
+              {
+                "name": "units",
+                "value": "={{$node['Set Configuration'].json.units}}"
+              }
+            ]
+          },
+          "timeout": 10000
+        }
+      },
+      "id": "fetch-forecast-data",
+      "name": "Fetch 5-Day Forecast",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [900, 300],
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "openweathermap-credentials",
+          "name": "OpenWeatherMap API Credentials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-1",
+              "leftValue": "={{$json.cod}}",
+              "rightValue": 200,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-weather-success",
+      "name": "Check Weather API Success",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "currentTemp",
+              "value": "={{Math.round($json.main.temp)}}"
+            },
+            {
+              "name": "feelsLike",
+              "value": "={{Math.round($json.main.feels_like)}}"
+            },
+            {
+              "name": "humidity",
+              "value": "={{$json.main.humidity}}"
+            },
+            {
+              "name": "pressure",
+              "value": "={{$json.main.pressure}}"
+            },
+            {
+              "name": "weatherDescription",
+              "value": "={{$json.weather[0].description}}"
+            },
+            {
+              "name": "weatherIcon",
+              "value": "={{$json.weather[0].icon}}"
+            },
+            {
+              "name": "windSpeed",
+              "value": "={{$json.wind.speed}}"
+            },
+            {
+              "name": "windDirection",
+              "value": "={{$json.wind.deg}}"
+            },
+            {
+              "name": "visibility",
+              "value": "={{$json.visibility / 1000}}"
+            },
+            {
+              "name": "sunrise",
+              "value": "={{new Date($json.sys.sunrise * 1000).toLocaleTimeString()}}"
+            },
+            {
+              "name": "sunset",
+              "value": "={{new Date($json.sys.sunset * 1000).toLocaleTimeString()}}"
+            },
+            {
+              "name": "cityName",
+              "value": "={{$json.name}}"
+            },
+            {
+              "name": "country",
+              "value": "={{$json.sys.country}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "process-current-weather",
+      "name": "Process Current Weather",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [1340, 200]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "errorMessage",
+              "value": "Failed to fetch weather data"
+            },
+            {
+              "name": "errorCode",
+              "value": "={{$json.cod}}"
+            },
+            {
+              "name": "errorDetails",
+              "value": "={{$json.message}}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{$now}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "process-error",
+      "name": "Process Error",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [1340, 400]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "forecastSummary",
+              "value": "={{$json.list.slice(0, 5).map(item => `${new Date(item.dt * 1000).toLocaleDateString()}: ${Math.round(item.main.temp)}°C, ${item.weather[0].description}`).join('\\n')}}"
+            },
+            {
+              "name": "maxTemp",
+              "value": "={{Math.round(Math.max(...$json.list.slice(0, 8).map(item => item.main.temp_max)))}}"
+            },
+            {
+              "name": "minTemp",
+              "value": "={{Math.round(Math.min(...$json.list.slice(0, 8).map(item => item.main.temp_min)))}}"
+            },
+            {
+              "name": "avgHumidity",
+              "value": "={{Math.round($json.list.slice(0, 8).reduce((sum, item) => sum + item.main.humidity, 0) / 8)}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "process-forecast",
+      "name": "Process Forecast Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [1560, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "emailSubject",
+              "value": "={{$node['Set Configuration'].json.emailSubject}}"
+            },
+            {
+              "name": "emailBody",
+              "value": "🌤️ Daily Weather Report for {{$node['Process Current Weather'].json.cityName}}, {{$node['Process Current Weather'].json.country}}\\n\\n📅 Date: {{$now.format('MMMM DD, YYYY')}}\\n\\n🌡️ Current Conditions:\\n• Temperature: {{$node['Process Current Weather'].json.currentTemp}}°C\\n• Feels Like: {{$node['Process Current Weather'].json.feelsLike}}°C\\n• Weather: {{$node['Process Current Weather'].json.weatherDescription}}\\n• Humidity: {{$node['Process Current Weather'].json.humidity}}%\\n• Pressure: {{$node['Process Current Weather'].json.pressure}} hPa\\n• Wind: {{$node['Process Current Weather'].json.windSpeed}} m/s\\n• Visibility: {{$node['Process Current Weather'].json.visibility}} km\\n\\n🌅 Sunrise: {{$node['Process Current Weather'].json.sunrise}}\\n🌇 Sunset: {{$node['Process Current Weather'].json.sunset}}\\n\\n📊 5-Day Forecast Summary:\\n{{$node['Process Forecast Data'].json.forecastSummary}}\\n\\n📈 Forecast Highlights:\\n• High: {{$node['Process Forecast Data'].json.maxTemp}}°C\\n• Low: {{$node['Process Forecast Data'].json.minTemp}}°C\\n• Average Humidity: {{$node['Process Forecast Data'].json.avgHumidity}}%\\n\\n💡 Weather Tips:\\n{{$node['Process Current Weather'].json.currentTemp < 10 ? '❄️ Bundle up! It\\'s cold outside.' : $node['Process Current Weather'].json.currentTemp > 30 ? '☀️ Stay cool and hydrated!' : '😊 Pleasant weather today!'}}\\n\\n---\\nReport generated by n8n Weather Bot 🤖"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "format-email-content",
+      "name": "Format Email Content",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [1780, 200]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "emailSubject",
+              "value": "❌ Weather Report Error - {{$now.format('MMMM DD, YYYY')}}"
+            },
+            {
+              "name": "emailBody",
+              "value": "🚨 Weather Report Failed\\n\\nThere was an error fetching weather data:\\n\\nError Code: {{$json.errorCode}}\\nError Message: {{$json.errorDetails}}\\nTimestamp: {{$json.timestamp}}\\n\\nPlease check your API configuration and try again.\\n\\n---\\nn8n Weather Bot 🤖"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "format-error-email",
+      "name": "Format Error Email",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [1780, 400]
+    },
+    {
+      "parameters": {
+        "fromEmail": "weather-bot@yourdomain.com",
+        "toEmail": "={{$node['Set Configuration'].json.emailRecipient}}",
+        "subject": "={{$json.emailSubject}}",
+        "message": "={{$json.emailBody}}",
+        "options": {
+          "allowUnauthorizedCerts": false
+        }
+      },
+      "id": "send-weather-email",
+      "name": "Send Weather Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [2000, 300],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP Email Credentials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "status",
+              "value": "✅ Weather report sent successfully"
+            },
+            {
+              "name": "city",
+              "value": "={{$node['Process Current Weather'].json.cityName}}"
+            },
+            {
+              "name": "temperature",
+              "value": "={{$node['Process Current Weather'].json.currentTemp}}°C"
+            },
+            {
+              "name": "weather",
+              "value": "={{$node['Process Current Weather'].json.weatherDescription}}"
+            },
+            {
+              "name": "emailRecipient",
+              "value": "={{$node['Set Configuration'].json.emailRecipient}}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{$now}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "log-success",
+      "name": "Log Success",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [2220, 300]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Daily 8 AM Trigger": {
+      "main": [
+        [
+          {
+            "node": "Set Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Configuration": {
+      "main": [
+        [
+          {
+            "node": "Fetch Weather Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Weather Data": {
+      "main": [
+        [
+          {
+            "node": "Fetch 5-Day Forecast",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch 5-Day Forecast": {
+      "main": [
+        [
+          {
+            "node": "Check Weather API Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Weather API Success": {
+      "main": [
+        [
+          {
+            "node": "Process Current Weather",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Process Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Current Weather": {
+      "main": [
+        [
+          {
+            "node": "Process Forecast Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Forecast Data": {
+      "main": [
+        [
+          {
+            "node": "Format Email Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Error": {
+      "main": [
+        [
+          {
+            "node": "Format Error Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Email Content": {
+      "main": [
+        [
+          {
+            "node": "Send Weather Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Error Email": {
+      "main": [
+        [
+          {
+            "node": "Send Weather Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Weather Email": {
+      "main": [
+        [
+          {
+            "node": "Log Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": {
+      "id": "weather-error-handler",
+      "name": "Weather Report Error Handler"
+    }
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "daily-weather-report"
+  },
+  "id": "daily-weather-report",
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "daily-weather-report",
+      "name": "Daily Weather Report"
+    }
+  ]
+}
