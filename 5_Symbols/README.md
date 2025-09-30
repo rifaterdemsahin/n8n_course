@@ -42,6 +42,21 @@ Each project folder contains:
 - Data output interpretation
 - Workflow execution monitoring
 
+### Understanding Credentials
+**Difficulty:** Beginner to Intermediate  
+**Learning Focus:** Secure credential management for third-party services  
+**Files:**
+- `credentials-demo-workflow.json` - Comprehensive credential testing workflow
+- `README.md` - Complete credential management guide
+
+**What You'll Learn:**
+- What credentials are and why they're important
+- How to securely add credentials for third-party services
+- Best practices for credential security
+- Testing and troubleshooting credentials
+- Multiple credential types (OAuth2, API Keys, SMTP, etc.)
+- Real-world credential management scenarios
+
 ## Project Categories
 
 ### Beginner Projects
@@ -98,8 +113,8 @@ Each project folder contains:
 4. **Basic Expressions** - Introduction to n8n expressions
 
 ### Phase 2: Integration (Intermediate)
-1. **Service Connections** - Connect external services
-2. **Credential Management** - Secure service authentication
+1. **Understanding Credentials** - Master secure credential management
+2. **Service Connections** - Connect external services
 3. **Data Synchronization** - Keep systems in sync
 4. **Error Handling** - Build robust workflows
 
