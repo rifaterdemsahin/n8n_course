@@ -67,25 +67,37 @@ n8n_course/
 ### 5. Practical Projects (`5_Symbols/`)
 Each project folder contains:
 - **Workflow JSON files**: Ready-to-import n8n workflows
-- **README.md**: Detailed explanations of what each workflow does and how to use it.Readme files has the architecture overwiev in mermaid than tells the overview steps to create n8n and the process of implementation
+- **README.md**: Detailed explanations with Mermaid diagrams, architecture overview, implementation steps, and learning objectives
 
 #### Current Projects:
 
-##### Project - Simple Data Transformation
-- **Purpose**: Teaches fundamental data manipulation using the Set node
-- **Files**:
-  - `set-node-workflow.json`: Import this into n8n to see the workflow in action
-  - `README.md`: Comprehensive guide explaining:
-    - What the workflow demonstrates
-    - How each node works
-    - Key learning concepts
-    - Expression syntax examples
+##### Foundation Projects
+- **Project - Simple Data Transformation**: Basic data manipulation using Set node
+- **Viewing Your Workflow's Data**: Understanding JSON data structure and navigation
+- **Understanding Credentials**: Secure credential management for third-party services
+- **Working with Variables**: Global vs execution variables and expressions
 
-##### Viewing Your Workflow's Data
-- **Purpose**: Understanding JSON data structure and output navigation
-- **Files**:
-  - `data-viewing-workflow.json`: Workflow demonstrating data viewing techniques
-  - `README.md`: Guide to understanding workflow data output
+##### Logic and Control Flow
+- **Lecture 17 - The IF Node**: Adding conditional logic to workflows
+- **The Switch Node**: Handling multiple conditions and routing data
+- **The Merge Node**: Combining data from different workflow branches
+- **Understanding Data Loops**: Split in Batches node and iteration patterns
+
+##### Real-World Integration Projects
+- **Project - Automated Discord/Slack Notifications**: Communication platform integration
+- **Setting up Google API credentials**: Google Cloud Platform and OAuth2 setup
+- **Writing Data to Google Sheets**: Appending and updating spreadsheet data
+- **Practical Real-World Projects**: Daily weather reports with Cron triggers
+
+##### Advanced Topics
+- **Rate Limits in Real World**: Handling API rate limits and error recovery
+- **Learn to Backup and Version Your Workflows**: Version control and backup strategies
+- **Handling Errors in Your Workflows**: Error workflows and debugging techniques
+- **Risk Management**: Production deployment and risk mitigation
+- **Exploring Community Nodes**: Extending n8n functionality with custom nodes
+
+##### Course Completion
+- **Course Wrap-Up & Your Automation Journey**: Recap, next steps, and community resources
 
 ### 6. Visual Examples (`6_Semblance/`)
 - **Templates**: Visual workflow templates and examples
