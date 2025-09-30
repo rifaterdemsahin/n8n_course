@@ -1,0 +1,345 @@
+{
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -416,
+        -48
+      ],
+      "id": "10182d47-b8bd-48a1-98d7-69e9ac34f611",
+      "name": "When clicking 'Execute workflow'"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "rifaterdemsahin",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "cv",
+          "mode": "name"
+        },
+        "filePath": "/4_UI/dynamic_cv/v16/erdem-sahin.vcf",
+        "additionalParameters": {}
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        -144,
+        -240
+      ],
+      "id": "44e57f7e-081f-4a89-bd2a-c2788e3fe44d",
+      "name": "Get a file",
+      "webhookId": "d11a5322-b9b9-4df9-acef-7bb149214b62",
+      "credentials": {
+        "githubApi": {
+          "id": "NMEMNXJLWLc415GM",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "contact@rifaterdemsahin.com",
+        "subject": "Requested CV",
+        "message": "Here is the Cv with all the formats, Long Short and Mid Form",
+        "options": {
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {},
+              {
+                "property": "data_1"
+              },
+              {
+                "property": "data_2"
+              },
+              {
+                "property": "data_3"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        864,
+        -112
+      ],
+      "id": "5ba00a8a-6973-453b-980c-a64ff401df51",
+      "name": "Send a message",
+      "webhookId": "786f8e17-c719-45d7-a802-cdb3834b974e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "YJWBLL2NMyRjSIOr",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "4_UI/dynamic_cv/v16/erdem-sahin.vcf"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -208,
+        -400
+      ],
+      "typeVersion": 1,
+      "id": "d3449567-2134-4462-ad1e-70c88275c7a5",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "rifaterdemsahin",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "cv",
+          "mode": "name"
+        },
+        "filePath": "/4_UI/static_cv/rifatlinkedinprofile.pdf",
+        "additionalParameters": {}
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        -144,
+        32
+      ],
+      "id": "d65b850e-5e93-44c4-aca7-999940b612a0",
+      "name": "Get a file1",
+      "webhookId": "d11a5322-b9b9-4df9-acef-7bb149214b62",
+      "credentials": {
+        "githubApi": {
+          "id": "NMEMNXJLWLc415GM",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "numberInputs": 4
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        368,
+        -96
+      ],
+      "id": "f7766a59-1b7d-4cf3-96a8-00ab6da22b68",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "content": "https://github.com/rifaterdemsahin/cv/blob/main/4_UI/static_cv/rifatlinkedinprofile.pdf"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        192,
+        192
+      ],
+      "typeVersion": 1,
+      "id": "653da5d7-0b0c-46b9-b0dd-a0c045418838",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "data"
+            }
+          ]
+        },
+        "options": {
+          "includeBinaries": true
+        }
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        624,
+        16
+      ],
+      "id": "9071fa8a-d00c-42cb-ad32-f458198cafb6",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "rifaterdemsahin",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "cv",
+          "mode": "name"
+        },
+        "filePath": "/4_UI/static_cv/Erdem Sahin CV_Summary_2025_May.pdf",
+        "additionalParameters": {}
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        -144,
+        192
+      ],
+      "id": "8ef41245-285d-4905-9046-2fcf0ecbdef9",
+      "name": "Get a file2",
+      "webhookId": "d11a5322-b9b9-4df9-acef-7bb149214b62",
+      "credentials": {
+        "githubApi": {
+          "id": "NMEMNXJLWLc415GM",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "rifaterdemsahin",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "cv",
+          "mode": "name"
+        },
+        "filePath": "/4_UI/static_cv/Erdem Sahin CV_Summary_AIEngineer_2025v16.pdf",
+        "additionalParameters": {}
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        -144,
+        352
+      ],
+      "id": "13b8cdaa-4905-4a70-ad69-6237a2dd7dcc",
+      "name": "Get a file3",
+      "webhookId": "d11a5322-b9b9-4df9-acef-7bb149214b62",
+      "credentials": {
+        "githubApi": {
+          "id": "NMEMNXJLWLc415GM",
+          "name": "GitHub account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "Get a file",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get a file1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get a file2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get a file3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file2": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Get a file3": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "3df7c7c6cb7e0e978bf80ded11fce953795594ae8fe07b63ac449418b447c9e7"
+  }
+}

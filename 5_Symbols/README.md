@@ -209,6 +209,22 @@ Each project folder contains:
 - Testing and publishing community nodes
 - Troubleshooting community node issues
 
+### Send Multi Attachments
+**Difficulty:** Intermediate  
+**Learning Focus:** Email automation with multiple file attachments  
+**Files:**
+- `multi-attachment-workflow.json` - Complete multi-attachment email workflow
+- `README.md` - Comprehensive attachment handling guide
+
+**What You'll Learn:**
+- Fetching multiple files from GitHub repositories
+- Using Merge node to combine multiple data streams
+- Configuring Aggregate node to collect binary data
+- Setting up Gmail node for multiple attachments
+- File validation and error handling
+- Professional email formatting with attachments
+- Best practices for file organization and naming
+
 ### Course Wrap-Up & Your Automation Journey
 **Difficulty:** All Levels  
 **Learning Focus:** Course recap and continued learning path  
@@ -235,6 +251,7 @@ Each project folder contains:
 - **Multi-Service Integration** - Complex service connections
 - **Communication Platform Integration** - Discord/Slack notifications
 - **Google API Integration** - Google Sheets, Drive, and OAuth2 setup
+- **Email Automation** - Multi-attachment email workflows
 - **Data Processing** - Advanced data manipulation
 - **Error Handling** - Robust error management
 - **Scheduling** - Time-based automation
