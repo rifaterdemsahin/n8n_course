@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>n8n for Beginners: Automate Your Work & Life</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 40px 0;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .section {
+            padding: 40px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h3 {
+            color: #555;
+            font-size: 1.4rem;
+            margin: 25px 0 15px 0;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            color: #666;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .card p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .card a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s ease;
+        }
+
+        .card a:hover {
+            color: #764ba2;
+        }
+
+        .link-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .link-list li {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+
+        .link-list a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .link-list a:hover {
+            color: #764ba2;
+        }
+
+        .badge {
+            background: #667eea;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .badge.beginner { background: #28a745; }
+        .badge.intermediate { background: #ffc107; color: #333; }
+        .badge.advanced { background: #dc3545; }
+
+        .progress-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: 20px 0;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        .progress-section h3 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .progress-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .icon {
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 10px 10px 10px 0;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px;
+            background: #f8f9fa;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 n8n for Beginners</h1>
+            <p>Learn to build powerful automation workflows with no code. Connect apps, automate tasks, and save hours of your time.</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Course Overview -->
+            <div class="section">
+                <h2>📚 Course Overview</h2>
+                <p>This comprehensive course teaches you everything you need to know about n8n automation, from basic concepts to advanced production workflows. Perfect for beginners with no prior experience in automation.</p>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>🎯 Target Audience</h4>
+                        <p>Beginners with no prior experience in automation or n8n. Entrepreneurs, marketers, and small business owners looking to streamline their processes.</p>
+                    </div>
+                    <div class="card">
+                        <h4>⏱️ Course Duration</h4>
+                        <p>Self-paced learning with hands-on projects. Complete at your own speed with practical exercises and real-world examples.</p>
+                    </div>
+                    <div class="card">
+                        <h4>🎓 Learning Outcomes</h4>
+                        <p>Master n8n automation, build production workflows, integrate with popular services, and automate your daily tasks.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OKR Progress Tracking -->
+            <div class="section">
+                <h2>📊 OKR Progress Tracking</h2>
+                <p>Track your learning progress with our structured OKR (Objectives and Key Results) framework:</p>
+                
+                <div class="progress-section">
+                    <h3>🎯 Learning Objectives & Key Results</h3>
+                    
+                    <div class="progress-item">
+                        <strong>📖 Foundation Mastery</strong> - <a href="1_Real/keyresults1.md" style="color: white;">View KR1</a>
+                        <span class="badge beginner">Target: 100%</span>
+                        <p>Environment setup, interface mastery, basic workflows</p>
+                    </div>
+                    
+                    <div class="progress-item">
+                        <strong>🔧 Advanced Node Proficiency</strong> - <a href="1_Real/keyresults2.md" style="color: white;">View KR2</a>
+                        <span class="badge intermediate">Target: 95%</span>
+                        <p>Credentials, integrations, conditional logic</p>
+                    </div>
+                    
+                    <div class="progress-item">
+                        <strong>🏗️ Real-World Project Implementation</strong> - <a href="1_Real/keyresults3.md" style="color: white;">View KR3</a>
+                        <span class="badge intermediate">Target: 90%</span>
+                        <p>Production workflows, automation projects</p>
+                    </div>
+                    
+                    <div class="progress-item">
+                        <strong>🚀 Production Readiness</strong> - <a href="1_Real/keyresults4.md" style="color: white;">View KR4</a>
+                        <span class="badge advanced">Target: 85%</span>
+                        <p>Error handling, risk management, community exploration</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Learning Path -->
+            <div class="section">
+                <h2>🛤️ Learning Path</h2>
+                <p>Follow this structured learning path from beginner to advanced automation expert:</p>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>🌱 Module 1: Introduction & Setup</h4>
+                        <p>Welcome to n8n, understanding the platform, setting up your environment, and taking a guided tour of the interface.</p>
+                        <a href="2_Environment/README.md">Start Learning →</a>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>🔨 Module 2: First Workflow</h4>
+                        <p>Core concepts, your first trigger node, simple data transformation, and understanding workflow data.</p>
+                        <a href="3_Imaginary/README.md">Begin Building →</a>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>🔗 Module 3: Apps & Services</h4>
+                        <p>Understanding credentials, automated notifications, Google Sheets integration, and service connections.</p>
+                        <a href="4_Formula/README.md">Connect Services →</a>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>⚙️ Module 4: Essential Nodes</h4>
+                        <p>IF nodes for logic, Switch nodes for multiple conditions, Merge nodes for combining data, and data loops.</p>
+                        <a href="5_Symbols/README.md">Master Nodes →</a>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>🌍 Module 5: Real-World Projects</h4>
+                        <p>Daily weather reports, Gmail automation, RSS feed automation, and practical business workflows.</p>
+                        <a href="5_Symbols/Practical%20Real-World%20Projects/README.md">Build Projects →</a>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>🎓 Module 6: Advanced Topics</h4>
+                        <p>Error handling, community nodes, course wrap-up, and your continued automation journey.</p>
+                        <a href="6_Semblance/README.md">Advanced Learning →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Practical Projects -->
+            <div class="section">
+                <h2>🛠️ Hands-On Projects</h2>
+                <p>Learn by doing with these practical projects that build real automation skills:</p>
+                
+                <h3>Beginner Projects</h3>
+                <ul class="link-list">
+                    <li><a href="5_Symbols/Working%20with%20Variables/README.md">📊 Working with Variables <span class="badge beginner">Beginner</span></a></li>
+                    <li><a href="5_Symbols/Project%20-%20Simple%20Data%20Transformation/README.md">🔄 Simple Data Transformation <span class="badge beginner">Beginner</span></a></li>
+                    <li><a href="5_Symbols/Viewing%20Your%20Workflow's%20Data/README.md">👁️ Viewing Workflow Data <span class="badge beginner">Beginner</span></a></li>
+                    <li><a href="5_Symbols/Understanding%20Credentials/README.md">🔐 Understanding Credentials <span class="badge beginner">Beginner</span></a></li>
+                </ul>
+
+                <h3>Intermediate Projects</h3>
+                <ul class="link-list">
+                    <li><a href="5_Symbols/The%20IF%20Node%20-%20Adding%20Logic%20to%20Your%20Workflows/README.md">🤔 IF Node Logic <span class="badge intermediate">Intermediate</span></a></li>
+                    <li><a href="5_Symbols/The%20Switch%20Node%20-%20Handling%20Multiple%20Conditions/README.md">🔀 Switch Node <span class="badge intermediate">Intermediate</span></a></li>
+                    <li><a href="5_Symbols/The%20Merge%20Node%20-%20Combining%20Data%20Sources/README.md">🔗 Merge Node <span class="badge intermediate">Intermediate</span></a></li>
+                    <li><a href="5_Symbols/Project%20-%20Automated%20Discord/Slack%20Notifications/README.md">💬 Discord/Slack Notifications <span class="badge intermediate">Intermediate</span></a></li>
+                    <li><a href="5_Symbols/Reading%20Data%20from%20Google%20Sheets/README.md">📊 Google Sheets Read <span class="badge intermediate">Intermediate</span></a></li>
+                    <li><a href="5_Symbols/Writing%20Data%20to%20Google%20Sheets/README.md">✍️ Google Sheets Write <span class="badge intermediate">Intermediate</span></a></li>
+                </ul>
+
+                <h3>Advanced Projects</h3>
+                <ul class="link-list">
+                    <li><a href="5_Symbols/Handling%20Errors%20in%20Your%20Workflows/README.md">⚠️ Error Handling <span class="badge advanced">Advanced</span></a></li>
+                    <li><a href="5_Symbols/Rate%20Limits%20in%20Real%20World/README.md">🚦 Rate Limit Handling <span class="badge advanced">Advanced</span></a></li>
+                    <li><a href="5_Symbols/Learn%20to%20Backup%20and%20Version%20Your%20Workflows/README.md">💾 Backup & Versioning <span class="badge advanced">Advanced</span></a></li>
+                    <li><a href="5_Symbols/Practical%20Real-World%20Projects/README.md">🌍 Real-World Projects <span class="badge advanced">Advanced</span></a></li>
+                </ul>
+            </div>
+
+            <!-- Quick Start -->
+            <div class="section">
+                <h2>🚀 Quick Start Guide</h2>
+                <p>Ready to begin your automation journey? Follow these steps:</p>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>1️⃣ Set Up Your Environment</h4>
+                        <p>Choose between n8n Cloud (easy) or self-hosting with Docker. Get your workspace ready for automation.</p>
+                        <a href="2_Environment/README.md">Setup Guide →</a>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>2️⃣ Learn the Basics</h4>
+                        <p>Understand nodes, connections, and data flow. Start with simple workflows and build your foundation.</p>
+                        <a href="3_Imaginary/README.md">Basic Concepts →</a>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>3️⃣ Connect Services</h4>
+                        <p>Learn about credentials and connect your first external service. Start with simple integrations.</p>
+                        <a href="4_Formula/README.md">Service Integration →</a>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>4️⃣ Build Projects</h4>
+                        <p>Apply your knowledge with hands-on projects. Start with beginner projects and work your way up.</p>
+                        <a href="5_Symbols/README.md">Start Building →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resources -->
+            <div class="section">
+                <h2>📚 Additional Resources</h2>
+                <p>Enhance your learning with these additional resources:</p>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>📖 Course Outline</h4>
+                        <p>Complete course structure and learning objectives. Plan your learning journey.</p>
+                        <a href="outline.md">View Outline →</a>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>🧪 Testing & Validation</h4>
+                        <p>Learn how to test your workflows and validate your automation implementations.</p>
+                        <a href="7_Testing/README.md">Testing Guide →</a>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>🎨 Visual Examples</h4>
+                        <p>See automation in action with visual examples and workflow demonstrations.</p>
+                        <a href="6_Semblance/README.md">Visual Learning →</a>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>📝 Course Notes</h4>
+                        <p>Additional notes and insights to support your learning journey.</p>
+                        <a href="cursor.md">View Notes →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="section" style="text-align: center; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                <h2>🎯 Ready to Start Your Automation Journey?</h2>
+                <p>Begin with the basics and work your way up to advanced automation mastery.</p>
+                <a href="1_Real/objective.md" class="cta-button">📋 View Course Objectives</a>
+                <a href="2_Environment/README.md" class="cta-button">🚀 Start Learning Now</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🎓 <strong>n8n for Beginners: Automate Your Work & Life</strong></p>
+            <p>Master workflow automation with hands-on projects and real-world examples</p>
+        </div>
+    </div>
+</body>
+</html>
