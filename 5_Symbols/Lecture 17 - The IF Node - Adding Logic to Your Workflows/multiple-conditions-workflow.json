@@ -1,0 +1,388 @@
+{
+  "name": "Multiple Conditions IF Node Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "manual-trigger",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [240, 400]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "customerName",
+              "value": "Alice Johnson"
+            },
+            {
+              "name": "orderValue",
+              "value": "150"
+            },
+            {
+              "name": "customerType",
+              "value": "premium"
+            },
+            {
+              "name": "membershipYears",
+              "value": "3"
+            },
+            {
+              "name": "paymentMethod",
+              "value": "credit_card"
+            },
+            {
+              "name": "location",
+              "value": "USA"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "create-order-data",
+      "name": "Create Order Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [460, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-1",
+              "leftValue": "={{parseInt($json.orderValue)}}",
+              "rightValue": 100,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            },
+            {
+              "id": "condition-2",
+              "leftValue": "={{$json.customerType}}",
+              "rightValue": "premium",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-premium-discount",
+      "name": "Check Premium Discount Eligibility",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [680, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-1",
+              "leftValue": "={{parseInt($json.orderValue)}}",
+              "rightValue": 50,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            },
+            {
+              "id": "condition-2",
+              "leftValue": "={{parseInt($json.membershipYears)}}",
+              "rightValue": 2,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-loyalty-discount",
+      "name": "Check Loyalty Discount Eligibility",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "discountType",
+              "value": "Premium Customer Discount"
+            },
+            {
+              "name": "discountPercentage",
+              "value": "20"
+            },
+            {
+              "name": "discountAmount",
+              "value": "={{Math.round(parseInt($json.orderValue) * 0.20)}}"
+            },
+            {
+              "name": "finalAmount",
+              "value": "={{parseInt($json.orderValue) - Math.round(parseInt($json.orderValue) * 0.20)}}"
+            },
+            {
+              "name": "message",
+              "value": "🎉 Premium discount applied!"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "apply-premium-discount",
+      "name": "Apply Premium Discount",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [1120, 200]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "discountType",
+              "value": "Loyalty Customer Discount"
+            },
+            {
+              "name": "discountPercentage",
+              "value": "10"
+            },
+            {
+              "name": "discountAmount",
+              "value": "={{Math.round(parseInt($json.orderValue) * 0.10)}}"
+            },
+            {
+              "name": "finalAmount",
+              "value": "={{parseInt($json.orderValue) - Math.round(parseInt($json.orderValue) * 0.10)}}"
+            },
+            {
+              "name": "message",
+              "value": "⭐ Loyalty discount applied!"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "apply-loyalty-discount",
+      "name": "Apply Loyalty Discount",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [1120, 400]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "discountType",
+              "value": "No Discount"
+            },
+            {
+              "name": "discountPercentage",
+              "value": "0"
+            },
+            {
+              "name": "discountAmount",
+              "value": "0"
+            },
+            {
+              "name": "finalAmount",
+              "value": "={{$json.orderValue}}"
+            },
+            {
+              "name": "message",
+              "value": "No discount available for this order"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "no-discount",
+      "name": "No Discount",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [1120, 600]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "customerName",
+              "value": "={{$json.customerName}}"
+            },
+            {
+              "name": "originalOrderValue",
+              "value": "={{$json.orderValue}}"
+            },
+            {
+              "name": "discountType",
+              "value": "={{$json.discountType}}"
+            },
+            {
+              "name": "discountPercentage",
+              "value": "={{$json.discountPercentage}}%"
+            },
+            {
+              "name": "discountAmount",
+              "value": "${{$json.discountAmount}}"
+            },
+            {
+              "name": "finalAmount",
+              "value": "${{$json.finalAmount}}"
+            },
+            {
+              "name": "message",
+              "value": "={{$json.message}}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{$now}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "format-final-output",
+      "name": "Format Final Output",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [1340, 400]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Create Order Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Order Data": {
+      "main": [
+        [
+          {
+            "node": "Check Premium Discount Eligibility",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Premium Discount Eligibility": {
+      "main": [
+        [
+          {
+            "node": "Apply Premium Discount",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Check Loyalty Discount Eligibility",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Loyalty Discount Eligibility": {
+      "main": [
+        [
+          {
+            "node": "Apply Loyalty Discount",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Discount",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apply Premium Discount": {
+      "main": [
+        [
+          {
+            "node": "Format Final Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apply Loyalty Discount": {
+      "main": [
+        [
+          {
+            "node": "Format Final Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Discount": {
+      "main": [
+        [
+          {
+            "node": "Format Final Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1",
+  "meta": {
+    "instanceId": "multiple-conditions-if"
+  },
+  "id": "multiple-conditions-if",
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "multiple-conditions-if",
+      "name": "Multiple Conditions IF"
+    }
+  ]
+}

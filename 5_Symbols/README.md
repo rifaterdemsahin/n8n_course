@@ -92,6 +92,137 @@ Each project folder contains:
 - Implementing error handling and data validation
 - Security best practices for Google API integration
 
+### Writing Data to Google Sheets
+**Difficulty:** Intermediate  
+**Learning Focus:** Google Sheets write operations and data mapping  
+**Files:**
+- `google-sheets-write-workflow.json` - Complete Google Sheets write workflow
+- `README.md` - Comprehensive write operations guide with Mermaid diagrams
+
+**What You'll Learn:**
+- Using Google Sheets node to append new rows
+- Mapping data from previous nodes into spreadsheet columns
+- Understanding different write operations (append, update, append or update)
+- Data validation and error handling for write operations
+- Batch processing and performance optimization
+- Column mapping techniques and best practices
+
+### Practical Real-World Projects
+**Difficulty:** Intermediate to Advanced  
+**Learning Focus:** Production-ready automation with Cron triggers and API integration  
+**Files:**
+- `daily-weather-report-workflow.json` - Complete weather reporting workflow
+- `README.md` - Comprehensive real-world project guide
+
+**What You'll Learn:**
+- Using Cron triggers to run workflows automatically
+- Fetching weather data from external APIs (OpenWeatherMap)
+- Sending formatted email reports with rich content
+- Implementing comprehensive error handling and recovery
+- Building production-ready automation workflows
+- API integration patterns and best practices
+
+### Lecture 17 - The IF Node - Adding Logic to Your Workflows
+**Difficulty:** Beginner to Intermediate  
+**Learning Focus:** Conditional logic and decision-making in workflows  
+**Files:**
+- `basic-if-node-workflow.json` - Simple temperature check workflow
+- `multiple-conditions-workflow.json` - Complex discount eligibility workflow
+- `README.md` - Comprehensive IF node guide with examples
+
+**What You'll Learn:**
+- Understanding the IF node and conditional logic
+- Creating different paths for your data based on conditions
+- Setting up conditions (greater than, equals, contains, etc.)
+- Working with multiple conditions and combinators (AND/OR)
+- Advanced condition types (string, number, boolean, date)
+- Best practices for condition design and performance
+
+### Rate Limits in Real World
+**Difficulty:** Intermediate to Advanced  
+**Learning Focus:** Handling API rate limits and building resilient workflows  
+**Files:**
+- `rate-limit-handling-workflow.json` - Comprehensive rate limit handling workflow
+- `README.md` - Complete rate limiting strategies guide
+
+**What You'll Learn:**
+- Understanding different types of rate limits
+- Implementing exponential backoff and retry logic
+- Circuit breaker patterns for fault tolerance
+- Monitoring and alerting for rate limit issues
+- Advanced techniques like token bucket and sliding window
+- Real-world examples with popular APIs
+
+### Learn to Backup and Version Your Workflows
+**Difficulty:** Intermediate  
+**Learning Focus:** Workflow lifecycle management and version control  
+**Files:**
+- `README.md` - Comprehensive backup and versioning guide
+
+**What You'll Learn:**
+- Built-in n8n versioning and workflow history
+- Manual backup strategies and export techniques
+- Git-based version control for workflows
+- Automated backup solutions with cloud storage
+- Recovery procedures and disaster planning
+- Best practices for workflow maintenance
+
+### Handling Errors in Your Workflows
+**Difficulty:** Intermediate to Advanced  
+**Learning Focus:** Error workflows and robust error handling strategies  
+**Files:**
+- `README.md` - Comprehensive error handling guide
+
+**What You'll Learn:**
+- Introduction to error workflows and their capabilities
+- Understanding different types of errors and their handling
+- Monitoring executions and analyzing failed runs
+- Error handling design patterns (try-catch, circuit breaker, graceful degradation)
+- Debugging techniques and troubleshooting strategies
+- Real-world error handling examples
+
+### Risk Management
+**Difficulty:** Advanced  
+**Learning Focus:** Production deployment and risk mitigation strategies  
+**Files:**
+- `README.md` - Comprehensive risk management guide
+
+**What You'll Learn:**
+- Understanding automation risks and impact assessment
+- Risk mitigation strategies and best practices
+- Production deployment considerations
+- Monitoring, alerting, and incident response
+- Compliance and governance frameworks
+- Security considerations and access controls
+
+### Exploring Community Nodes
+**Difficulty:** Beginner to Intermediate  
+**Learning Focus:** Extending n8n functionality with community-built nodes  
+**Files:**
+- `README.md` - Comprehensive community nodes guide
+
+**What You'll Learn:**
+- Finding and installing community-built nodes
+- Popular community nodes and their use cases
+- Security considerations and best practices
+- Creating your own community nodes
+- Testing and publishing community nodes
+- Troubleshooting community node issues
+
+### Course Wrap-Up & Your Automation Journey
+**Difficulty:** All Levels  
+**Learning Focus:** Course recap and continued learning path  
+**Files:**
+- `README.md` - Inspiring conclusion and next steps guide
+
+**What You'll Learn:**
+- Comprehensive recap of all course concepts
+- Assessment of skills acquired and progress made
+- Project ideas for continued practice
+- Finding help and community resources
+- Building your automation portfolio
+- Advanced learning paths and specializations
+
 ## Project Categories
 
 ### Beginner Projects
