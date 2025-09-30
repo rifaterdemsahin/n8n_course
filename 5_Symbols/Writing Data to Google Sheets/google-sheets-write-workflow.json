@@ -1,0 +1,458 @@
+{
+  "name": "Google Sheets Write Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "manual-trigger",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "firstName",
+              "value": "John"
+            },
+            {
+              "name": "lastName",
+              "value": "Doe"
+            },
+            {
+              "name": "email",
+              "value": "john.doe@example.com"
+            },
+            {
+              "name": "department",
+              "value": "Engineering"
+            },
+            {
+              "name": "salary",
+              "value": "75000"
+            },
+            {
+              "name": "startDate",
+              "value": "2024-01-15"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "create-sample-data",
+      "name": "Create Sample Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "spreadsheetId",
+              "value": "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms"
+            },
+            {
+              "name": "sheetName",
+              "value": "Employees"
+            },
+            {
+              "name": "operation",
+              "value": "append"
+            },
+            {
+              "name": "hasHeaderRow",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-sheet-config",
+      "name": "Set Sheet Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "employeeId",
+              "value": "={{Math.floor(Math.random() * 10000) + 1000}}"
+            },
+            {
+              "name": "fullName",
+              "value": "={{$json.firstName}} {{$json.lastName}}"
+            },
+            {
+              "name": "email",
+              "value": "={{$json.email}}"
+            },
+            {
+              "name": "department",
+              "value": "={{$json.department}}"
+            },
+            {
+              "name": "salary",
+              "value": "={{$json.salary}}"
+            },
+            {
+              "name": "startDate",
+              "value": "={{$json.startDate}}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{$now}}"
+            },
+            {
+              "name": "status",
+              "value": "Active"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "map-data",
+      "name": "Map Data for Sheet",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": "={{$node['Set Sheet Configuration'].json.spreadsheetId}}",
+        "sheetName": "={{$node['Set Sheet Configuration'].json.sheetName}}",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Employee ID": "={{$json.employeeId}}",
+            "Full Name": "={{$json.fullName}}",
+            "Email": "={{$json.email}}",
+            "Department": "={{$json.department}}",
+            "Salary": "={{$json.salary}}",
+            "Start Date": "={{$json.startDate}}",
+            "Timestamp": "={{$json.timestamp}}",
+            "Status": "={{$json.status}}"
+          }
+        },
+        "options": {
+          "hasHeaderRow": "={{$node['Set Sheet Configuration'].json.hasHeaderRow}}",
+          "valueInputMode": "userEntered"
+        }
+      },
+      "id": "write-to-sheet",
+      "name": "Write to Google Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [1120, 300],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google-oauth2-credentials",
+          "name": "Google OAuth2 Credentials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-1",
+              "leftValue": "={{$json.updatedRows}}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-success",
+      "name": "Check Write Success",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1340, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "status",
+              "value": "✅ Successfully wrote data to Google Sheet"
+            },
+            {
+              "name": "employeeId",
+              "value": "={{$node['Map Data for Sheet'].json.employeeId}}"
+            },
+            {
+              "name": "fullName",
+              "value": "={{$node['Map Data for Sheet'].json.fullName}}"
+            },
+            {
+              "name": "email",
+              "value": "={{$node['Map Data for Sheet'].json.email}}"
+            },
+            {
+              "name": "department",
+              "value": "={{$node['Map Data for Sheet'].json.department}}"
+            },
+            {
+              "name": "salary",
+              "value": "={{$node['Map Data for Sheet'].json.salary}}"
+            },
+            {
+              "name": "updatedRows",
+              "value": "={{$json.updatedRows}}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{$now}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "format-success",
+      "name": "Format Success Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [1560, 200]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "status",
+              "value": "❌ Failed to write data to Google Sheet"
+            },
+            {
+              "name": "error",
+              "value": "={{$json.error}}"
+            },
+            {
+              "name": "employeeId",
+              "value": "={{$node['Map Data for Sheet'].json.employeeId}}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{$now}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "format-error",
+      "name": "Format Error Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [1560, 400]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "resource": "spreadsheet",
+        "title": "Employee Data Log - {{$now.format('YYYY-MM-DD')}}",
+        "sheets": [
+          {
+            "name": "Write Log",
+            "values": [
+              [
+                "Status",
+                "Employee ID",
+                "Full Name",
+                "Email",
+                "Department",
+                "Salary",
+                "Updated Rows",
+                "Timestamp"
+              ],
+              [
+                "={{$json.status}}",
+                "={{$json.employeeId}}",
+                "={{$json.fullName}}",
+                "={{$json.email}}",
+                "={{$json.department}}",
+                "={{$json.salary}}",
+                "={{$json.updatedRows || '0'}}",
+                "={{$json.timestamp}}"
+              ]
+            ]
+          }
+        ]
+      },
+      "id": "create-log-sheet",
+      "name": "Create Log Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [1780, 200],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google-oauth2-credentials",
+          "name": "Google OAuth2 Credentials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": "={{$node['Set Sheet Configuration'].json.spreadsheetId}}",
+        "sheetName": "={{$node['Set Sheet Configuration'].json.sheetName}}",
+        "range": "A:Z",
+        "options": {
+          "hasHeaderRow": "={{$node['Set Sheet Configuration'].json.hasHeaderRow}}"
+        }
+      },
+      "id": "verify-data",
+      "name": "Verify Data Written",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [1780, 400],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google-oauth2-credentials",
+          "name": "Google OAuth2 Credentials"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Create Sample Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Sample Data": {
+      "main": [
+        [
+          {
+            "node": "Set Sheet Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Sheet Configuration": {
+      "main": [
+        [
+          {
+            "node": "Map Data for Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Data for Sheet": {
+      "main": [
+        [
+          {
+            "node": "Write to Google Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write to Google Sheet": {
+      "main": [
+        [
+          {
+            "node": "Check Write Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Write Success": {
+      "main": [
+        [
+          {
+            "node": "Format Success Response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Error Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Success Response": {
+      "main": [
+        [
+          {
+            "node": "Create Log Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Error Response": {
+      "main": [
+        [
+          {
+            "node": "Verify Data Written",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": {
+      "id": "error-handler",
+      "name": "Google Sheets Write Error Handler"
+    }
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "google-sheets-write"
+  },
+  "id": "google-sheets-write",
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "google-sheets-write",
+      "name": "Google Sheets Write"
+    }
+  ]
+}
