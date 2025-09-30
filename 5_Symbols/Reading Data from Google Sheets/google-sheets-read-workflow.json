@@ -1,0 +1,349 @@
+{
+  "name": "Google Sheets Read Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "manual-trigger",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "spreadsheetId",
+              "value": "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms"
+            },
+            {
+              "name": "sheetName",
+              "value": "Sheet1"
+            },
+            {
+              "name": "range",
+              "value": "A:Z"
+            },
+            {
+              "name": "hasHeaderRow",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-parameters",
+      "name": "Set Parameters",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": "={{$json.spreadsheetId}}",
+        "sheetName": "={{$json.sheetName}}",
+        "range": "={{$json.range}}",
+        "options": {
+          "hasHeaderRow": "={{$json.hasHeaderRow}}",
+          "includeEmptyCells": true
+        }
+      },
+      "id": "read-google-sheet",
+      "name": "Read Google Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [680, 300],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google-oauth2-credentials",
+          "name": "Google OAuth2 Credentials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-1",
+              "leftValue": "={{$json.length}}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-data-exists",
+      "name": "Check Data Exists",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "operation": "aggregate",
+        "aggregate": "itemLists",
+        "options": {
+          "destinationFieldName": "summary"
+        }
+      },
+      "id": "aggregate-data",
+      "name": "Aggregate Data",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [1120, 200]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "status",
+              "value": "✅ Successfully read Google Sheet data"
+            },
+            {
+              "name": "totalRows",
+              "value": "={{$json.summary.length}}"
+            },
+            {
+              "name": "spreadsheetId",
+              "value": "={{$node['Set Parameters'].json.spreadsheetId}}"
+            },
+            {
+              "name": "sheetName",
+              "value": "={{$node['Set Parameters'].json.sheetName}}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{$now}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "format-success",
+      "name": "Format Success Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [1340, 200]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "status",
+              "value": "⚠️ No data found in Google Sheet"
+            },
+            {
+              "name": "message",
+              "value": "The specified range contains no data or the sheet is empty"
+            },
+            {
+              "name": "spreadsheetId",
+              "value": "={{$node['Set Parameters'].json.spreadsheetId}}"
+            },
+            {
+              "name": "sheetName",
+              "value": "={{$node['Set Parameters'].json.sheetName}}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{$now}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "format-empty",
+      "name": "Format Empty Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [1120, 400]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "name": "Data Processing",
+        "resource": "spreadsheet",
+        "title": "n8n Data Processing Results - {{$now.format('YYYY-MM-DD')}}",
+        "sheets": [
+          {
+            "name": "Processing Results",
+            "values": [
+              [
+                "Status",
+                "Total Rows",
+                "Spreadsheet ID",
+                "Sheet Name",
+                "Timestamp"
+              ],
+              [
+                "={{$json.status}}",
+                "={{$json.totalRows || '0'}}",
+                "={{$json.spreadsheetId}}",
+                "={{$json.sheetName}}",
+                "={{$json.timestamp}}"
+              ]
+            ]
+          },
+          {
+            "name": "Sample Data",
+            "values": "={{$node['Aggregate Data'].json.summary.slice(0, 10).map(item => Object.values(item)).filter(row => row.length > 0)}}"
+          }
+        ]
+      },
+      "id": "create-results-sheet",
+      "name": "Create Results Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [1560, 200],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google-oauth2-credentials",
+          "name": "Google OAuth2 Credentials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "status",
+              "value": "❌ Failed to read Google Sheet"
+            },
+            {
+              "name": "error",
+              "value": "={{$json.error}}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{$now}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "format-error",
+      "name": "Format Error Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [1780, 300]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Set Parameters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Parameters": {
+      "main": [
+        [
+          {
+            "node": "Read Google Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Google Sheet": {
+      "main": [
+        [
+          {
+            "node": "Check Data Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Data Exists": {
+      "main": [
+        [
+          {
+            "node": "Aggregate Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Empty Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate Data": {
+      "main": [
+        [
+          {
+            "node": "Format Success Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Success Response": {
+      "main": [
+        [
+          {
+            "node": "Create Results Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": {
+      "id": "error-handler",
+      "name": "Google Sheets Error Handler"
+    }
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "google-sheets-read"
+  },
+  "id": "google-sheets-read",
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "google-sheets-read",
+      "name": "Google Sheets Read"
+    }
+  ]
+}

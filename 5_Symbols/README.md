@@ -57,6 +57,41 @@ Each project folder contains:
 - Multiple credential types (OAuth2, API Keys, SMTP, etc.)
 - Real-world credential management scenarios
 
+### Project - Automated Discord/Slack Notifications
+**Difficulty:** Intermediate  
+**Learning Focus:** Communication platform integration and notification workflows  
+**Files:**
+- `discord-notifications-workflow.json` - Complete Discord notification workflow
+- `slack-notifications-workflow.json` - Complete Slack notification workflow
+- `README.md` - Comprehensive integration guide
+
+**What You'll Learn:**
+- Connecting Discord and Slack accounts to n8n
+- Creating workflows that send custom messages on manual trigger
+- Implementing rich message formatting with embeds and attachments
+- Conditional logic for different message types (success/error)
+- Error handling and fallback notifications
+- Security best practices for communication platforms
+- Customizing bot appearance and message content
+
+### Setting up Google API credentials
+**Difficulty:** Intermediate  
+**Learning Focus:** Google Cloud Platform integration and API credential management  
+**Files:**
+- `google-sheets-read-workflow.json` - Complete Google Sheets read workflow
+- `README.md` - Step-by-step Google API setup guide
+
+**What You'll Learn:**
+- Creating and configuring Google Cloud projects
+- Setting up OAuth2 credentials for Google APIs
+- Enabling and configuring Google Sheets and Drive APIs
+- Configuring OAuth consent screen for external applications
+- Connecting Google credentials to n8n workflows
+- Configuring Google Sheets node to read rows from spreadsheets
+- Understanding range notation and data formatting options
+- Implementing error handling and data validation
+- Security best practices for Google API integration
+
 ## Project Categories
 
 ### Beginner Projects
@@ -67,6 +102,8 @@ Each project folder contains:
 
 ### Intermediate Projects
 - **Multi-Service Integration** - Complex service connections
+- **Communication Platform Integration** - Discord/Slack notifications
+- **Google API Integration** - Google Sheets, Drive, and OAuth2 setup
 - **Data Processing** - Advanced data manipulation
 - **Error Handling** - Robust error management
 - **Scheduling** - Time-based automation
