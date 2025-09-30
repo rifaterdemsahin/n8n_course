@@ -17,6 +17,38 @@ You've completed the n8n automation course! This guide will help you recap what 
 
 ## Course Recap
 
+### Your Learning Journey
+
+```mermaid
+graph TD
+    A[Course Start<br/>n8n Basics] --> B[Foundation Concepts<br/>Interface & Nodes]
+    B --> C[Integration Skills<br/>APIs & Services]
+    C --> D[Logic & Control<br/>IF/Switch/Loops]
+    D --> E[Real-World Projects<br/>Practical Applications]
+    E --> F[Best Practices<br/>Security & Performance]
+    F --> G[Advanced Topics<br/>Error Handling & Monitoring]
+    G --> H[Course Completion<br/>Automation Expert]
+    
+    I[Skills Acquired] --> J[Technical Skills<br/>Workflow Design<br/>Data Processing<br/>API Integration<br/>Automation Patterns]
+    I --> K[Soft Skills<br/>Problem-Solving<br/>System Thinking<br/>Process Analysis<br/>Team Collaboration]
+    
+    L[Next Steps] --> M[Personal Projects<br/>Build 3-5 Automations]
+    L --> N[Community Engagement<br/>Join Forums & Discord]
+    L --> O[Advanced Learning<br/>Enterprise & Specialization]
+    L --> P[Portfolio Building<br/>Showcase Your Work]
+    
+    Q[Resources Available] --> R[Official Documentation<br/>n8n.io/docs]
+    Q --> S[Community Forum<br/>community.n8n.io]
+    Q --> T[Video Tutorials<br/>YouTube Channel]
+    Q --> U[Workflow Templates<br/>n8n.io/workflows]
+    
+    style A fill:#e1f5fe
+    style H fill:#e8f5e8
+    style I fill:#fff3e0
+    style L fill:#f3e5f5
+    style Q fill:#fce4ec
+```
+
 ### What You've Learned
 
 Throughout this course, you've gained hands-on experience with:

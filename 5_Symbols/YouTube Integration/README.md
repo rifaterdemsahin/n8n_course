@@ -6,6 +6,34 @@ This n8n workflow demonstrates how to automatically monitor and report YouTube c
 
 The workflow fetches YouTube channel statistics and sends them to a Telegram channel with formatted metrics and calculated ratios.
 
+### YouTube Integration Workflow Flow
+
+```mermaid
+graph TD
+    A[Manual Trigger<br/>On-demand Stats] --> C[YouTube API<br/>Get Channel Data]
+    B[Schedule Trigger<br/>Daily at 6:00 AM] --> C
+    
+    C --> D[Extract Statistics<br/>Views, Subscribers, Videos]
+    D --> E[Calculate Metrics<br/>Subscriber-to-Video Ratio]
+    E --> F[Format Message<br/>Add Emojis & Structure]
+    F --> G[Send to Telegram<br/>Channel Notification]
+    
+    H[YouTube OAuth2<br/>Authentication] --> C
+    I[Telegram Bot<br/>Credentials] --> G
+    
+    J[Channel ID<br/>UCSJyG3bTM7lnjMIZcV8C4OQ] --> C
+    
+    style A fill:#e1f5fe
+    style B fill:#e8f5e8
+    style C fill:#ffebee
+    style D fill:#fff3e0
+    style E fill:#f3e5f5
+    style F fill:#fce4ec
+    style G fill:#e0f2f1
+    style H fill:#fff8e1
+    style I fill:#f1f8e9
+```
+
 ## Workflow Components
 
 ### 1. Triggers (Entry Points)

@@ -4,6 +4,48 @@
 
 Debugging is a crucial skill when working with n8n workflows. Understanding what happens behind the scenes helps you identify issues, optimize performance, and ensure your workflows run as expected.
 
+### Debugging Workflow Overview
+
+```mermaid
+graph TD
+    A[Workflow Execution Starts] --> B[Node 1 Processing]
+    B --> C{Data Valid?}
+    C -->|Yes| D[Node 2 Processing]
+    C -->|No| E[Error Detection]
+    
+    D --> F{Data Valid?}
+    F -->|Yes| G[Node 3 Processing]
+    F -->|No| E
+    
+    G --> H[Final Output]
+    
+    E --> I[Debug Information]
+    I --> J[Execution Logs]
+    I --> K[Node Data Viewer]
+    I --> L[Error Messages]
+    
+    J --> M[Step-by-step Log]
+    K --> N[Input/Output Data]
+    L --> O[Error Details]
+    
+    M --> P[Debug Analysis]
+    N --> P
+    O --> P
+    
+    P --> Q[Identify Issue]
+    Q --> R[Fix Problem]
+    R --> S[Test Solution]
+    S --> T{Working?}
+    T -->|No| P
+    T -->|Yes| U[Deploy Fix]
+    
+    style A fill:#e1f5fe
+    style E fill:#ffebee
+    style I fill:#fff3e0
+    style P fill:#f3e5f5
+    style U fill:#e8f5e8
+```
+
 ### Key Debugging Concepts
 
 #### 1. **Execution Flow**

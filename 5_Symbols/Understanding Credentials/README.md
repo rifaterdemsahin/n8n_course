@@ -4,6 +4,24 @@
 
 **Credentials** in n8n are secure storage mechanisms that allow you to safely store and manage authentication information for third-party services. They act as a secure vault for sensitive data like API keys, passwords, tokens, and other authentication details that your workflows need to interact with external services.
 
+### Credential Management Flow
+
+```mermaid
+graph TD
+    A[External Service<br/>API/Service] --> B[Credential Storage<br/>n8n Credentials]
+    B --> C[Workflow Node<br/>Uses Credential]
+    C --> D[Authenticated Request<br/>to External Service]
+    D --> E[Service Response<br/>Data/Results]
+    
+    F[User Input<br/>API Key/Password] --> B
+    G[Security Features<br/>Encryption/Protection] --> B
+    
+    style B fill:#e3f2fd
+    style C fill:#e8f5e8
+    style D fill:#fff3e0
+    style E fill:#f3e5f5
+```
+
 ### Why Credentials Matter:
 
 1. **Security**: Credentials are encrypted and stored securely, preventing exposure of sensitive information in your workflow definitions
@@ -15,6 +33,40 @@
 ## Types of Credentials in n8n
 
 n8n supports various credential types for different services:
+
+### Credential Types Overview
+
+```mermaid
+graph TB
+    A[n8n Credentials] --> B[Authentication Types]
+    
+    B --> C[HTTP Basic Auth<br/>Username/Password]
+    B --> D[OAuth2<br/>Modern Standard]
+    B --> E[API Key<br/>Token-based]
+    B --> F[SMTP<br/>Email Server]
+    
+    C --> G[Simple Services<br/>Basic APIs]
+    D --> H[Google, GitHub<br/>Social Platforms]
+    E --> I[REST APIs<br/>Third-party Services]
+    F --> J[Email Services<br/>SMTP Servers]
+    
+    B --> K[Database Credentials]
+    B --> L[Cloud Services]
+    B --> M[Social Media]
+    B --> N[Communication]
+    
+    K --> O[MySQL, PostgreSQL<br/>MongoDB]
+    L --> P[AWS, Google Cloud<br/>Azure]
+    M --> Q[Twitter, LinkedIn<br/>Facebook]
+    N --> R[Slack, Discord<br/>Telegram]
+    
+    style A fill:#e3f2fd
+    style B fill:#e8f5e8
+    style C fill:#fff3e0
+    style D fill:#f3e5f5
+    style E fill:#fce4ec
+    style F fill:#e0f2f1
+```
 
 ### Common Credential Types:
 - **HTTP Basic Auth**: Username/password authentication

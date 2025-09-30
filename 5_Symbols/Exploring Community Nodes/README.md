@@ -16,6 +16,40 @@ This guide covers how to find, install, and use community-built nodes to extend 
 
 ## What are Community Nodes?
 
+### Community Node Ecosystem
+
+```mermaid
+graph TB
+    A[n8n Core Nodes] --> B[Standard Integrations]
+    C[Community Nodes] --> D[Extended Integrations]
+    
+    B --> E[Google Services<br/>Gmail, Sheets, Drive]
+    B --> F[Communication<br/>Slack, Discord, Email]
+    B --> G[Data Processing<br/>HTTP, Set, IF, Switch]
+    B --> H[Triggers<br/>Webhook, Schedule, Manual]
+    
+    C --> I[Database Nodes<br/>PostgreSQL, MySQL, MongoDB]
+    C --> J[API Integrations<br/>Stripe, Twilio, Salesforce]
+    C --> K[File Processing<br/>PDF, Excel, Image]
+    C --> L[Communication<br/>Telegram, WhatsApp]
+    C --> M[Utilities<br/>Crypto, Date/Time, Custom]
+    
+    N[Community Hub<br/>n8n.io/integrations] --> C
+    O[GitHub Repositories<br/>n8n-nodes-*] --> C
+    P[npm Packages<br/>Community Nodes] --> C
+    
+    Q[Installation Methods] --> R[n8n CLI<br/>n8n install-package]
+    Q --> S[Manual Installation<br/>Git Clone & Build]
+    Q --> T[Docker<br/>Custom Images]
+    
+    style A fill:#e3f2fd
+    style C fill:#e8f5e8
+    style N fill:#fff3e0
+    style O fill:#f3e5f5
+    style P fill:#fce4ec
+    style Q fill:#e0f2f1
+```
+
 ### Definition
 
 Community nodes are custom-built nodes created by the n8n community to extend functionality beyond what's available in the core n8n package. They allow integration with:

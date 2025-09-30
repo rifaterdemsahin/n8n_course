@@ -20,6 +20,43 @@ This guide covers practical strategies for handling API rate limits in productio
 
 Rate limits are restrictions imposed by APIs to control the number of requests a client can make within a specific time period. They prevent abuse, ensure fair usage, and maintain service stability.
 
+### Rate Limit Architecture
+
+```mermaid
+graph TD
+    A[Client Application<br/>n8n Workflow] --> B[API Gateway<br/>Rate Limiter]
+    B --> C{Within Rate Limit?}
+    
+    C -->|Yes| D[Process Request<br/>Forward to API]
+    C -->|No| E[Rate Limit Exceeded<br/>429 Too Many Requests]
+    
+    D --> F[API Service<br/>External Service]
+    F --> G[Response<br/>Data/Results]
+    
+    E --> H[Retry Strategy]
+    H --> I[Exponential Backoff<br/>Wait & Retry]
+    H --> J[Circuit Breaker<br/>Stop Requests]
+    H --> K[Fallback Service<br/>Alternative API]
+    
+    I --> L[Wait Time<br/>Calculated Delay]
+    L --> M[Retry Request<br/>After Delay]
+    M --> B
+    
+    N[Rate Limit Headers] --> O[X-RateLimit-Limit<br/>X-RateLimit-Remaining<br/>X-RateLimit-Reset<br/>Retry-After]
+    
+    P[Rate Limit Types] --> Q[Per Second<br/>Per Minute<br/>Per Hour<br/>Per Day]
+    P --> R[Burst Limits<br/>Sustained Rate<br/>Recovery Time]
+    P --> S[Quota Limits<br/>Daily Quota<br/>Monthly Quota]
+    
+    style A fill:#e1f5fe
+    style B fill:#fff3e0
+    style C fill:#f3e5f5
+    style D fill:#e8f5e8
+    style E fill:#ffebee
+    style H fill:#fce4ec
+    style F fill:#e0f2f1
+```
+
 ### Common Rate Limit Types
 
 #### 1. **Request Rate Limits**

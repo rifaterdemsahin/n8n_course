@@ -16,6 +16,49 @@ This guide covers comprehensive error handling strategies for n8n workflows, inc
 
 ## Understanding Error Types
 
+### Error Classification System
+
+```mermaid
+graph TD
+    A[Workflow Execution] --> B{Error Occurs?}
+    B -->|No| C[Success Path]
+    B -->|Yes| D[Error Classification]
+    
+    D --> E[API Errors]
+    D --> F[Data Errors]
+    D --> G[Configuration Errors]
+    D --> H[Logic Errors]
+    
+    E --> E1[Rate Limiting<br/>429 Too Many Requests]
+    E --> E2[Authentication<br/>401 Unauthorized]
+    E --> E3[Network Issues<br/>Connection Timeouts]
+    E --> E4[Service Unavailable<br/>503 Service Down]
+    
+    F --> F1[Invalid Format<br/>Unexpected Data Structure]
+    F --> F2[Missing Fields<br/>Required Data Not Present]
+    F --> F3[Type Mismatches<br/>Wrong Data Types]
+    F --> F4[Validation Failures<br/>Business Rule Violations]
+    
+    G --> G1[Missing Credentials<br/>API Keys Not Set]
+    G --> G2[Invalid Settings<br/>Wrong Configuration]
+    G --> G3[Permission Issues<br/>Access Denied]
+    G --> G4[Resource Limits<br/>Memory/Processing]
+    
+    H --> H1[Conditional Logic<br/>IF/Switch Errors]
+    H --> H2[Expression Errors<br/>Invalid JavaScript]
+    H --> H3[Loop Issues<br/>Infinite Loops]
+    H --> H4[Data Flow<br/>Incorrect Data Passing]
+    
+    style A fill:#e1f5fe
+    style B fill:#fff3e0
+    style C fill:#e8f5e8
+    style D fill:#f3e5f5
+    style E fill:#ffebee
+    style F fill:#fce4ec
+    style G fill:#fff8e1
+    style H fill:#f1f8e9
+```
+
 ### Common Error Categories
 
 #### 1. **API Errors**

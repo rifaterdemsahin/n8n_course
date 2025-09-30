@@ -16,6 +16,43 @@ This guide covers essential practices for backing up and versioning your n8n wor
 
 ## Why Workflow Backup and Versioning Matters
 
+### Backup and Versioning Strategy
+
+```mermaid
+graph TD
+    A[Workflow Development] --> B[Version Control<br/>Git Repository]
+    A --> C[Manual Backups<br/>Export JSON]
+    A --> D[Automated Backups<br/>Scheduled Export]
+    
+    B --> E[Local Repository<br/>Development]
+    B --> F[Remote Repository<br/>GitHub/GitLab]
+    B --> G[Branch Strategy<br/>Feature/Production]
+    
+    C --> H[File System<br/>Organized Folders]
+    C --> I[Cloud Storage<br/>Google Drive/AWS S3]
+    
+    D --> J[Database Backup<br/>PostgreSQL/SQLite]
+    D --> K[Workflow Export<br/>API-based Backup]
+    D --> L[Cloud Integration<br/>Automated Upload]
+    
+    M[Backup Triggers] --> N[Manual Export<br/>On-demand]
+    M --> O[Scheduled Export<br/>Daily/Weekly]
+    M --> P[Before Deployment<br/>Pre-deployment]
+    M --> Q[After Changes<br/>Post-modification]
+    
+    R[Recovery Scenarios] --> S[Workflow Corruption<br/>Restore from Backup]
+    R --> T[Accidental Changes<br/>Git Rollback]
+    R --> U[Environment Migration<br/>Import/Export]
+    R --> V[Team Collaboration<br/>Merge Conflicts]
+    
+    style A fill:#e1f5fe
+    style B fill:#e8f5e8
+    style C fill:#fff3e0
+    style D fill:#f3e5f5
+    style M fill:#fce4ec
+    style R fill:#e0f2f1
+```
+
 ### Common Scenarios Requiring Backup/Versioning:
 
 - **Workflow Corruption**: Unexpected data loss or corruption

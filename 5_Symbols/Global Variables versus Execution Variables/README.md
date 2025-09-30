@@ -6,6 +6,45 @@ In n8n, there are two main types of variables that you can use to store and acce
 
 Global variables are **workflow-level** variables that persist across all executions of a workflow. They are defined within the workflow itself and can be accessed by any node in that workflow.
 
+### Variable Scope and Lifecycle
+
+```mermaid
+graph TD
+    A[Workflow Definition] --> B[Global Variables<br/>Defined in Workflow]
+    B --> C[Workflow Execution 1]
+    B --> D[Workflow Execution 2]
+    B --> E[Workflow Execution N]
+    
+    C --> F[Node 1<br/>Uses Global Var]
+    C --> G[Node 2<br/>Uses Global Var]
+    C --> H[Node 3<br/>Uses Global Var]
+    
+    D --> I[Node 1<br/>Uses Global Var]
+    D --> J[Node 2<br/>Uses Global Var]
+    D --> K[Node 3<br/>Uses Global Var]
+    
+    E --> L[Node 1<br/>Uses Global Var]
+    E --> M[Node 2<br/>Uses Global Var]
+    E --> N[Node 3<br/>Uses Global Var]
+    
+    O[Execution Variables<br/>Created During Execution] --> P[Execution 1 Only]
+    O --> Q[Execution 2 Only]
+    O --> R[Execution N Only]
+    
+    P --> S[Node 1<br/>Creates Exec Var]
+    P --> T[Node 2<br/>Uses Exec Var]
+    P --> U[Node 3<br/>Uses Exec Var]
+    
+    style B fill:#e3f2fd
+    style O fill:#fff3e0
+    style C fill:#e8f5e8
+    style D fill:#e8f5e8
+    style E fill:#e8f5e8
+    style P fill:#f3e5f5
+    style Q fill:#f3e5f5
+    style R fill:#f3e5f5
+```
+
 ### Key Characteristics:
 - **Scope**: Available to all nodes within the same workflow
 - **Persistence**: Values persist across multiple workflow executions
