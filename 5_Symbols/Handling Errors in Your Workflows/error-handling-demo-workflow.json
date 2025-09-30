@@ -1,0 +1,164 @@
+{
+  "name": "Error Handling Demo Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "error-demo",
+        "options": {}
+      },
+      "name": "Error Demo Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ],
+      "webhookId": "error-demo-webhook"
+    },
+    {
+      "parameters": {
+        "url": "={{$json.apiUrl}}",
+        "method": "GET",
+        "options": {
+          "timeout": 5000,
+          "retry": {
+            "enabled": true,
+            "maxAttempts": 3,
+            "waitBetweenAttempts": 2000
+          }
+        }
+      },
+      "name": "API Call with Error Handling",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ],
+      "onError": "HandleAPIError"
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "errorType",
+              "value": "API Error"
+            },
+            {
+              "name": "errorMessage",
+              "value": "={{$json.error.message}}"
+            },
+            {
+              "name": "errorCode",
+              "value": "={{$json.error.code}}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{new Date().toISOString()}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "HandleAPIError",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        680,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "channel": "#error-monitoring",
+        "text": "🚨 API Error Detected\n\n**Error Type:** {{$json.errorType}}\n**Error Message:** {{$json.errorMessage}}\n**Error Code:** {{$json.errorCode}}\n**Timestamp:** {{$json.timestamp}}\n**Original Request:** {{$json.originalData}}",
+        "otherOptions": {}
+      },
+      "name": "Send Error Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        900,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "successMessage",
+              "value": "API call completed successfully"
+            },
+            {
+              "name": "processedAt",
+              "value": "={{new Date().toISOString()}}"
+            },
+            {
+              "name": "responseData",
+              "value": "={{JSON.stringify($json)}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Log Success",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        680,
+        400
+      ]
+    }
+  ],
+  "connections": {
+    "Error Demo Webhook": {
+      "main": [
+        [
+          {
+            "node": "API Call with Error Handling",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "API Call with Error Handling": {
+      "main": [
+        [
+          {
+            "node": "Log Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HandleAPIError": {
+      "main": [
+        [
+          {
+            "node": "Send Error Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "errorWorkflow": {
+      "enabled": true
+    }
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "id": "1",
+  "tags": []
+}

@@ -1,0 +1,239 @@
+{
+  "name": "Risk Management Demo Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "risk-assessment",
+        "options": {}
+      },
+      "name": "Risk Assessment Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ],
+      "webhookId": "risk-assessment-webhook"
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "riskId",
+              "value": "={{$json.riskId || $runId}}"
+            },
+            {
+              "name": "assessedAt",
+              "value": "={{new Date().toISOString()}}"
+            },
+            {
+              "name": "assessorId",
+              "value": "={{$json.assessorId || 'system'}}"
+            }
+          ],
+          "number": [
+            {
+              "name": "riskScore",
+              "value": "={{parseInt($json.riskScore) || 0}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Prepare Risk Assessment",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "conditions": [
+            {
+              "leftValue": "={{parseInt($json.riskScore)}}",
+              "operator": "gte",
+              "rightValue": "80"
+            }
+          ]
+        }
+      },
+      "name": "Check Risk Level",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "riskLevel",
+              "value": "HIGH"
+            },
+            {
+              "name": "actionRequired",
+              "value": "immediate"
+            },
+            {
+              "name": "escalationNeeded",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "High Risk Assessment",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        900,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "riskLevel",
+              "value": "MEDIUM"
+            },
+            {
+              "name": "actionRequired",
+              "value": "standard"
+            },
+            {
+              "name": "escalationNeeded",
+              "value": "false"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Medium Risk Assessment",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        900,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "channel": "#risk-management",
+        "text": "🚨 HIGH RISK DETECTED\n\n**Risk ID:** {{$json.riskId}}\n**Risk Score:** {{$json.riskScore}}\n**Risk Level:** {{$json.riskLevel}}\n**Action Required:** {{$json.actionRequired}}\n**Assessed At:** {{$json.assessedAt}}\n**Escalation Needed:** {{$json.escalationNeeded}}",
+        "otherOptions": {}
+      },
+      "name": "Escalate High Risk",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.example.com/risk-management/log",
+        "method": "POST",
+        "body": {
+          "riskId": "={{$json.riskId}}",
+          "riskScore": "={{$json.riskScore}}",
+          "riskLevel": "={{$json.riskLevel}}",
+          "assessedAt": "={{$json.assessedAt}}",
+          "assessorId": "={{$json.assessorId}}"
+        },
+        "options": {}
+      },
+      "name": "Log Risk Assessment",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        400
+      ]
+    }
+  ],
+  "connections": {
+    "Risk Assessment Webhook": {
+      "main": [
+        [
+          {
+            "node": "Prepare Risk Assessment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Risk Assessment": {
+      "main": [
+        [
+          {
+            "node": "Check Risk Level",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Risk Level": {
+      "main": [
+        [
+          {
+            "node": "High Risk Assessment",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Medium Risk Assessment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "High Risk Assessment": {
+      "main": [
+        [
+          {
+            "node": "Escalate High Risk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Medium Risk Assessment": {
+      "main": [
+        [
+          {
+            "node": "Log Risk Assessment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "id": "1",
+  "tags": []
+}

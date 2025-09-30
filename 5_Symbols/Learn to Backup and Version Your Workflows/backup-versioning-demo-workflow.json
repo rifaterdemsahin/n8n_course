@@ -1,0 +1,164 @@
+{
+  "name": "Backup and Versioning Demo Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hour",
+              "hourInterval": 6
+            }
+          ]
+        }
+      },
+      "name": "Backup Schedule Trigger",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "backupType",
+              "value": "scheduled"
+            },
+            {
+              "name": "backupTimestamp",
+              "value": "={{new Date().toISOString()}}"
+            },
+            {
+              "name": "backupId",
+              "value": "={{$runId}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Prepare Backup Metadata",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.example.com/workflows/export",
+        "method": "GET",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "name": "Export Workflow Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.example.com/backup/upload",
+        "method": "POST",
+        "body": {
+          "backupData": "={{$json}}",
+          "metadata": {
+            "backupId": "={{$node['Prepare Backup Metadata'].json.backupId}}",
+            "timestamp": "={{$node['Prepare Backup Metadata'].json.backupTimestamp}}",
+            "type": "={{$node['Prepare Backup Metadata'].json.backupType}}"
+          }
+        },
+        "options": {}
+      },
+      "name": "Upload Backup",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        900,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "channel": "#backup-monitoring",
+        "text": "✅ Backup Completed Successfully\n\n**Backup ID:** {{$node['Prepare Backup Metadata'].json.backupId}}\n**Timestamp:** {{$node['Prepare Backup Metadata'].json.backupTimestamp}}\n**Type:** {{$node['Prepare Backup Metadata'].json.backupType}}\n**Status:** Success",
+        "otherOptions": {}
+      },
+      "name": "Notify Backup Success",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Backup Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Prepare Backup Metadata",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Backup Metadata": {
+      "main": [
+        [
+          {
+            "node": "Export Workflow Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Export Workflow Data": {
+      "main": [
+        [
+          {
+            "node": "Upload Backup",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Backup": {
+      "main": [
+        [
+          {
+            "node": "Notify Backup Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "id": "1",
+  "tags": []
+}

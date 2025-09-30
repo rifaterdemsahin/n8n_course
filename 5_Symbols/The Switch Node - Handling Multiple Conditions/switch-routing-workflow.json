@@ -1,0 +1,242 @@
+{
+  "name": "Switch Node Routing Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "support-ticket",
+        "options": {}
+      },
+      "name": "Support Ticket Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ],
+      "webhookId": "support-ticket-webhook"
+    },
+    {
+      "parameters": {
+        "mode": "rules",
+        "rules": {
+          "rules": [
+            {
+              "outputIndex": 0,
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{$json.priority}}",
+                    "rightValue": "critical",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "outputIndex": 1,
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{$json.priority}}",
+                    "rightValue": "high",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "outputIndex": 2,
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{$json.category}}",
+                    "rightValue": "technical",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "outputIndex": 3,
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{$json.category}}",
+                    "rightValue": "billing",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Route by Priority and Category",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "channel": "#critical-support",
+        "text": "🚨 Critical Support Ticket\n\n**Priority:** {{$json.priority}}\n**Category:** {{$json.category}}\n**Subject:** {{$json.subject}}\n**Description:** {{$json.description}}\n**Customer:** {{$json.customerName}}\n**Ticket ID:** {{$json.ticketId}}",
+        "otherOptions": {}
+      },
+      "name": "Critical Support Team",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        680,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "channel": "#high-priority-support",
+        "text": "⚠️ High Priority Support Ticket\n\n**Priority:** {{$json.priority}}\n**Category:** {{$json.category}}\n**Subject:** {{$json.subject}}\n**Description:** {{$json.description}}\n**Customer:** {{$json.customerName}}\n**Ticket ID:** {{$json.ticketId}}",
+        "otherOptions": {}
+      },
+      "name": "High Priority Support",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        680,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "channel": "#technical-support",
+        "text": "🔧 Technical Support Ticket\n\n**Priority:** {{$json.priority}}\n**Category:** {{$json.category}}\n**Subject:** {{$json.subject}}\n**Description:** {{$json.description}}\n**Customer:** {{$json.customerName}}\n**Ticket ID:** {{$json.ticketId}}",
+        "otherOptions": {}
+      },
+      "name": "Technical Support",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "channel": "#billing-support",
+        "text": "💰 Billing Support Ticket\n\n**Priority:** {{$json.priority}}\n**Category:** {{$json.category}}\n**Subject:** {{$json.subject}}\n**Description:** {{$json.description}}\n**Customer:** {{$json.customerName}}\n**Ticket ID:** {{$json.ticketId}}",
+        "otherOptions": {}
+      },
+      "name": "Billing Support",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        680,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "channel": "#general-support",
+        "text": "📝 General Support Ticket\n\n**Priority:** {{$json.priority}}\n**Category:** {{$json.category}}\n**Subject:** {{$json.subject}}\n**Description:** {{$json.description}}\n**Customer:** {{$json.customerName}}\n**Ticket ID:** {{$json.ticketId}}",
+        "otherOptions": {}
+      },
+      "name": "General Support",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        680,
+        500
+      ]
+    }
+  ],
+  "connections": {
+    "Support Ticket Webhook": {
+      "main": [
+        [
+          {
+            "node": "Route by Priority and Category",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Priority and Category": {
+      "main": [
+        [
+          {
+            "node": "Critical Support Team",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "High Priority Support",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Technical Support",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Billing Support",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "id": "1",
+  "tags": []
+}

@@ -1,0 +1,132 @@
+{
+  "name": "Community Node Demo Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "community-demo",
+        "options": {}
+      },
+      "name": "Demo Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ],
+      "webhookId": "community-demo-webhook"
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "demoData",
+              "value": "This is a demo of community node capabilities"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{new Date().toISOString()}}"
+            },
+            {
+              "name": "nodeType",
+              "value": "community"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Prepare Demo Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.example.com/community-node-demo",
+        "method": "POST",
+        "body": "={{$json}}",
+        "options": {}
+      },
+      "name": "Process with Community Node",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "result",
+              "value": "Community node processing completed successfully"
+            },
+            {
+              "name": "processedAt",
+              "value": "={{new Date().toISOString()}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Log Community Node Result",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        900,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Demo Webhook": {
+      "main": [
+        [
+          {
+            "node": "Prepare Demo Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Demo Data": {
+      "main": [
+        [
+          {
+            "node": "Process with Community Node",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process with Community Node": {
+      "main": [
+        [
+          {
+            "node": "Log Community Node Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "id": "1",
+  "tags": []
+}

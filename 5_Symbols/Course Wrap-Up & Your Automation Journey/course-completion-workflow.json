@@ -1,0 +1,197 @@
+{
+  "name": "Course Completion Celebration Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "course-completion",
+        "options": {}
+      },
+      "name": "Course Completion Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ],
+      "webhookId": "course-completion-webhook"
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "studentName",
+              "value": "={{$json.studentName || 'Automation Student'}}"
+            },
+            {
+              "name": "completionDate",
+              "value": "={{new Date().toISOString()}}"
+            },
+            {
+              "name": "courseVersion",
+              "value": "1.0"
+            },
+            {
+              "name": "achievements",
+              "value": "={{$json.achievements || 'Completed n8n Course'}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Prepare Completion Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "channel": "#course-completions",
+        "text": "🎉 Congratulations! Course Completed! 🎉\n\n**Student:** {{$json.studentName}}\n**Course:** n8n Automation Course\n**Completion Date:** {{$json.completionDate}}\n**Achievements:** {{$json.achievements}}\n\n🌟 You've successfully learned:\n• Workflow fundamentals\n• Node configurations\n• Data transformation\n• Error handling\n• Real-world automation\n\n🚀 Ready to build amazing automations!",
+        "otherOptions": {}
+      },
+      "name": "Send Congratulations Message",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.example.com/certificates/generate",
+        "method": "POST",
+        "body": {
+          "studentName": "={{$json.studentName}}",
+          "courseName": "n8n Automation Course",
+          "completionDate": "={{$json.completionDate}}",
+          "achievements": "={{$json.achievements}}"
+        },
+        "options": {}
+      },
+      "name": "Generate Certificate",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        900,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "to": "={{$json.studentEmail || 'student@example.com'}}",
+        "subject": "🎉 Congratulations! Your n8n Course Certificate",
+        "text": "Dear {{$json.studentName}},\n\nCongratulations on completing the n8n Automation Course!\n\nYou've successfully learned how to:\n• Build powerful workflows\n• Handle data transformation\n• Implement error handling\n• Create real-world automations\n\nYour certificate is attached to this email.\n\nKeep automating and building amazing solutions!\n\nBest regards,\nThe n8n Course Team",
+        "html": "<h1>🎉 Congratulations! Course Completed!</h1><p>Dear {{$json.studentName}},</p><p>Congratulations on completing the n8n Automation Course!</p><h2>What you've learned:</h2><ul><li>Build powerful workflows</li><li>Handle data transformation</li><li>Implement error handling</li><li>Create real-world automations</li></ul><p>Your certificate is attached to this email.</p><p><strong>Keep automating and building amazing solutions!</strong></p><p>Best regards,<br>The n8n Course Team</p>",
+        "options": {}
+      },
+      "name": "Send Completion Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "nextSteps",
+              "value": "Continue learning with advanced n8n features and build your own automation projects!"
+            },
+            {
+              "name": "resources",
+              "value": "n8n Community, Documentation, and Advanced Tutorials"
+            },
+            {
+              "name": "encouragement",
+              "value": "You're now ready to automate anything!"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Prepare Next Steps",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Course Completion Webhook": {
+      "main": [
+        [
+          {
+            "node": "Prepare Completion Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Completion Data": {
+      "main": [
+        [
+          {
+            "node": "Send Congratulations Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Congratulations Message": {
+      "main": [
+        [
+          {
+            "node": "Generate Certificate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Certificate": {
+      "main": [
+        [
+          {
+            "node": "Send Completion Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Completion Email": {
+      "main": [
+        [
+          {
+            "node": "Prepare Next Steps",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "id": "1",
+  "tags": []
+}

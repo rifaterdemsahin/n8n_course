@@ -1,0 +1,146 @@
+{
+  "name": "Merge Data Sources Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://api.example.com/customers",
+        "method": "GET",
+        "options": {}
+      },
+      "name": "Get Customer Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.example.com/orders",
+        "method": "GET",
+        "options": {}
+      },
+      "name": "Get Order Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        240,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "mergeByKey",
+        "key1": "customerId",
+        "key2": "customerId",
+        "options": {
+          "keepOnlySet": false,
+          "overwrite": false
+        }
+      },
+      "name": "Merge Customer and Orders",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [
+        460,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "mergedAt",
+              "value": "={{new Date().toISOString()}}"
+            },
+            {
+              "name": "recordCount",
+              "value": "={{$json.length}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Add Merge Metadata",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        680,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.example.com/save-merged-data",
+        "method": "POST",
+        "body": "={{$json}}",
+        "options": {}
+      },
+      "name": "Save Merged Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        900,
+        400
+      ]
+    }
+  ],
+  "connections": {
+    "Get Customer Data": {
+      "main": [
+        [
+          {
+            "node": "Merge Customer and Orders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Order Data": {
+      "main": [
+        [
+          {
+            "node": "Merge Customer and Orders",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge Customer and Orders": {
+      "main": [
+        [
+          {
+            "node": "Add Merge Metadata",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Merge Metadata": {
+      "main": [
+        [
+          {
+            "node": "Save Merged Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "id": "1",
+  "tags": []
+}
