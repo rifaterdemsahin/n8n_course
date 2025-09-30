@@ -1,0 +1,153 @@
+{
+  "name": "youtube stats",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "Here's how to set up an n8n workflow to get channel statistics from a YouTube channel:\n\n### Step 1: Get the YouTube Channel ID\n\nYou'll need the Channel ID of the YouTube channel you want to track. Here's how to find it from the URL you provided (`https://www.youtube.com/@RifatErdemSahin`):\n\n1.  Open the YouTube channel page in your web browser.\n2.  Right-click anywhere on the page and select **View Page Source**.\n3.  A new tab will open with the HTML source code of the page.\n4.  Use your browser's search function (usually Ctrl+F or Cmd+F) and search for **\"channelId\"**.\n5.  You'll find a line of code that looks like this: `<meta itemprop=\"channelId\" content=\"UCxxxxxxxxxxxxxxxxxxxxxx\">`. The value inside the \"content\" attribute is the Channel ID. For this channel, the ID is `UCkRfArvrzheW2E7b6SVT7vQ`.\n\n### Step 2: Set up your n8n Workflow\n\n1.  **Add the YouTube Node:** In your n8n workflow, add a \"YouTube\" node. You can find it by clicking the \"+\" button and searching for \"YouTube\".\n\n2.  **Configure the YouTube Node:**\n    * **Authentication:** You'll need to authenticate with your Google account. Click on \"Create New\" under \"Credentials\" and follow the on-screen instructions to connect your Google account and grant n8n access to your YouTube data.\n    * **Resource:** Select \"Channel\" from the \"Resource\" dropdown menu.\n    * **Operation:** Choose the \"Get\" operation.\n    * **Channel ID:** Paste the Channel ID you found in Step 1 into the \"Channel ID\" field.\n\n3.  **Execute the Node:** Run the YouTube node. It will fetch the channel statistics from the YouTube API.\n\n### What statistics can you get?\n\nOnce you execute the node, you'll be able to access a variety of statistics for the channel, including:\n\n* Subscriber count\n* Total view count\n* Total number of videos\n* Playlist details\n* Channel description and other metadata\n\nYou can then use this data in other n8n nodes to do things like:\n\n* Save the stats to a Google Sheet or database to track them over time.\n* Send notifications to a Slack or Discord channel when certain milestones are reached.\n* Create custom dashboards and reports.",
+        "height": 720,
+        "width": 720
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -256,
+        -64
+      ],
+      "typeVersion": 1,
+      "id": "bd5aea02-d11d-4554-9322-40834c002c57",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        1152
+      ],
+      "id": "2a24649a-20a6-485f-a2bd-069ee37b92f4",
+      "name": "When clicking 'Execute workflow'"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "channelId": "UCSJyG3bTM7lnjMIZcV8C4OQ"
+      },
+      "type": "n8n-nodes-base.youTube",
+      "typeVersion": 1,
+      "position": [
+        400,
+        1008
+      ],
+      "id": "4093684f-547e-44b5-8986-b23a7416478a",
+      "name": "Get a channel",
+      "credentials": {
+        "youTubeOAuth2Api": {
+          "id": "DhfBtfbU06y9Ng5N",
+          "name": "YouTube account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 6
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -32,
+        768
+      ],
+      "id": "d7dfa691-5d0d-426d-834c-ab8591991346",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "chatId": "-1002793496878",
+        "text": "=youtube stats\nhttps://www.youtube.com/@RifatErdemSahin\n---\n👀 View Count: {{ $json.statistics.viewCount }}\n👥 Subs Count: {{ $json.statistics.subscriberCount }}\n📹 Video Count: {{ $json.statistics.videoCount }}\n📊 Factor: {{ Math.round($json.statistics.subscriberCount / $json.statistics.videoCount) }}\n\n---\n\n10 x Eric\n100x Quality Channels\n1000X Niche Quality Channels",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        688,
+        944
+      ],
+      "id": "57695c8c-d0b1-4b80-84cd-f15bec420b65",
+      "name": "Send a text message",
+      "webhookId": "40ac5ce8-4444-4737-98d7-8f29ca248a8c",
+      "credentials": {
+        "telegramApi": {
+          "id": "FNhCBbEpIegop14Z",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "Get a channel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get a channel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a channel": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "889bcdfd-64a6-4264-aece-af7558dc9aa9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "3df7c7c6cb7e0e978bf80ded11fce953795594ae8fe07b63ac449418b447c9e7"
+  },
+  "id": "zbvDWua7Dim8j2TQ",
+  "tags": [
+    {
+      "createdAt": "2025-09-29T17:01:29.118Z",
+      "updatedAt": "2025-09-29T17:01:29.118Z",
+      "id": "g4d9Tz2cuxZHTSDr",
+      "name": "youtubepromotion"
+    },
+    {
+      "createdAt": "2025-08-29T21:51:34.256Z",
+      "updatedAt": "2025-08-29T21:51:34.256Z",
+      "id": "yXS9vFc6FUyGmAa0",
+      "name": "monitoring"
+    }
+  ]
+}
+
