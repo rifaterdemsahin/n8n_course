@@ -12,7 +12,7 @@ This project is an n8n course designed to teach automation concepts through hand
 - In marp use emojis
 - in marp use orange and blue colors
 - at the last slide give external reading reasources at the end
-
+- keep right bottom empty > i would have a green screened actor there
 
 
 ## Directory Structure
