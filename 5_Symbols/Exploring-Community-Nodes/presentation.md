@@ -81,3 +81,10 @@ style: |
 - Community nodes significantly extend n8n's capabilities.
 - Follow best practices for finding, installing, and maintaining community nodes.
 - Contribute back to the community by creating and sharing your own nodes.
+
+---
+
+## 📚 External Reading
+
+- [n8n Community Hub](https://n8n.io/integrations/)
+- [n8n Community Forum](https://community.n8n.io/)

@@ -11,6 +11,8 @@ This project is an n8n course designed to teach automation concepts through hand
 - Marp (Markdown presentation ) explains the readme
 - In marp use emojis
 - in marp use orange and blue colors
+- at the last slide give external reading reasources at the end
+
 
 
 ## Directory Structure

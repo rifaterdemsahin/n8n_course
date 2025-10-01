@@ -189,3 +189,12 @@ This presentation provides an overview of the practical projects and workflows i
 *   **YouTube API**: Monitor and report YouTube channel statistics.
 *   **Telegram Notifications**: Send formatted metrics to a Telegram channel.
 *   **Authentication**: Set up YouTube and Telegram authentication.
+
+---
+
+## 📚 External Reading
+
+- [n8n Documentation](https://docs.n8n.io/)
+- [n8n Community Forum](https://community.n8n.io/)
+- [n8n Blog](https://blog.n8n.io/)
+- [Marp Official Documentation](https://marp.app/)
