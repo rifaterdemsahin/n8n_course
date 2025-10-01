@@ -1,33 +1,40 @@
 ---
 marp: true
 theme: default
+style: |
+  h1 {
+    color: #007bff; /* blue */
+  }
+  h2 {
+    color: #fd7e14; /* orange */
+  }
 ---
 
-# Set Node Workflow
+# 🔄 Set Node Workflow
 
 ---
 
-## What This Workflow Does
+## 🤔 What This Workflow Does
 
 - Demonstrates data manipulation using the **Set** node.
 - Showcases:
-  - Data Creation and Modification
-  - Simple Expressions
-  - Data Flow
+  - ➕ Data Creation and Modification
+  - 🔀 Simple Expressions
+  - ➡️ Data Flow
 
 ---
 
-## Workflow Components
+## 🧩 Workflow Components
 
 - **Nodes**:
-  - Sticky Note (Documentation)
-  - Start (Trigger)
-  - Create & Modify Data (Set node)
-  - View Output (No Operation node)
+  - 📝 Sticky Note (Documentation)
+  - ▶️ Start (Trigger)
+  - 🔄 Create & Modify Data (Set node)
+  - 👀 View Output (No Operation node)
 
 ---
 
-## Data Structure
+## 📊 Data Structure
 
 The Set node creates the following data structure:
 
@@ -42,7 +49,7 @@ The Set node creates the following data structure:
 
 ---
 
-## Key Learning Points
+## 🔑 Key Learning Points
 
 - **Static Data Assignment**:
   - `firstName`: "Ada"
@@ -53,16 +60,16 @@ The Set node creates the following data structure:
 
 ---
 
-## How to Use This Workflow
+## 🚀 How to Use This Workflow
 
-1.  Import the `set-node-workflow.json` file into your n8n instance.
-2.  The workflow will start with the Start node.
-3.  Data flows through the Set node where it's created and modified.
-4.  The final output can be viewed in the "View Output" node.
+1.  📥 Import the `set-node-workflow.json` file into your n8n instance.
+2.  ▶️ The workflow will start with the Start node.
+3.  ➡️ Data flows through the Set node where it's created and modified.
+4.  👀 The final output can be viewed in the "View Output" node.
 
 ---
 
-## Expression Syntax
+## ✍️ Expression Syntax
 
 - `{{$json.fieldName}}`: Access a field from the current data item.
 - `{{$json.firstName}} {{$json.lastName}}`: Concatenate two string fields with a space.
