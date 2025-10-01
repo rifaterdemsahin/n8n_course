@@ -17,7 +17,7 @@ The best way to learn n8n is through hands-on practice with real projects. This 
 | **Variables** | Beginner | Working with variables | [Working with Variables](./Working%20with%20Variables/README.md) |
 | **Credentials** | Beginner-Intermediate | Secure credential management | [Understanding Credentials](./Understanding%20Credentials/README.md) |
 | **IF Node Logic** | Beginner-Intermediate | Conditional logic | [The IF Node - Adding Logic](./The%20IF%20Node%20-%20Adding%20Logic%20to%20Your%20Workflows/README.md) |
-| **IF Node Advanced** | Beginner-Intermediate | Advanced conditional logic | [Lecture 17 - The IF Node](./Lecture%2017%20-%20The%20IF%20Node%20-%20Adding%20Logic%20to%20Your%20Workflows/README.md) |
+| **IF Node Advanced** | Beginner-Intermediate | Advanced conditional logic | [The IF Node - Adding Logic](./The%20IF%20Node%20-%20Adding%20Logic%20to%20Your%20Workflows/README.md) |
 | **Switch Node** | Intermediate | Multiple condition handling | [The Switch Node - Handling Multiple Conditions](./The%20Switch%20Node%20-%20Handling%20Multiple%20Conditions/README.md) |
 | **Merge Node** | Intermediate | Combining data sources | [The Merge Node - Combining Data Sources](./The%20Merge%20Node%20-%20Combining%20Data%20Sources/README.md) |
 | **Data Loops** | Intermediate | Batch processing | [Understanding Data Loops - The Split in Batches Node](./Understanding%20Data%20Loops%20-%20The%20Split%20in%20Batches%20Node/README.md) |
@@ -25,10 +25,10 @@ The best way to learn n8n is through hands-on practice with real projects. This 
 | **Debugging** | Intermediate | Workflow debugging | [Debugging your workflows](./Debugging%20your%20workflows/README.md) |
 | **Error Handling** | Intermediate-Advanced | Error workflows and strategies | [Handling Errors in Your Workflows](./Handling%20Errors%20in%20Your%20Workflows/README.md) |
 | **Rate Limits** | Intermediate-Advanced | API rate limit handling | [Rate Limits in Real World](./Rate%20Limits%20in%20Real%20World/README.md) |
-| **Backup & Versioning** | Intermediate | Workflow lifecycle management | [Learn to Backup and Version Your Workflows](./Learn%20to%20Backup%20and%20Version%20Your%20Workflows/README.md) |
+| **Backup & Versioning** | Intermediate | Workflow lifecycle management | [Learn to Backup and Version Your Workflows](./Learn%20to%20Backup%20and%20Versioning%20Your%20Workflows/README.md) |
 | **Community Nodes** | Beginner-Intermediate | Extending n8n functionality | [Exploring Community Nodes](./Exploring%20Community%20Nodes/README.md) |
 | **YouTube Integration** | Intermediate | API integration example | [YouTube Integration](./YouTube%20Integration/README.md) |
-| **Discord/Slack** | Intermediate | Communication automation | [Project - Automated Discord/Slack Notifications](./Project%20-%20Automated%20Discord/Slack%20Notifications/README.md) |
+| **Discord/Slack** | Intermediate | Communication automation | [Project - Automated Discord/Slack Notifications](./Project-Automated-Discord/Slack%20Notifications/README.md) |
 | **Google Sheets** | Intermediate | Google API integration | [Reading Data from Google Sheets](./Reading%20Data%20from%20Google%20Sheets/README.md) |
 | **Google Sheets Write** | Intermediate | Google Sheets write operations | [Writing Data to Google Sheets](./Writing%20Data%20to%20Google%20Sheets/README.md) |
 | **Real-World Projects** | Intermediate-Advanced | Production automation | [Practical Real-World Projects](./Practical%20Real-World%20Projects/README.md) |
