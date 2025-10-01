@@ -1,15 +1,22 @@
 ---
 marp: true
 theme: default
+style: |
+  h1 {
+    color: #007bff; /* blue */
+  }
+  h2 {
+    color: #fd7e14; /* orange */
+  }
 ---
 
-# n8n Course - 5_Symbols
+# 📚 n8n Course - 5_Symbols
 
 This presentation provides an overview of the practical projects and workflows in the `5_Symbols` directory.
 
 ---
 
-# Course Wrap-Up & Your Automation Journey
+# 🎉 Course Wrap-Up & Your Automation Journey
 
 *   **Recap**: A summary of the course content and what you have learned.
 *   **Next Steps**: Guidance on what to do after completing the course.
@@ -17,7 +24,7 @@ This presentation provides an overview of the practical projects and workflows i
 
 ---
 
-# Debugging Your Workflows
+# 🐛 Debugging Your Workflows
 
 *   **Execution Flow**: Understand how n8n workflows are executed.
 *   **Data Inspection**: Learn how to inspect the data that flows through your workflows.
@@ -25,7 +32,7 @@ This presentation provides an overview of the practical projects and workflows i
 
 ---
 
-# Exploring Community Nodes
+# 🌐 Exploring Community Nodes
 
 *   **Community Nodes**: Extend n8n's functionality with community-built nodes.
 *   **Finding Nodes**: Learn how to find and install community nodes.
@@ -33,7 +40,7 @@ This presentation provides an overview of the practical projects and workflows i
 
 ---
 
-# Global Variables versus Execution Variables
+# 🌎 Global Variables versus Execution Variables
 
 *   **Global Variables**: Persist across all executions of a workflow.
 *   **Execution Variables**: Available only within the current execution.
@@ -41,7 +48,7 @@ This presentation provides an overview of the practical projects and workflows i
 
 ---
 
-# Handling Errors in Your Workflows
+# 🚨 Handling Errors in Your Workflows
 
 *   **Error Types**: Understand the different types of errors in n8n.
 *   **Error Workflows**: Use error workflows to handle failures.
@@ -49,7 +56,7 @@ This presentation provides an overview of the practical projects and workflows i
 
 ---
 
-# Learn to Backup and Version Your Workflows
+# 🛡️ Learn to Backup and Version Your Workflows
 
 *   **Backup & Versioning**: Why it is important to backup and version your workflows.
 *   **Strategies**: Learn about different backup and versioning strategies.
@@ -57,7 +64,7 @@ This presentation provides an overview of the practical projects and workflows i
 
 ---
 
-# Practical Real-World Projects
+# 🌦️ Practical Real-World Projects
 
 *   **Daily Weather Report**: A project that sends a daily weather report to your email.
 *   **API Integration**: Learn how to integrate with APIs like OpenWeatherMap.
@@ -65,7 +72,7 @@ This presentation provides an overview of the practical projects and workflows i
 
 ---
 
-# Project - Automated Discord/Slack Notifications
+# 📢 Project - Automated Discord/Slack Notifications
 
 *   **Discord/Slack Integration**: Connect your Discord or Slack account to n8n.
 *   **Custom Messages**: Create workflows that send custom messages.
@@ -73,7 +80,7 @@ This presentation provides an overview of the practical projects and workflows i
 
 ---
 
-# Project - Simple Data Transformation
+# 🔄 Project - Simple Data Transformation
 
 *   **Set Node**: Learn how to use the Set node to create and modify data.
 *   **Expressions**: Use simple expressions to combine data.
@@ -81,7 +88,7 @@ This presentation provides an overview of the practical projects and workflows i
 
 ---
 
-# Rate Limits in Real World
+# ⏱️ Rate Limits in Real World
 
 *   **Rate Limits**: Understand what rate limits are and why they are important.
 *   **Handling Strategies**: Learn how to handle rate limits in your workflows.
@@ -89,7 +96,7 @@ This presentation provides an overview of the practical projects and workflows i
 
 ---
 
-# Reading Data from Google Sheets
+# 📊 Reading Data from Google Sheets
 
 *   **Google API Credentials**: A step-by-step guide to setting up Google API credentials.
 *   **Google Sheets Node**: Learn how to use the Google Sheets node to read data.
@@ -97,7 +104,7 @@ This presentation provides an overview of the practical projects and workflows i
 
 ---
 
-# Risk Management
+# 🛡️ Risk Management
 
 *   **Automation Risks**: Understand the risks associated with automation.
 *   **Assessment Framework**: Learn how to assess and mitigate risks.
@@ -105,7 +112,7 @@ This presentation provides an overview of the practical projects and workflows i
 
 ---
 
-# Send Multi Attachments
+# 📎 Send Multi Attachments
 
 *   **Multi-Attachment Emails**: Learn how to send multiple file attachments in a single email.
 *   **Workflow Architecture**: Understand the workflow for sending multiple attachments.
@@ -113,7 +120,7 @@ This presentation provides an overview of the practical projects and workflows i
 
 ---
 
-# The IF Node - Adding Logic to Your Workflows
+# 🔀 The IF Node - Adding Logic to Your Workflows
 
 *   **IF Node**: Learn how to use the IF node to add conditional logic to your workflows.
 *   **Condition Types**: Understand the different condition types and operators.
@@ -121,7 +128,7 @@ This presentation provides an overview of the practical projects and workflows i
 
 ---
 
-# The Merge Node - Combining Data Sources
+# 🔄 The Merge Node - Combining Data Sources
 
 *   **Merge Node**: Learn how to use the Merge node to combine data from different branches.
 *   **Merge Operations**: Understand the different merge operations.
@@ -129,7 +136,7 @@ This presentation provides an overview of the practical projects and workflows i
 
 ---
 
-# The Switch Node - Handling Multiple Conditions
+# 🔀 The Switch Node - Handling Multiple Conditions
 
 *   **Switch Node**: A more advanced way to route data based on different values.
 *   **Routing Strategies**: Learn about different routing strategies.
@@ -137,7 +144,7 @@ This presentation provides an overview of the practical projects and workflows i
 
 ---
 
-# Understanding Credentials
+# 🔑 Understanding Credentials
 
 *   **Credentials**: Understand what credentials are and why they are important.
 *   **Secure Storage**: Learn how to securely store and manage authentication information.
@@ -145,7 +152,7 @@ This presentation provides an overview of the practical projects and workflows i
 
 ---
 
-# Understanding Data Loops - The Split in Batches Node
+# ➿ Understanding Data Loops - The Split in Batches Node
 
 *   **Data Loops**: Understand the concept of data loops in n8n.
 *   **Split in Batches Node**: Learn how to use the Split in Batches node to process large datasets.
@@ -153,7 +160,7 @@ This presentation provides an overview of the practical projects and workflows i
 
 ---
 
-# Viewing Your Workflow's Data
+# 👀 Viewing Your Workflow's Data
 
 *   **JSON Data Structure**: Understand the JSON data structure in n8n.
 *   **Output Panel**: Learn how to navigate the Table and JSON views in the output panel.
@@ -161,7 +168,7 @@ This presentation provides an overview of the practical projects and workflows i
 
 ---
 
-# Working with Variables
+# ✍️ Working with Variables
 
 *   **Variables**: Learn how to store, manipulate, and pass data between nodes.
 *   **Set Node**: Use the Set node to explicitly set values.
@@ -169,7 +176,7 @@ This presentation provides an overview of the practical projects and workflows i
 
 ---
 
-# Writing Data to Google Sheets
+# 📝 Writing Data to Google Sheets
 
 *   **Google Sheets Write Operations**: Learn about the different write operations.
 *   **Data Mapping**: Learn how to map data from previous nodes to sheet columns.
@@ -177,7 +184,7 @@ This presentation provides an overview of the practical projects and workflows i
 
 ---
 
-# YouTube Integration
+# 📺 YouTube Integration
 
 *   **YouTube API**: Monitor and report YouTube channel statistics.
 *   **Telegram Notifications**: Send formatted metrics to a Telegram channel.
