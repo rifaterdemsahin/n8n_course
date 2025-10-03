@@ -1,0 +1,235 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "chatId": "-1002793496878",
+        "text": "=🔴 Internet turned OFF\n---\nCode: {{ $json.code }}\nSignal: {{ $json.signal }}\nStdout: {{ $json.stdout }}\nStderr: {{ $json.stderr }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        432,
+        -112
+      ],
+      "id": "58fb17e2-21ee-45b4-8ce1-8b4448bd7045",
+      "name": "Send OFF Notification",
+      "webhookId": "40ac5ce8-4444-4737-98d7-8f29ca248a8c",
+      "credentials": {
+        "telegramApi": {
+          "id": "FNhCBbEpIegop14Z",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "-1002793496878",
+        "text": "=🟢 Internet turned ON\n---\nCode: {{ $json.code }}\nSignal: {{ $json.signal }}\nStdout: {{ $json.stdout }}\nStderr: {{ $json.stderr }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        432,
+        -288
+      ],
+      "id": "1fe43064-4c42-4730-9ed6-22d3defea7c2",
+      "name": "Send ON Notification",
+      "webhookId": "40ac5ce8-4444-4737-98d7-8f29ca248a8c",
+      "credentials": {
+        "telegramApi": {
+          "id": "FNhCBbEpIegop14Z",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "command": "sg vyattacfg -c \"/opt/vyatta/sbin/vyatta-cfg-cmd-wrapper begin && /opt/vyatta/sbin/vyatta-cfg-cmd-wrapper set firewall name INTERNET_CONTROL rule 12 disable && /opt/vyatta/sbin/vyatta-cfg-cmd-wrapper commit && /opt/vyatta/sbin/vyatta-cfg-cmd-wrapper save && /opt/vyatta/sbin/vyatta-cfg-cmd-wrapper end\""
+      },
+      "type": "n8n-nodes-base.ssh",
+      "typeVersion": 1,
+      "position": [
+        240,
+        -432
+      ],
+      "id": "723a4146-c252-4bf2-82e0-3a7c3600ec90",
+      "name": "Enable Internet (Disable DROP Rule)",
+      "credentials": {
+        "sshPassword": {
+          "id": "L7m1ioHetIw6dJpf",
+          "name": "SSH For Router"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "command": "sg vyattacfg -c \"/opt/vyatta/sbin/vyatta-cfg-cmd-wrapper begin && /opt/vyatta/sbin/vyatta-cfg-cmd-wrapper delete firewall name INTERNET_CONTROL rule 12 disable && /opt/vyatta/sbin/vyatta-cfg-cmd-wrapper commit && /opt/vyatta/sbin/vyatta-cfg-cmd-wrapper save && /opt/vyatta/sbin/vyatta-cfg-cmd-wrapper end\""
+      },
+      "type": "n8n-nodes-base.ssh",
+      "typeVersion": 1,
+      "position": [
+        240,
+        0
+      ],
+      "id": "2f0b12ea-8062-44a1-af03-1c5e81faa25b",
+      "name": "Disable Internet (Enable DROP Rule)",
+      "credentials": {
+        "sshPassword": {
+          "id": "L7m1ioHetIw6dJpf",
+          "name": "SSH For Router"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 5
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -400,
+        -320
+      ],
+      "id": "1c521e3f-8333-47fc-8fe5-5b353b9329bf",
+      "name": "Turn ON at 5 AM"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 20
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -400,
+        -112
+      ],
+      "id": "da6adbc5-2604-473e-924e-fb08abe3fb56",
+      "name": "Turn OFF at 8 PM"
+    },
+    {
+      "parameters": {
+        "command": "sg vyattacfg -c \"/opt/vyatta/sbin/vyatta-cfg-cmd-wrapper begin && /opt/vyatta/sbin/vyatta-cfg-cmd-wrapper set firewall name INTERNET_CONTROL rule 12 action drop && /opt/vyatta/sbin/vyatta-cfg-cmd-wrapper set firewall name INTERNET_CONTROL rule 12 source address 192.168.3.0/24 && /opt/vyatta/sbin/vyatta-cfg-cmd-wrapper set firewall name INTERNET_CONTROL rule 12 destination address 0.0.0.0/0 && /opt/vyatta/sbin/vyatta-cfg-cmd-wrapper set firewall name INTERNET_CONTROL rule 12 description 'Internet control schedule' && /opt/vyatta/sbin/vyatta-cfg-cmd-wrapper commit && /opt/vyatta/sbin/vyatta-cfg-cmd-wrapper save && /opt/vyatta/sbin/vyatta-cfg-cmd-wrapper end\""
+      },
+      "type": "n8n-nodes-base.ssh",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        -432
+      ],
+      "id": "a1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d",
+      "name": "Check and Create Rule 12",
+      "credentials": {
+        "sshPassword": {
+          "id": "L7m1ioHetIw6dJpf",
+          "name": "SSH For Router"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "command": "sg vyattacfg -c \"/opt/vyatta/sbin/vyatta-cfg-cmd-wrapper begin && /opt/vyatta/sbin/vyatta-cfg-cmd-wrapper set firewall name INTERNET_CONTROL rule 12 action drop && /opt/vyatta/sbin/vyatta-cfg-cmd-wrapper set firewall name INTERNET_CONTROL rule 12 source address 192.168.3.0/24 && /opt/vyatta/sbin/vyatta-cfg-cmd-wrapper set firewall name INTERNET_CONTROL rule 12 destination address 0.0.0.0/0 && /opt/vyatta/sbin/vyatta-cfg-cmd-wrapper set firewall name INTERNET_CONTROL rule 12 description 'Internet control schedule' && /opt/vyatta/sbin/vyatta-cfg-cmd-wrapper commit && /opt/vyatta/sbin/vyatta-cfg-cmd-wrapper save && /opt/vyatta/sbin/vyatta-cfg-cmd-wrapper end\""
+      },
+      "type": "n8n-nodes-base.ssh",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        0
+      ],
+      "id": "b2c3d4e5-f6a7-4b5c-9d0e-1f2a3b4c5d6e",
+      "name": "Check and Create Rule 12 (OFF)",
+      "credentials": {
+        "sshPassword": {
+          "id": "L7m1ioHetIw6dJpf",
+          "name": "SSH For Router"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Enable Internet (Disable DROP Rule)": {
+      "main": [
+        [
+          {
+            "node": "Send ON Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Disable Internet (Enable DROP Rule)": {
+      "main": [
+        [
+          {
+            "node": "Send OFF Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Turn ON at 5 AM": {
+      "main": [
+        [
+          {
+            "node": "Check and Create Rule 12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Turn OFF at 8 PM": {
+      "main": [
+        [
+          {
+            "node": "Check and Create Rule 12 (OFF)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check and Create Rule 12": {
+      "main": [
+        [
+          {
+            "node": "Enable Internet (Disable DROP Rule)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check and Create Rule 12 (OFF)": {
+      "main": [
+        [
+          {
+            "node": "Disable Internet (Enable DROP Rule)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "3df7c7c6cb7e0e978bf80ded11fce953795594ae8fe07b63ac449418b447c9e7"
+  }
+}
