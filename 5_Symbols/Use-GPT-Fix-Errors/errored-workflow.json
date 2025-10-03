@@ -1,0 +1,159 @@
+{
+  "name": "Batch Processing Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://api.example.com/users",
+        "method": "GET",
+        "options": {}
+      },
+      "name": "Get User List",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "batchSize": 10,
+        "options": {
+          "waitBetweenBatches": 2000
+        }
+      },
+      "name": "Split Users into Batches",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "batchNumber",
+              "value": "={{$json.batchNumber}}"
+            },
+            {
+              "name": "totalBatches",
+              "value": "={{$json.totalBatches}}"
+            },
+            {
+              "name": "processedAt",
+              "value": "={{new Date().toISOString()}}"
+            },
+            {
+              "name": "progressPercentage",
+              "value": "={{Math.round(($json.batchNumber / $json.totalBatches) * 100)}}%"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Add Batch Metadata",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.example.com/users/batch-update",
+        "method": "POST",
+        "body": {
+          "users": "={{$json.batchItems}}",
+          "status": "processed",
+          "batchInfo": {
+            "batchNumber": "={{$json.batchNumber}}",
+            "totalBatches": "={{$json.totalBatches}}",
+            "processedAt": "={{$json.processedAt}}"
+          }
+        },
+        "options": {}
+      },
+      "name": "Update User Batch",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        900,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "channel": "#batch-processing",
+        "text": "✅ Batch Processing Update\n\n**Batch:** {{$json.batchNumber}} of {{$json.totalBatches}}\n**Progress:** {{$json.progressPercentage}}\n**Users Processed:** {{$json.batchItems.length}}\n**Processed At:** {{$json.processedAt}}",
+        "otherOptions": {}
+      },
+      "name": "Log Batch Completion",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Get User List": {
+      "main": [
+        [
+          {
+            "node": "Split Users into Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Users into Batches": {
+      "main": [
+        [
+          {
+            "node": "Add Batch Metadata",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Batch Metadata": {
+      "main": [
+        [
+          {
+            "node": "Update User Batch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update User Batch": {
+      "main": [
+        [
+          {
+            "node": "Log Batch Completion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "id": "1",
+  "tags": []
+}
