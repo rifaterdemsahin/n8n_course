@@ -1,90 +1,111 @@
 ---
 marp: true
-theme: default
+theme: uncover
 style: |
-  h1 {
-    color: #007bff; /* blue */
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
-  h2 {
-    color: #fd7e14; /* orange */
+  h1, h2, h3, h4, h5, h6 {
+    color: #0277b5;
+  }
+  a {
+    color: #f89d21;
+  }
+  strong {
+    color: #f89d21;
   }
 ---
 
-# 🌐 Exploring Community Nodes
+# 🧑‍🤝‍🧑 Exploring Community Nodes
+
+Extend n8n's functionality with community-built nodes.
 
 ---
 
-## 🤔 What are Community Nodes?
+## ❓ What are Community Nodes?
 
-- Custom-built nodes created by the n8n community.
-- Extend n8n's functionality beyond the core nodes.
-- Integrate with third-party APIs, specialized services, and custom business logic.
+Custom nodes built by the n8n community to integrate with services not included in the core n8n package.
 
----
+<div class="columns">
+<div>
 
-## 🔍 Finding Community Nodes
+### ✅ Benefits
 
-- **n8n Community Hub**: The official source for community nodes.
-- **GitHub Repository**: Search for `n8n-nodes-*` repositories.
-- **Community Forums**: Discover new nodes and get help.
-- **Package Managers**: Search for `n8n-nodes` on npm.
+- Access hundreds of new integrations.
+- Rapidly connect to new services.
+- Get support from an active community.
 
----
+</div>
+<div>
 
-## 📥 Installing Community Nodes
+### ⚠️ Considerations
 
-- **Using n8n CLI**: `n8n install-package n8n-nodes-example`
-- **Manual Installation**: Clone from Git and build manually.
-- **Docker Installation**: Add installation commands to your Dockerfile.
+- Review code for security.
+- Nodes may not be actively maintained.
+- Compatibility is not guaranteed.
 
----
-
-## 🌟 Popular Community Nodes
-
-- **Database**: PostgreSQL, MySQL, MongoDB.
-- **API Integration**: Stripe, Twilio, Salesforce.
-- **File Processing**: PDF, Excel.
-- **Communication**: Telegram, WhatsApp.
-- **Utility**: Crypto, Date/Time.
+</div>
+</div>
 
 ---
 
-## 👨‍💻 Creating Your Own Community Nodes
+## 🔎 Finding Community Nodes
 
-- **Node Structure**: Follow the n8n node structure and implement the `INodeType` interface.
-- **Development Setup**: Set up a TypeScript project for your node.
-- **Testing**: Write unit tests for your node.
-- **Publishing**: Publish your node to npm.
+<div class="columns">
+<div>
 
----
+### n8n Community Hub
 
-## 👍 Best Practices
+- **[n8n.io/integrations](https://n8n.io/integrations/)**
+- The official source for community nodes.
+- Search, filter, and browse nodes.
 
-- **Security**: Review code before installation and use minimal permissions.
-- **Maintenance**: Keep nodes updated and test updates in a development environment.
-- **Documentation**: Provide clear installation instructions and usage examples.
-- **Performance**: Optimize API calls and manage resources efficiently.
+</div>
+<div>
 
----
+### GitHub & npm
 
-## 🛠️ Troubleshooting
+- Search for `n8n-nodes-*` on GitHub.
+- Use `npm search n8n-nodes` to find packages.
 
-- **Installation Failures**: Check n8n version compatibility and clear npm cache.
-- **Node Not Appearing**: Restart n8n and check logs for errors.
-- **Credential Issues**: Verify credential format and API key permissions.
-- **Performance Issues**: Monitor resource usage and implement rate limiting.
+</div>
+</div>
 
 ---
 
-## ✅ Conclusion
+## 💾 Installing Community Nodes
 
-- Community nodes significantly extend n8n's capabilities.
-- Follow best practices for finding, installing, and maintaining community nodes.
-- Contribute back to the community by creating and sharing your own nodes.
+The easiest way to install is with the n8n CLI.
+
+```bash
+# Install a community node
+n8n install-package n8n-nodes-example
+
+# Install multiple nodes
+n8n install-package n8n-nodes-example n8n-nodes-another
+```
+
+Remember to restart n8n after installation.
 
 ---
 
-## 📚 External Reading
+## 🤖 The Demo Workflow
 
-- [n8n Community Hub](https://n8n.io/integrations/)
-- [n8n Community Forum](https://community.n8n.io/)
+`community-node-demo-workflow.json`
+
+This workflow demonstrates a simple use case for a community node.
+
+1.  **Webhook**: Triggers the workflow.
+2.  **Set**: Prepares some demo data.
+3.  **HTTP Request**: Simulates a call to a community node.
+4.  **Set**: Logs the result.
+
+---
+
+## 📚 External Resources
+
+- **n8n Community Hub**: [https://n8n.io/integrations/](https://n8n.io/integrations/)
+- **n8n Documentation on Community Nodes**: [https://docs.n8n.io/integrations/community-nodes/](https://docs.n8n.io/integrations/community-nodes/)
+- **Create your own node**: [https://docs.n8n.io/integrations/creating-nodes/](https://docs.n8n.io/integrations/creating-nodes/)

@@ -1,87 +1,105 @@
 ---
 marp: true
-theme: default
+theme: uncover
 style: |
-  h1 {
-    color: #007bff; /* blue */
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
-  h2 {
-    color: #fd7e14; /* orange */
+  h1, h2, h3, h4, h5, h6 {
+    color: #0277b5;
+  }
+  a {
+    color: #f89d21;
+  }
+  strong {
+    color: #f89d21;
   }
 ---
 
-# 🛡️ Learn to Backup and Version Your Workflows
+# 💾 Backup and Version Your Workflows
+
+Protecting your automation investment.
 
 ---
 
-## 🤔 Why Workflow Backup and Versioning Matters
+## 🤔 Why is this important?
 
-- 🚨 **Disaster Recovery**: Quick restoration after failures.
-- 📈 **Change Tracking**: Understanding what changed and when.
-- 🤝 **Collaboration**: Safe multi-developer workflows.
-- 🧪 **Testing**: Ability to test changes without affecting production.
-- 📚 **Documentation**: Automatic documentation of workflow evolution.
-
----
-
-##  built-in n8n Versioning
-
-- 📖 **Workflow History**: n8n keeps a history of all saved versions of a workflow.
-- 🔄 **Restore Previous Versions**: You can easily restore a previous version from the "History" tab.
-- ⚙️ **Automatic Versioning**: Can be configured in n8n settings.
+- **Disaster Recovery**: Restore workflows after a failure.
+- **Change Tracking**: See who changed what, and when.
+- **Collaboration**: Safely work on workflows with a team.
+- **Rollbacks**: Easily revert to a previous working version.
 
 ---
 
-##  Manual Backup Strategies
+## 🛠️ Backup & Versioning Methods
 
-- 📥 **Export Individual Workflows**: Export workflows as JSON files.
-- 📦 **Bulk Export All Workflows**: Use the n8n CLI or API to export all workflows.
-- 🗄️ **Database Backup**: Back up the entire n8n database (PostgreSQL or SQLite).
+<div class="columns">
+<div>
 
----
+### n8n Built-in Versioning
 
-## 🐙 Git-based Version Control
+- Access workflow **History** tab.
+- Restore previous versions with one click.
 
-- 🎬 **Initialize Git Repository**: Use Git to track changes to your workflow files.
-- 📂 **Workflow Organization**: Organize your workflows in a structured directory.
-- 🌿 **Branching Strategy**: Use feature branches for new development and bug fixes.
-- 📝 **Commit Messages**: Use a consistent commit message convention.
+</div>
+<div>
 
----
+### Manual Backups
 
-## 🤖 Automated Backup Solutions
+- Export workflows as JSON files.
+- Store them in a safe place (like cloud storage).
 
-- 🗓️ **Scheduled Workflow Backups**: Create a workflow that automatically backs up other workflows.
-- ☁️ **Cloud Storage Integration**: Upload backups to Google Drive, AWS S3, etc.
-- 📜 **Database Backup Automation**: Use scripts to automate database backups.
+</div>
+</div>
 
----
+<div class="columns">
+<div>
 
-## 👍 Best Practices
+### Git-based Version Control
 
-- 🏷️ **Version Control**: Use descriptive workflow names and documentation.
-- 🗓️ **Backup Scheduling**: Define a backup schedule and retention policy.
-- 🔒 **Security**: Handle sensitive data securely and encrypt backups.
+- The **best** way to manage workflows.
+- Use a Git repository (like GitHub) to store your workflow files.
 
----
+</div>
+<div>
 
-## Recovery Procedures
+### Automated Backups
 
-- 🔄 **Workflow Recovery**: Restore from n8n history, exported files, or Git.
-- 🗄️ **Database Recovery**: Restore the database from a backup.
-- 🌐 **Complete Environment Recovery**: Follow a disaster recovery checklist.
+- Create a workflow that automatically backs up other workflows.
+- Schedule it to run daily or weekly.
 
----
-
-## Monitoring and Alerts
-
-- 📊 **Backup Monitoring**: Set up alerts for backup success and failure.
-- ❤️ **Health Checks**: Monitor the health of your n8n instance.
+</div>
+</div>
 
 ---
 
-## ✅ Conclusion
+## 🤖 The Demo Workflow
 
-- Proper backup and versioning are essential for reliable n8n automation.
-- Implement a combination of built-in versioning, Git, and automated backups.
-- Regularly test your recovery procedures.
+`backup-versioning-demo-workflow.json`
+
+This workflow shows how you can automate backups:
+
+1.  **Cron Trigger**: Runs on a schedule.
+2.  **Set**: Prepares backup metadata.
+3.  **HTTP Request**: Exports workflow data (simulated).
+4.  **HTTP Request**: Uploads the backup to a server (simulated).
+5.  **Slack**: Sends a notification that the backup was successful.
+
+---
+
+## ✅ Best Practices
+
+- **Use Git** for version control.
+- **Automate your backups**.
+- **Store backups in a separate location** (e.g., cloud storage).
+- **Test your recovery process** regularly.
+- **Don't store credentials** in your workflow files.
+
+---
+
+## 📚 External Resources
+
+- **n8n Documentation on Version Control**: [https://docs.n8n.io/editor/version-control/](https://docs.n8n.io/editor/version-control/)
+- **Git Handbook**: [https://guides.github.com/introduction/git-handbook/](https://guides.github.com/introduction/git-handbook/)

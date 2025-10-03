@@ -1,81 +1,89 @@
 ---
 marp: true
-theme: default
+theme: uncover
 style: |
-  h1 {
-    color: #007bff; /* blue */
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
-  h2 {
-    color: #fd7e14; /* orange */
+  h1, h2, h3, h4, h5, h6 {
+    color: #0277b5;
+  }
+  a {
+    color: #f89d21;
+  }
+  strong {
+    color: #f89d21;
   }
 ---
 
-# 🚨 Handling Errors in Your Workflows
+# 🛡️ Handling Errors in Your Workflows
+
+Building robust and resilient automation.
 
 ---
 
 ## 🤔 Understanding Error Types
 
-- **API Errors**: Rate Limiting, Authentication, Network Issues, Service Unavailable.
-- **Data Errors**: Invalid Format, Missing Fields, Type Mismatches, Validation Failures.
-- **Configuration Errors**: Missing Credentials, Invalid Settings, Permission Issues, Resource Limits.
-- **Logic Errors**: Conditional Logic, Expression Errors, Loop Issues, Data Flow.
+Errors can come from many places.
+
+<div class="columns">
+<div>
+
+### API Errors
+
+- Rate Limiting
+- Authentication Issues
+- Network Problems
+
+</div>
+<div>
+
+### Data & Logic Errors
+
+- Invalid Format
+- Missing Fields
+- Incorrect `IF` conditions
+
+</div>
+</div>
 
 ---
 
-## 介紹錯誤工作流程
+## 🚨 Error Workflows
 
-- **What are Error Workflows?**
-  - Specialized workflows that automatically execute when your main workflow encounters an error.
-- **Setting Up Error Workflows**
-  - Create an error workflow with an "Error Trigger".
-  - Link it to your main workflow in the settings.
+An **Error Workflow** is a special workflow that runs automatically when another workflow fails.
 
----
-
-## 📊 Monitoring Executions
-
-- **Accessing Execution Logs**: View execution history in the n8n interface.
-- **Execution Status Indicators**: Success (🟢), Error (🔴), Running (🟡), Waiting (⏸️).
-- **Failed Run Analysis**: Identify failure patterns and debug issues.
+- **Centralized** error handling.
+- **Triggered** by an **Error Trigger** node.
+- Can be used to send notifications, retry tasks, or log errors.
 
 ---
 
-## 🧩 Error Handling Design Patterns
+## 🤖 The Demo Workflow
 
-- **Try-Catch Pattern**: Handle errors within the workflow.
-- **Circuit Breaker Pattern**: Prevent cascading failures.
-- **Retry with Exponential Backoff**: Automatically retry failed operations with increasing delays.
-- **Graceful Degradation**: Provide a fallback or degraded service.
+`error-handling-demo-workflow.json`
 
----
+This workflow shows a simple error handling pattern:
 
-## 🐛 Debugging Techniques
-
-- **Node-Level Debugging**: Use "No Operation" and "Set" nodes to inspect data.
-- **Expression Debugging**: Use safe access and test expressions in "Set" nodes.
-- **Data Flow Tracing**: Add trace IDs to track data through the workflow.
+1.  **Webhook**: Starts the workflow.
+2.  **HTTP Request**: Tries to make an API call. This node has an **Error Workflow** attached.
+3.  **On Success**: A `Set` node logs a success message.
+4.  **On Failure**: The error workflow is triggered, which sends a Slack notification.
 
 ---
 
-## 👍 Best Practices
+## ✅ Best Practices
 
-- **Preventive Measures**: Validate inputs and configurations.
-- **Error Recovery Strategies**: Use automatic retries and fallback operations.
-- **Monitoring and Alerting**: Monitor error rates and performance.
-
----
-
-## 🌐 Real-World Examples
-
-- **Email Processing with Error Handling**
-- **API Integration with Circuit Breaker**
-- **Data Validation Pipeline**
+- **Use Error Workflows** for critical processes.
+- **Validate input data** to prevent errors.
+- Use **`try/catch` blocks** in Code nodes.
+- **Monitor executions** to spot recurring issues.
 
 ---
 
-## ✅ Conclusion
+## 📚 External Resources
 
-- Effective error handling is crucial for building reliable n8n workflows.
-- Implement a combination of error workflows, monitoring, and design patterns.
-- Test error scenarios and document your error handling procedures.
+- **n8n Error Handling Documentation**: [https://docs.n8n.io/error-handling/](https://docs.n8n.io/error-handling/)
+- **Error Workflow Tutorial**: [https://n8n.io/blog/error-workflow/](https://n8n.io/blog/error-workflow/)

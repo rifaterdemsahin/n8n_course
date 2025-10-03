@@ -1,61 +1,96 @@
 ---
 marp: true
-theme: default
+theme: uncover
 style: |
-  h1 {
-    color: #007bff; /* blue */
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
-  h2 {
-    color: #fd7e14; /* orange */
+  h1, h2, h3, h4, h5, h6 {
+    color: #0277b5;
+  }
+  a {
+    color: #f89d21;
+  }
+  strong {
+    color: #f89d21;
   }
 ---
 
-# 🎯 OKR Management & Course Objectives
+# 🎯 n8n Course OKRs
+
+**Objectives and Key Results** for our learning journey.
 
 ---
 
-## 🤔 What is OKR?
+## 🏁 Our Main Objective
 
-- **OKR** stands for **Objectives and Key Results**.
-- It's a goal-setting framework for defining and tracking objectives and their outcomes.
-- **Objective**: What you want to achieve.
-- **Key Results**: Measurable outcomes that indicate success.
+**Master n8n Workflow Automation from Fundamentals to Real-World Implementation.**
 
----
-
-## 📂 Files in this Folder
-
-- **`objective.md`**: The main course objective.
-- **`keyresults1.md`**: Overview of all key results.
-- **`keyresults1.md` (individual)**: KR1 - Foundation Mastery.
-- **`keyresults2.md`**: KR2 - Advanced Node Proficiency.
-- **`keyresults3.md`**: KR3 - Real-World Project Implementation.
-- **`keyresults4.md`**: KR4 - Production Readiness.
+- **For**: Beginners to intermediate users.
+- **Goal**: Build, deploy, and maintain complex automation workflows independently.
 
 ---
 
-## 🚀 How to Use This OKR System
+## 🔑 Key Results (KRs)
 
-1.  **Start with the Objective**: Read `objective.md`.
-2.  **Review Key Results**: Check `keyresults1.md` for an overview.
-3.  **Work Through Individual KRs**: Follow the key result files in order.
-4.  **Track Your Progress**: Use the checklists in each KR file.
-5.  **Measure Success**: Evaluate your progress with the defined success criteria.
+We have four key results to guide us.
+
+<div class="columns">
+<div>
+
+### KR1: Foundation Mastery
+
+- **Focus**: Environment setup, interface mastery, and basic workflows.
+- **Target**: 100% Completion
+
+</div>
+<div>
+
+### KR2: Advanced Node Proficiency
+
+- **Focus**: Credentials, integrations, and conditional logic.
+- **Target**: 95% Completion
+
+</div>
+</div>
 
 ---
 
-## ✨ Benefits of This OKR System
+## 🔑 Key Results (Continued)
 
-- **Clear Direction**: Know what to learn and when.
-- **Measurable Progress**: Track completion with specific criteria.
-- **Realistic Goals**: Graduated difficulty with appropriate targets.
-- **Focused Learning**: Each KR concentrates on specific skills.
-- **Self-Assessment**: Built-in evaluation methods.
+<div class="columns">
+<div>
+
+### KR3: Real-World Project Implementation
+
+- **Focus**: Production workflows and automation projects.
+- **Target**: 90% Completion
+
+</div>
+<div>
+
+### KR4: Production Readiness
+
+- **Focus**: Error handling, risk management, and community exploration.
+- **Target**: 85% Completion
+
+</div>
+</div>
 
 ---
 
-## 📚 External Reading
+## 🗺️ How to Use the OKR System
 
-- [What is an OKR? (with examples)](https://www.whatmatters.com/faqs/okr-meaning-definition-example)
-- [Google's OKR Playbook](https://www.whatmatters.com/resources/google-okr-playbook)
-- [Felipe's talk on OKRs](https://www.youtube.com/watch?v=jGgl2u_S-w8)
+1.  **Start with the Objective**: Understand the end goal.
+2.  **Review Key Results**: See the milestones.
+3.  **Work Through Individual KRs**: Follow the path from KR1 to KR4.
+4.  **Track Your Progress**: Use the checklists in each file.
+
+---
+
+## 📚 External Resources
+
+- **Learn more about OKRs**: [https://www.whatmatters.com/faqs/okr-meaning-definition-example](https://www.whatmatters.com/faqs/okr-meaning-definition-example)
+- **n8n Documentation**: [https://docs.n8n.io/](https://docs.n8n.io/)

@@ -1,64 +1,99 @@
 ---
 marp: true
-theme: default
+theme: uncover
 style: |
-  h1 {
-    color: #007bff; /* blue */
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
-  h2 {
-    color: #fd7e14; /* orange */
+  h1, h2, h3, h4, h5, h6 {
+    color: #0277b5;
+  }
+  a {
+    color: #f89d21;
+  }
+  strong {
+    color: #f89d21;
   }
 ---
 
 # 🐛 Debugging Your Workflows
 
----
-
-## 🤔 Key Debugging Concepts
-
-- **Execution Flow**: Understand how data moves through your workflow.
-- **Data Inspection**: Examine input, output, and error data.
-- **Execution Logs**: Review detailed logs of what happened.
+See what happens behind the scenes.
 
 ---
 
-## 🛠️ Common Debugging Techniques
+## 🔍 Key Debugging Concepts
 
-- **Using the Set Node**: Inspect data, add debug info, and create test data.
-- **Using the Do Nothing Node**: Break execution flow, test specific parts, and create manual checkpoints.
+<div class="columns">
+<div>
 
----
+### ➡️ Execution Flow
 
-## 🧩 Debugging Workflow Patterns
+- Workflows run sequentially.
+- Data flows from one node to the next.
 
-- **Data Inspection**: `Start → Set (debug) → Logic → Set (inspect) → End`
-- **Conditional Debugging**: `Start → IF → Do Nothing (debug) → Continue`
-- **Error Handling**: `Start → Try → Catch → Set (log error) → Handle`
+</div>
+<div>
 
----
+### 🕵️ Data Inspection
 
-## 👍 Best Practices
+- Check **input** and **output** data for each node.
+- Use the **Execution Logs** to see what happened.
 
-- Use descriptive names for debugging nodes.
-- Add timestamps to track execution timing.
-- Log important variables at key points.
-- Use the Do Nothing node for intentional stopping points.
-- Test with small datasets first.
+</div>
+</div>
 
 ---
 
-## 🧰 Debugging Tools in n8n
+## 🛠️ Debugging Tools
 
-- **Execution History**: View past executions.
-- **Node Data Viewer**: Inspect input/output data.
-- **Execution Logs**: Detailed logs of what happened.
-- **Error Messages**: Clear error descriptions.
-- **Data Preview**: See data structure before processing.
+Two of the most useful nodes for debugging are **Set** and **Do Nothing**.
+
+<div class="columns">
+<div>
+
+### The Set Node
+
+- **Inspect data** at any point.
+- **Add debug info** like timestamps.
+- **Create test data**.
+
+</div>
+<div>
+
+### The Do Nothing Node
+
+- **Pause** execution.
+- **Isolate** parts of your workflow.
+- Create manual **checkpoints**.
+
+</div>
+</div>
 
 ---
 
-## 常見問題與解決方案
+## 🤖 Example Workflows
 
-- **Data Not Flowing**: Check connections and data structure.
-- **Unexpected Results**: Inspect intermediate results with Set nodes.
-- **Performance Issues**: Isolate bottlenecks with Do Nothing nodes.
+This lesson includes two example workflows:
+
+- **`set-and-edit-node-workflow.json`**: Shows how to use the **Set** node to add and inspect debugging information.
+
+- **`do-nothing-node-workflow.json`**: Demonstrates using the **Do Nothing** node to create checkpoints and pause execution.
+
+---
+
+## ✅ Best Practices
+
+- Use **descriptive names** for debug nodes.
+- Add **timestamps** to track timing.
+- Log important **variables**.
+- Test with **small datasets** first.
+
+---
+
+## 📚 External Resources
+
+- **n8n Debugging Documentation**: [https://docs.n8n.io/getting-started/debugging/](https://docs.n8n.io/getting-started/debugging/)
+- **n8n Community Forum (Debugging)**: [https://community.n8n.io/c/question/debugging/11](https://community.n8n.io/c/question/debugging/11)

@@ -1,77 +1,83 @@
 ---
 marp: true
-theme: default
+theme: uncover
 style: |
-  h1 {
-    color: #007bff; /* blue */
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
-  h2 {
-    color: #fd7e14; /* orange */
+  h1, h2, h3, h4, h5, h6 {
+    color: #0277b5;
+  }
+  a {
+    color: #f89d21;
+  }
+  strong {
+    color: #f89d21;
   }
 ---
 
-# 🌎 Global Variables vs. 🏃 Execution Variables
+# 🌎 Global vs. Execution Variables
+
+Understanding variable scope in n8n.
 
 ---
 
-## 🌎 Global Variables
+## ✌️ Two Types of Variables
 
-- **Workflow-level** variables that persist across all executions.
-- **Scope**: Available to all nodes within the same workflow.
-- **Persistence**: Values persist across multiple workflow executions.
-- **Access**: `$vars.variableName`
-- **Use Cases**: Configuration values, API keys, default settings.
+<div class="columns">
+<div>
 
----
+### 🌍 Global Variables
 
-## 🏃 Execution Variables
+- **Scope**: Workflow-wide.
+- **Persistence**: Across all executions.
+- **Use Case**: Configuration, API keys, constants.
 
-- **Execution-level** variables created during a specific execution.
-- **Scope**: Available only within the current execution.
-- **Persistence**: Values are lost when the execution completes.
-- **Access**: `$vars.variableName`
-- **Use Cases**: Temporary data, execution-specific calculations, dynamic values.
+</div>
+<div>
+
+### 🏃 Execution Variables
+
+- **Scope**: Single execution only.
+- **Persistence**: Lost after execution.
+- **Use Case**: Temporary data, dynamic values.
+
+</div>
+</div>
 
 ---
 
 ## 🔑 Key Differences
 
-| Aspect | Global Variables | Execution Variables |
-|---|---|---|
-| **Scope** | Workflow-wide | Execution-specific |
-| **Persistence** | Across executions | Single execution only |
-| **Definition** | Set in workflow settings | Set during execution |
-| **Use Case** | Configuration, constants | Dynamic, temporary data |
+| Aspect      | Global Variables        | Execution Variables     |
+|-------------|-------------------------|-------------------------|
+| **Scope**   | Workflow-wide           | Execution-specific      |
+| **Persistence** | Across executions       | Single execution only   |
+| **Use Case**  | Configuration, constants| Dynamic, temporary data |
 
 ---
 
-## 👍 Best Practices
+## 🤖 Example Workflows
 
-- **Global Variables**: Use for configuration, constants, and shared data that doesn't change often.
-- **Execution Variables**: Use for temporary data, results from nodes, and dynamic values.
+This lesson includes two example workflows:
 
----
+- **`global-variables-workflow.json`**: Shows how to define and use **global variables** for things like API endpoints and keys.
 
-## ✍️ Syntax and Access
-
-Both types of variables use the same syntax for access:
-
-```javascript
-// Access a variable
-$vars.myVariable
-
-// Use in expressions
-{{ $vars.apiEndpoint }}/users
-
-// Use in code
-const value = $vars.tempValue;
-```
+- **`execution-variables-workflow.json`**: Demonstrates how to use **execution variables** to store temporary data during a single workflow run.
 
 ---
 
-## ⚠️ Common Pitfalls
+## ✅ Best Practices
 
-- Mixing scopes.
-- Overusing global variables.
-- Variable name conflicts.
-- Storing sensitive data in global variables.
+- Use **descriptive names** for your variables.
+- Use **global variables** for static data that doesn't change often.
+- Use **execution variables** for dynamic data that is specific to one run.
+- Don't store sensitive data in variables if you can use credentials.
+
+---
+
+## 📚 External Resources
+
+- **n8n Documentation on Variables**: [https://docs.n8n.io/core-concepts/variables/](https://docs.n8n.io/core-concepts/variables/)

@@ -10,10 +10,9 @@ This project is an n8n course designed to teach automation concepts through hand
 - Detailed explanation of n8n json in the folder
 - Marp (Markdown presentation ) explains the readme
 - In marp use emojis
-- in marp use orange and blue colors
+- in marp use orange #f89d21 and blue #0277b5 colors
 - at the last slide give external reading reasources at the end
-- keep right bottom empty > i would have a green screened actor there
-
+- keep right bottom empty > i would have a green screened actor in the post prod
 
 ## Directory Structure
 

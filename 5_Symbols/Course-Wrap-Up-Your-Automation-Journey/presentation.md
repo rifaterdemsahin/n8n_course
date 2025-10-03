@@ -1,200 +1,120 @@
 ---
 marp: true
-theme: default
+theme: uncover
 style: |
-  h1 {
-    color: #007bff; /* blue */
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
-  h2 {
-    color: #fd7e14; /* orange */
+  h1, h2, h3, h4, h5, h6 {
+    color: #0277b5;
+  }
+  a {
+    color: #f89d21;
+  }
+  strong {
+    color: #f89d21;
   }
 ---
 
-# 📚 n8n Course - 5_Symbols
+# 🎉 Course Wrap-Up
 
-This presentation provides an overview of the practical projects and workflows in the `5_Symbols` directory.
-
----
-
-# 🎉 Course Wrap-Up & Your Automation Journey
-
-*   **Recap**: A summary of the course content and what you have learned.
-*   **Next Steps**: Guidance on what to do after completing the course.
-*   **Community**: Information on how to get involved in the n8n community.
+Congratulations on completing the n8n automation course!
 
 ---
 
-# 🐛 Debugging Your Workflows
+##  recap of Your Learning Journey
 
-*   **Execution Flow**: Understand how n8n workflows are executed.
-*   **Data Inspection**: Learn how to inspect the data that flows through your workflows.
-*   **Debugging Techniques**: Use the Set and Do Nothing nodes for debugging.
+<div class="columns">
+<div>
 
----
+### 🏗️ Foundation Concepts
 
-# 🌐 Exploring Community Nodes
+- Visual workflow interface
+- Triggers, nodes, and connections
+- Basic data manipulation
 
-*   **Community Nodes**: Extend n8n's functionality with community-built nodes.
-*   **Finding Nodes**: Learn how to find and install community nodes.
-*   **Creating Nodes**: A brief overview of how to create your own community nodes.
+</div>
+<div>
 
----
+### 🔗 Integration Skills
 
-# 🌎 Global Variables versus Execution Variables
+- Connecting to APIs
+- Secure credential setup
+- Webhooks and HTTP requests
 
-*   **Global Variables**: Persist across all executions of a workflow.
-*   **Execution Variables**: Available only within the current execution.
-*   **Best Practices**: When to use each type of variable.
-
----
-
-# 🚨 Handling Errors in Your Workflows
-
-*   **Error Types**: Understand the different types of errors in n8n.
-*   **Error Workflows**: Use error workflows to handle failures.
-*   **Design Patterns**: Learn about error handling design patterns like try-catch and circuit breaker.
+</div>
+</div>
 
 ---
 
-# 🛡️ Learn to Backup and Version Your Workflows
+## 🧠 Logic and Control Flow
 
-*   **Backup & Versioning**: Why it is important to backup and version your workflows.
-*   **Strategies**: Learn about different backup and versioning strategies.
-*   **Recovery**: How to recover your workflows from a backup.
+<div class="columns">
+<div>
 
----
+### 🧠 Logic and Control
 
-# 🌦️ Practical Real-World Projects
+- **IF** and **Switch** nodes
+- Loops and batch processing
+- Error handling
 
-*   **Daily Weather Report**: A project that sends a daily weather report to your email.
-*   **API Integration**: Learn how to integrate with APIs like OpenWeatherMap.
-*   **Error Handling**: Implement error handling in a real-world project.
+</div>
+<div>
 
----
+### 🚀 Real-World Applications
 
-# 📢 Project - Automated Discord/Slack Notifications
+- Scheduled tasks
+- Notification systems
+- Data processing
 
-*   **Discord/Slack Integration**: Connect your Discord or Slack account to n8n.
-*   **Custom Messages**: Create workflows that send custom messages.
-*   **Rich Formatting**: Format messages with embeds, attachments, and styling.
-
----
-
-# 🔄 Project - Simple Data Transformation
-
-*   **Set Node**: Learn how to use the Set node to create and modify data.
-*   **Expressions**: Use simple expressions to combine data.
-*   **Data Flow**: Understand how data passes from one node to another.
+</div>
+</div>
 
 ---
 
-# ⏱️ Rate Limits in Real World
+## 🤖 The Completion Workflow
 
-*   **Rate Limits**: Understand what rate limits are and why they are important.
-*   **Handling Strategies**: Learn how to handle rate limits in your workflows.
-*   **Advanced Techniques**: Explore advanced techniques like adaptive rate limiting.
+`course-completion-workflow.json`
 
----
+This workflow automates the course completion process:
 
-# 📊 Reading Data from Google Sheets
-
-*   **Google API Credentials**: A step-by-step guide to setting up Google API credentials.
-*   **Google Sheets Node**: Learn how to use the Google Sheets node to read data.
-*   **Data Integration**: Integrate Google Sheets data into your workflows.
+1.  **Webhook**: Triggers when a student finishes.
+2.  **Set**: Prepares student data.
+3.  **Slack**: Sends a congratulations message.
+4.  **HTTP Request**: Generates a certificate.
+5.  **Email**: Sends the certificate to the student.
 
 ---
 
-# 🛡️ Risk Management
+## 🚀 Your Automation Journey Continues
 
-*   **Automation Risks**: Understand the risks associated with automation.
-*   **Assessment Framework**: Learn how to assess and mitigate risks.
-*   **Best Practices**: Best practices for production deployment and risk management.
+<div class="columns">
+<div>
 
----
+### 🎯 Immediate Goals
 
-# 📎 Send Multi Attachments
+- Build 3-5 personal projects.
+- Experiment with new nodes.
+- Join the n8n community.
 
-*   **Multi-Attachment Emails**: Learn how to send multiple file attachments in a single email.
-*   **Workflow Architecture**: Understand the workflow for sending multiple attachments.
-*   **Advanced Techniques**: Explore advanced techniques like dynamic file selection.
+</div>
+<div>
 
----
+### 🌟 Long-term Goals
 
-# 🔀 The IF Node - Adding Logic to Your Workflows
+- Become an n8n expert.
+- Build a portfolio.
+- Contribute to the community.
 
-*   **IF Node**: Learn how to use the IF node to add conditional logic to your workflows.
-*   **Condition Types**: Understand the different condition types and operators.
-*   **Practical Examples**: See practical examples of how to use the IF node.
-
----
-
-# 🔄 The Merge Node - Combining Data Sources
-
-*   **Merge Node**: Learn how to use the Merge node to combine data from different branches.
-*   **Merge Operations**: Understand the different merge operations.
-*   **Data Combination**: Learn how to create unified datasets.
+</div>
+</div>
 
 ---
 
-# 🔀 The Switch Node - Handling Multiple Conditions
+## 📚 External Resources
 
-*   **Switch Node**: A more advanced way to route data based on different values.
-*   **Routing Strategies**: Learn about different routing strategies.
-*   **Advanced Techniques**: Explore advanced techniques like dynamic routing.
-
----
-
-# 🔑 Understanding Credentials
-
-*   **Credentials**: Understand what credentials are and why they are important.
-*   **Secure Storage**: Learn how to securely store and manage authentication information.
-*   **Best Practices**: Best practices for credential security.
-
----
-
-# ➿ Understanding Data Loops - The Split in Batches Node
-
-*   **Data Loops**: Understand the concept of data loops in n8n.
-*   **Split in Batches Node**: Learn how to use the Split in Batches node to process large datasets.
-*   **Loop Processing Strategies**: Explore different loop processing strategies.
-
----
-
-# 👀 Viewing Your Workflow's Data
-
-*   **JSON Data Structure**: Understand the JSON data structure in n8n.
-*   **Output Panel**: Learn how to navigate the Table and JSON views in the output panel.
-*   **Data Access Patterns**: Learn how to access and transform data.
-
----
-
-# ✍️ Working with Variables
-
-*   **Variables**: Learn how to store, manipulate, and pass data between nodes.
-*   **Set Node**: Use the Set node to explicitly set values.
-*   **Conditional Logic**: Implement conditional logic with IF nodes.
-
----
-
-# 📝 Writing Data to Google Sheets
-
-*   **Google Sheets Write Operations**: Learn about the different write operations.
-*   **Data Mapping**: Learn how to map data from previous nodes to sheet columns.
-*   **Error Handling**: Implement proper error handling and validation.
-
----
-
-# 📺 YouTube Integration
-
-*   **YouTube API**: Monitor and report YouTube channel statistics.
-*   **Telegram Notifications**: Send formatted metrics to a Telegram channel.
-*   **Authentication**: Set up YouTube and Telegram authentication.
-
----
-
-## 📚 External Reading
-
-- [n8n Documentation](https://docs.n8n.io/)
-- [n8n Community Forum](https://community.n8n.io/)
-- [n8n Blog](https://blog.n8n.io/)
-- [Marp Official Documentation](https://marp.app/)
+- **n8n Documentation**: [https://docs.n8n.io/](https://docs.n8n.io/)
+- **n8n Community Forum**: [https://community.n8n.io/](https://community.n8n.io/)
+- **Workflow Templates**: [https://n8n.io/workflows/](https://n8n.io/workflows/)
