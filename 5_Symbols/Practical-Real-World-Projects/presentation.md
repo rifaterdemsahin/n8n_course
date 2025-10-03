@@ -1,84 +1,80 @@
 ---
 marp: true
-theme: default
+theme: uncover
 style: |
-  h1 {
-    color: #007bff; /* blue */
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
-  h2 {
-    color: #fd7e14; /* orange */
+  h1, h2, h3, h4, h5, h6 {
+    color: #0277b5;
+  }
+  a {
+    color: #f89d21;
+  }
+  strong {
+    color: #f89d21;
   }
 ---
 
 # 🌦️ Practical Real-World Projects
 
----
-
-## 📰 Daily Weather Report Workflow
-
-- 📝 **Project Description**: An automated daily weather report sent via email.
-- ✨ **Features**:
-  - ⏰ Runs daily at 8 AM (Cron trigger).
-  - 🌐 Fetches data from OpenWeatherMap API.
-  - 🔄 Processes and formats the data.
-  - 📧 Sends email notifications.
-  - 🚨 Handles errors gracefully.
+Daily Weather Report
 
 ---
 
-## 🛠️ Project Setup Requirements
+## 🎯 Objective
 
-- 🔑 **API Credentials**:
-  - OpenWeatherMap API key.
-  - SMTP Email Configuration.
-- ⚙️ **Environment Configuration**:
-  - Environment variables for API keys, email settings, etc.
-- 📝 **Workflow Configuration**:
-  - City, country, email recipient, etc.
+Create a workflow that automatically sends a daily weather report to your email every morning.
 
 ---
 
-## 🧩 API Integration Patterns
+## 🤖 The Demo Workflow
 
-- 🌐 **RESTful API Integration**: Using the HTTP Request node to get data from OpenWeatherMap.
-- 🚨 **Error Handling Patterns**: Detecting and handling API errors.
-- 🔄 **Data Transformation**: Processing and formatting the API response.
+`daily-weather-report-workflow.json`
 
----
+This workflow demonstrates a simple, practical use case for n8n:
 
-## 🛡️ Error Handling Strategies
-
-- API Error Handling: Rate limiting, service unavailable, invalid API key.
-- 📧 Email Error Handling: SMTP connection issues, content validation.
-- 🔄 Workflow Error Recovery: Retry logic, error notifications.
+1.  **Cron Trigger**: Runs every day at 8 AM.
+2.  **HTTP Request**: Gets weather data from a public API.
+3.  **Set**: Formats the weather data into a readable message.
+4.  **Email**: Sends the formatted weather report to your email address.
 
 ---
 
-## 📊 Monitoring and Alerting
+## 🔧 How it Works
 
-- 📈 **Execution Monitoring**: Track success metrics and performance.
-- 🔔 **Alert Configuration**: Set up success and error alerts.
-- 📜 **Logging and Auditing**: Log execution details for debugging.
+<div class="columns">
+<div>
+
+### 1. Get Weather Data
+
+- The workflow uses a free weather API to get the forecast.
+- You can customize the location to get weather for your city.
+
+</div>
+<div>
+
+### 2. Format the Report
+
+- The `Set` node creates an HTML-formatted email body.
+- It includes temperature, conditions, and a weather icon.
+
+</div>
+</div>
 
 ---
 
-## ⚙️ Advanced Configuration
+## ✅ Best Practices
 
-- 🏙️ **Multi-City Support**: Configure the workflow to support multiple cities.
-- 🔀 **Conditional Logic**: Provide weather-based tips and alerts.
-- 💾 **Data Storage**: Store historical weather data for trend analysis.
-
----
-
-## 🚀 Deployment Considerations
-
-- 🏭 **Production Deployment**: Environment setup and security configuration.
-- ⚖️ **Scalability**: Load balancing and database configuration.
-- 🔙 **Backup and Recovery**: Automated backups.
+- Use **credentials** to store your API keys securely.
+- Add **error handling** to catch API failures.
+- **Customize the schedule** to fit your needs.
 
 ---
 
-## ✅ Conclusion
+## 📚 External Resources
 
-- This project demonstrates a complete, production-ready automation solution.
-- It showcases real-world automation patterns and best practices.
+- **OpenWeatherMap API**: [https://openweathermap.org/api](https://openweathermap.org/api)
+- **n8n Cron Node Documentation**: [https://docs.n8n.io/nodes/n8n-nodes-base.cron/](https://docs.n8n.io/nodes/n8n-nodes-base.cron/)

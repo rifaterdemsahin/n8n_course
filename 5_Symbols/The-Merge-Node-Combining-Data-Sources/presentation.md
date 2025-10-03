@@ -1,97 +1,97 @@
 ---
 marp: true
-theme: default
+theme: uncover
 style: |
-  h1 {
-    color: #007bff; /* blue */
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
-  h2 {
-    color: #fd7e14; /* orange */
+  h1, h2, h3, h4, h5, h6 {
+    color: #0277b5;
+  }
+  a {
+    color: #f89d21;
+  }
+  strong {
+    color: #f89d21;
   }
 ---
 
-# 🔄 The Merge Node - Combining Data Sources
+# 🤝 The Merge Node
+
+Combining data from different sources.
 
 ---
 
-## 🤔 Understanding the Merge Node
+## 🎯 What is the Merge Node?
 
-- **What is the Merge Node?**
-  - The Merge node combines data from multiple input branches into a single output.
-- **How the Merge Node Works**
-  - It's particularly useful when you have parallel workflow branches that need to be combined for further processing.
-- **Key Features**
-  - 📥 Multiple Input Support
-  - ⚙️ Flexible Merging
-  - 💾 Data Preservation
-  - 🔀 Conditional Merging
+The **Merge node** combines data from multiple incoming branches into a single output. It's perfect for when you have parallel workflows and need to bring the data back together.
 
 ---
 
-## 🛠️ Merge Node Operations
+## ⚙️ Merge Modes
 
-- **Append Mode (Default)**
-- **Merge by Index**
-- **Merge by Key**
-- **Merge by Position**
+The Merge node has several modes to combine data:
 
----
+<div class="columns">
+<div>
 
-## 💡 Data Combination Strategies
+### Append
 
-- **Simple Data Merging**
-- **Key-Based Merging**
-- **Index-Based Merging**
+- Adds the items from the second input to the end of the first input.
 
----
+</div>
+<div>
 
-## 🌐 Practical Examples
+### Merge by Index
 
-- 👤 **Customer Data Enrichment**
-- 📦 **Product Catalog Combination**
-- 📝 **Survey Response Aggregation**
-- 🔗 **Multi-Source Data Integration**
+- Combines items based on their position (e.g., first item with first item).
 
----
+</div>
+</div>
 
-## 🚀 Advanced Techniques
+<div class="columns">
+<div>
 
-- 🔀 **Conditional Merging**
-- 🔄 **Data Transformation Before Merge**
-- 🚨 **Error Handling in Merge Operations**
-- ⚡ **Performance Optimization**
+### Merge by Key
 
----
+- Combines items that have the same value in a specific field (like a user ID).
 
-## 👍 Best Practices
+</div>
+<div>
 
-- ✅ **Data Validation**
-- 🔑 **Key Selection**
-- 🧠 **Memory Management**
-- 🚨 **Error Handling**
+### Merge by Position
+
+- Combines items based on which input they came from.
+
+</div>
+</div>
 
 ---
 
-## 🎯 Common Use Cases
+## 🤖 The Demo Workflow
 
-- 👤 **Customer 360 View**
-- 📦 **Product Information Aggregation**
-- 🧑‍💼 **Employee Data Integration**
-- 💰 **Financial Data Consolidation**
-- 📊 **Analytics Data Combination**
+`merge-data-workflow.json`
 
----
+This workflow demonstrates how to merge customer data with order data:
 
-## 🛠️ Troubleshooting
-
-- **Data Not Merging**
-- **Duplicate Records**
-- **Performance Issues**
-- **Data Type Mismatches**
+1.  **Get Customer Data**: Fetches a list of customers.
+2.  **Get Order Data**: Fetches a list of orders.
+3.  **Merge Node**: Combines the two lists using the `customerId` as the key.
+4.  **Set Node**: Adds some metadata to the merged data.
+5.  **HTTP Request**: Sends the merged data to another service.
 
 ---
 
-## ✅ Conclusion
+## ✅ Best Practices
 
-- The Merge node is a powerful tool for combining data from multiple sources in n8n workflows.
-- By understanding its different modes and best practices, you can build robust and efficient data integration workflows.
+- **Choose the right merge mode** for your use case.
+- **Ensure your key fields are consistent** when using "Merge by Key".
+- **Validate your data** before and after merging to ensure data quality.
+
+---
+
+## 📚 External Resources
+
+- **n8n Merge Node Documentation**: [https://docs.n8n.io/nodes/n8n-nodes-base.merge/](https://docs.n8n.io/nodes/n8n-nodes-base.merge/)

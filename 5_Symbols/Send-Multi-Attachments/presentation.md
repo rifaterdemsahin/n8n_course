@@ -1,90 +1,80 @@
 ---
 marp: true
-theme: default
+theme: uncover
 style: |
-  h1 {
-    color: #007bff; /* blue */
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
-  h2 {
-    color: #fd7e14; /* orange */
+  h1, h2, h3, h4, h5, h6 {
+    color: #0277b5;
+  }
+  a {
+    color: #f89d21;
+  }
+  strong {
+    color: #f89d21;
   }
 ---
 
-# 📎 Send Multi Attachments
+# 📎 Sending Multiple Attachments
+
+How to send multiple files in a single email.
 
 ---
 
-## 🤔 Understanding Multi-Attachment Emails
+## 🎯 Objective
 
-- **What are they?**
-  - 📧 Emails that allow you to send multiple files in a single message.
-- **Benefits**
-  - ⏱️ Efficiency, 📂 Organization, 👔 Professionalism, 😊 User Experience.
+This project demonstrates how to fetch multiple files from different sources and send them as attachments in a single email using n8n.
 
 ---
 
-## 🏗️ Workflow Architecture
+## 🤖 The Workflow
 
-- **High-Level Flow**
-  - ▶️ Trigger -> 📂 Get Files -> 🔄 Merge -> 📦 Aggregate -> 📧 Send Email
-- **Node Breakdown**
-  - ▶️ Manual Trigger
-  - 🐙 GitHub File Nodes
-  - 🔄 Merge Node
-  - 📦 Aggregate Node
-  - 📧 Gmail Node
+`multi-attachment-workflow.json`
 
----
-
-## 📝 Step-by-Step Implementation
-
-1.  ▶️ **Set Up Manual Trigger**
-2.  🐙 **Configure GitHub File Retrieval**
-3.  🔄 **Merge Multiple Data Streams**
-4.  📦 **Aggregate Binary Data**
-5.  📧 **Send Email with Attachments**
+1.  **Manual Trigger**: Starts the workflow.
+2.  **GitHub Nodes (x4)**: Fetches four different files from a GitHub repository.
+3.  **Merge Node**: Combines the four files into a single stream.
+4.  **Aggregate Node**: Gathers all the binary data from the files.
+5.  **Gmail Node**: Sends an email with the four files as attachments.
 
 ---
 
-## 🚀 Advanced Techniques
+## ✨ Key Nodes
 
-- ⚙️ **Dynamic File Selection**
-- ✅ **File Validation**
-- 🔄 **File Processing**
-- 🚨 **Error Handling**
+<div class="columns">
+<div>
 
----
+### Merge Node
 
-## 👍 Best Practices
+- Combines multiple incoming data streams into one.
+- Essential for gathering files from different sources.
 
-- 📂 **File Organization**
-- 📧 **Email Configuration**
-- ⚡ **Performance Optimization**
-- 🔒 **Security Considerations**
+</div>
+<div>
 
----
+### Aggregate Node
 
-## 🌐 Common Use Cases
+- Collects all binary data from the merged files.
+- **Crucial**: You must enable the `Include Binaries` option.
 
-- 📄 **Document Packages**
-- 📊 **Report Bundles**
-- 📚 **Resource Collections**
-- 💾 **Backup Files**
-- deliverables **Project Deliverables**
+</div>
+</div>
 
 ---
 
-## 🛠️ Troubleshooting
+## ✅ How it Works
 
-- **Files Not Attaching**
-- **File Size Issues**
-- **Missing Files**
-- **Performance Issues**
-- **Debugging Tips**
+- The workflow runs four `GitHub` nodes in parallel to download the files faster.
+- The `Merge` node waits for all four files to be downloaded.
+- The `Aggregate` node creates a single item with all the file data.
+- The `Gmail` node is configured to use the binary data from the `Aggregate` node as attachments.
 
 ---
 
-## ✅ Conclusion
+## 📚 External Resources
 
-- The multi-attachment email workflow is a powerful way to send multiple files efficiently.
-- Master the key components and best practices to build robust and professional workflows.
+- **n8n Merge Node Documentation**: [https://docs.n8n.io/nodes/n8n-nodes-base.merge/](https://docs.n8n.io/nodes/n8n-nodes-base.merge/)
+- **n8n Aggregate Node Documentation**: [https://docs.n8n.io/nodes/n8n-nodes-base.aggregate/](https://docs.n8n.io/nodes/n8n-nodes-base.aggregate/)

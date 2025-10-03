@@ -1,75 +1,84 @@
 ---
 marp: true
-theme: default
+theme: uncover
 style: |
-  h1 {
-    color: #007bff; /* blue */
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
-  h2 {
-    color: #fd7e14; /* orange */
+  h1, h2, h3, h4, h5, h6 {
+    color: #0277b5;
+  }
+  a {
+    color: #f89d21;
+  }
+  strong {
+    color: #f89d21;
   }
 ---
 
-# 🔄 Set Node Workflow
+# 📊 Simple Data Transformation
+
+Using the Set Node
 
 ---
 
-## 🤔 What This Workflow Does
+## 🎯 Objective
 
-- Demonstrates data manipulation using the **Set** node.
-- Showcases:
-  - ➕ Data Creation and Modification
-  - 🔀 Simple Expressions
-  - ➡️ Data Flow
+This project demonstrates how to use the **Set node** to create and modify data in an n8n workflow.
 
 ---
 
-## 🧩 Workflow Components
+## 🤖 The Workflow
 
-- **Nodes**:
-  - 📝 Sticky Note (Documentation)
-  - ▶️ Start (Trigger)
-  - 🔄 Create & Modify Data (Set node)
-  - 👀 View Output (No Operation node)
+`set-node-workflow.json`
 
----
+This simple workflow shows how to:
 
-## 📊 Data Structure
-
-The Set node creates the following data structure:
-
-```json
-{
-  "firstName": "Ada",
-  "lastName": "Lovelace",
-  "fullName": "Ada Lovelace",
-  "userID": 1815
-}
-```
+1.  **Start** the workflow.
+2.  Use a **Set node** to create new data fields.
+3.  Use a simple **expression** to combine data.
+4.  View the final output.
 
 ---
 
-## 🔑 Key Learning Points
+## ✨ The Set Node
 
-- **Static Data Assignment**:
-  - `firstName`: "Ada"
-  - `lastName`: "Lovelace"
-  - `userID`: 1815
-- **Dynamic Data with Expressions**:
-  - `fullName`: `={{$json.firstName}} {{$json.lastName}}`
+The `Create & Modify Data` node in the workflow is a **Set node**. Here's what it does:
+
+<div class="columns">
+<div>
+
+### Static Values
+
+- Sets `firstName` to "Ada".
+- Sets `lastName` to "Lovelace".
+- Sets `userID` to `1815`.
+
+</div>
+<div>
+
+### Dynamic Expression
+
+- Sets `fullName` using the expression:
+  `={{$json.firstName}} {{$json.lastName}}`
+- This combines the `firstName` and `lastName` fields.
+
+</div>
+</div>
 
 ---
 
-## 🚀 How to Use This Workflow
+## ✅ Key Takeaways
 
-1.  📥 Import the `set-node-workflow.json` file into your n8n instance.
-2.  ▶️ The workflow will start with the Start node.
-3.  ➡️ Data flows through the Set node where it's created and modified.
-4.  👀 The final output can be viewed in the "View Output" node.
+- The **Set node** is essential for data manipulation.
+- **Expressions** (using `{{ }}`) allow you to create dynamic data.
+- **`$json`** refers to the data of the current item in the workflow.
 
 ---
 
-## ✍️ Expression Syntax
+## 📚 External Resources
 
-- `{{$json.fieldName}}`: Access a field from the current data item.
-- `{{$json.firstName}} {{$json.lastName}}`: Concatenate two string fields with a space.
+- **n8n Set Node Documentation**: [https://docs.n8n.io/nodes/n8n-nodes-base.set/](https://docs.n8n.io/nodes/n8n-nodes-base.set/)
+- **n8n Expressions Guide**: [https://docs.n8n.io/code-examples/expressions/](https://docs.n8n.io/code-examples/expressions/)

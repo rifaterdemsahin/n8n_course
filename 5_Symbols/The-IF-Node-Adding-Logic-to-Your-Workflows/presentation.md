@@ -1,97 +1,96 @@
 ---
 marp: true
-theme: default
+theme: uncover
 style: |
-  h1 {
-    color: #007bff; /* blue */
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
-  h2 {
-    color: #fd7e14; /* orange */
+  h1, h2, h3, h4, h5, h6 {
+    color: #0277b5;
+  }
+  a {
+    color: #f89d21;
+  }
+  strong {
+    color: #f89d21;
   }
 ---
 
-# 🔀 The IF Node - Adding Logic to Your Workflows
+# 🤔 The IF Node
+
+Adding conditional logic to your workflows.
 
 ---
 
-## 🤔 Understanding the IF Node
+## 🎯 What is the IF Node?
 
-- **What is the IF Node?**
-  - A conditional node that creates different execution paths based on specified conditions.
-- **How it Works**
-  - Evaluates data and routes the workflow down true/false branches.
-- **Key Features**
-  - ↔️ Binary Decision Making
-  - 🔢 Multiple Condition Types
-  - 🧠 Flexible Logic (AND/OR)
-  - 💾 Data Preservation
+The **IF node** lets you create different paths in your workflow based on conditions. It's like asking a "yes" or "no" question about your data.
 
----
+<div class="columns">
+<div>
 
-## ⚙️ Basic IF Node Configuration
+### ✅ True Path
 
-- **Simple Condition Setup**
-  - Add IF Node, configure conditions, test, and connect outputs.
-- **Condition Structure**
-  - Defined with `leftValue`, `operator`, and `rightValue`.
-- **Workflow Structure**
-  - ▶️ Trigger -> 📊 Data -> 🔀 IF Node -> 👍/👎 True/False Branches -> 🔄 Merge -> ✅ Output
+- If the condition is met, the workflow continues down the "true" path.
+
+</div>
+<div>
+
+### ❌ False Path
+
+- If the condition is not met, it goes down the "false" path.
+
+</div>
+</div>
 
 ---
 
-## 📋 Condition Types and Operators
+## 🤖 The Demo Workflows
 
-- **String Conditions**
-  - `equals`, `contains`, `startsWith`, `regex`, etc.
-- **Number Conditions**
-  - `equals`, `gt`, `lt`, `between`, etc.
-- **Boolean Conditions**
-  - `equal`, `notEqual`.
-- **Date Conditions**
-  - `equals`, `before`, `after`, `between`.
+This lesson includes two example workflows:
+
+- **`basic-if-node-workflow.json`**: A simple workflow that checks if the temperature is above 30°C and sends a different message for hot or normal weather.
+
+- **`multiple-conditions-workflow.json`**: A more complex example that uses multiple `IF` nodes to check for different discount conditions for an e-commerce order.
 
 ---
 
-## 🚀 Advanced Condition Logic
+## ✨ Condition Types
 
-- **Multiple Conditions**
-  - **AND Logic**: All conditions must be true.
-  - **OR Logic**: Any condition can be true.
-- **Complex Condition Examples**
-  - 🛒 E-commerce order processing, 🌦️ weather alerts.
-- **Expression-Based Conditions**
-  - Use JavaScript expressions for complex calculations.
+You can create conditions for different data types:
 
----
-
-## 🌐 Practical Examples
-
-- 🌡️ **Basic Temperature Alert**
-- 🛒 **E-commerce Order Processing**
-- 👤 **User Authentication Flow**
-- 📝 **Content Moderation System**
+- **String**: `equals`, `contains`, `starts with`, `regex`, etc.
+- **Number**: `equals`, `greater than`, `less than`, `between`, etc.
+- **Boolean**: `true` or `false`.
+- **Date**: `before`, `after`, `between`, etc.
 
 ---
 
-## 👍 Best Practices
+## 🤝 Combining Conditions
 
-- **Condition Design**: Clear, readable, and consistent data types.
-- **Performance Optimization**: Efficient condition ordering, avoid complex expressions.
-- **Error Handling**: Safe data access and validation before conditions.
-- **Documentation and Naming**: Descriptive node names and comments.
+You can use multiple conditions in a single `IF` node.
+
+<div class="columns">
+<div>
+
+### AND
+
+- **All** conditions must be true.
+
+</div>
+<div>
+
+### OR
+
+- **Any** of the conditions can be true.
+
+</div>
+</div>
 
 ---
 
-## 🎯 Common Use Cases
+## 📚 External Resources
 
-- **Data Filtering**
-- **Business Logic**
-- **Error Handling**
-- **Routing and Workflow Control**
-
----
-
-## ✅ Conclusion
-
-- The IF node is fundamental for creating intelligent, decision-making workflows.
-- Master its capabilities to build dynamic, robust, and efficient automations.
+- **n8n IF Node Documentation**: [https://docs.n8n.io/nodes/n8n-nodes-base.if/](https://docs.n8n.io/nodes/n8n-nodes-base.if/)

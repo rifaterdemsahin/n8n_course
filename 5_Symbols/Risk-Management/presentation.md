@@ -1,76 +1,87 @@
 ---
 marp: true
-theme: default
+theme: uncover
 style: |
-  h1 {
-    color: #007bff; /* blue */
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
-  h2 {
-    color: #fd7e14; /* orange */
+  h1, h2, h3, h4, h5, h6 {
+    color: #0277b5;
+  }
+  a {
+    color: #f89d21;
+  }
+  strong {
+    color: #f89d21;
   }
 ---
 
-# 🛡️ Risk Management in n8n Automation
+# 🛡️ Risk Management in n8n
+
+Building reliable and secure automation.
 
 ---
 
 ## 🤔 Understanding Automation Risks
 
-- 💻 **Technical Risks**: System failures, data corruption, integration failures, performance issues.
-- 📈 **Business Risks**: Process disruption, data breaches, compliance violations, reputation damage.
-- ⚙️ **Operational Risks**: Human error, vendor dependencies, change management, knowledge gaps.
+<div class="columns">
+<div>
+
+### Technical Risks
+
+- System Failures
+- Data Corruption
+- API Changes
+
+</div>
+<div>
+
+### Business & Operational Risks
+
+- Process Disruption
+- Data Breaches
+- Human Error
+
+</div>
+</div>
 
 ---
 
-## 📝 Risk Assessment Framework
+## ⚖️ Risk Assessment Framework
 
-- **Risk Identification Process**: Workflow analysis and threat modeling.
-- **Risk Matrix**: To classify risks based on impact and probability.
-- **Risk Register**: To document and track risks.
-
----
-
-## 🛠️ Mitigation Strategies
-
-- 💻 **Technical Mitigations**: Redundancy, failover, data validation, rate limiting protection.
-- 🔒 **Security Mitigations**: Credential management, data protection.
-- ⚙️ **Operational Mitigations**: Change management, documentation, and training.
+1.  **Identify** potential risks in your workflows.
+2.  **Assess** the **impact** and **probability** of each risk.
+3.  **Prioritize** risks based on their severity.
+4.  **Mitigate** risks with appropriate controls.
 
 ---
 
-## 🚀 Production Deployment Best Practices
+## 🤖 The Demo Workflow
 
-- 🌐 **Environment Strategy**: Separate development, staging, and production environments.
-- ✅ **Deployment Checklist**: Pre-deployment and deployment process.
-- 🏆 **Quality Gates**: Automated quality checks.
+`risk-management-demo-workflow.json`
 
----
+This workflow demonstrates a simple risk assessment process:
 
-## 📊 Monitoring and Alerting
-
-- 📈 **Key Metrics to Monitor**: Performance metrics and business metrics.
-- 🔔 **Alerting Strategy**: Define alert levels and configure alerting rules.
+1.  **Webhook**: Receives a risk score.
+2.  **IF Node**: Checks if the score is high (>= 80).
+3.  **High Risk**: If the score is high, it sends a Slack notification for immediate escalation.
+4.  **Medium Risk**: If the score is lower, it logs the assessment for standard review.
 
 ---
 
-## 🚨 Incident Response
+## ✅ Mitigation Strategies
 
-- 🔢 **Incident Classification**: Define severity levels (P1-P4).
-- 🔄 **Incident Response Process**: A defined workflow for handling incidents.
-- 📝 **Post-Incident Review**: To learn from incidents and improve processes.
-
----
-
-## 🏛️ Compliance and Governance
-
-- 📜 **Regulatory Compliance**: GDPR, HIPAA, SOX.
-- 📝 **Governance Framework**: Policies, roles, and responsibilities.
-- 🧐 **Audit and Assessment**: Regular audits to ensure compliance.
+- **Redundancy**: Have fallback systems in place.
+- **Data Validation**: Check data before processing it.
+- **Error Handling**: Use `try/catch` blocks and error workflows.
+- **Security**: Manage credentials securely and encrypt sensitive data.
+- **Change Management**: Have a process for testing and deploying changes.
 
 ---
 
-## ✅ Conclusion
+## 📚 External Resources
 
-- Effective risk management is crucial for reliable and secure automation.
-- It requires a comprehensive approach covering technical, business, and operational risks.
-- It is an ongoing process of assessment, mitigation, and improvement.
+- **NIST Risk Management Framework**: [https://csrc.nist.gov/projects/risk-management-framework](https://csrc.nist.gov/projects/risk-management-framework)
+- **OWASP Top 10**: [https://owasp.org/www-project-top-ten/](https://owasp.org/www-project-top-ten/)

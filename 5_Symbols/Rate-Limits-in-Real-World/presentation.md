@@ -1,82 +1,83 @@
 ---
 marp: true
-theme: default
+theme: uncover
 style: |
-  h1 {
-    color: #007bff; /* blue */
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
-  h2 {
-    color: #fd7e14; /* orange */
+  h1, h2, h3, h4, h5, h6 {
+    color: #0277b5;
+  }
+  a {
+    color: #f89d21;
+  }
+  strong {
+    color: #f89d21;
   }
 ---
 
-# ⏱️ Rate Limits in Real World
+# ⏳ Handling Rate Limits
+
+Building resilient workflows.
 
 ---
 
-## 🤔 Understanding Rate Limits
+## 🤔 What are Rate Limits?
 
-- **What are they?**
-  - Restrictions on the number of API requests within a specific time.
-- **Why do they exist?**
-  - To prevent abuse, ensure fair usage, and maintain service stability.
-- **Common Types**
-  - 📈 Request Rate Limits (per second/minute/hour)
-  - 💥 Burst Limits
-  - QUOTA Quota Limits (per day/month)
+APIs use rate limits to control how many requests you can make in a certain amount of time. If you exceed the limit, you'll get an error (usually a `429 Too Many Requests` status code).
 
 ---
 
-## 🛠️ Rate Limit Handling Strategies
+## 🛠️ Strategies for Handling Rate Limits
 
-- **Exponential Backoff**: Increase delay between retries exponentially.
-- **Retry Logic**: Automatically retry failed requests.
-- **Rate Limit Detection**: Use response headers (`X-RateLimit-Remaining`, `Retry-After`) and status codes (`429 Too Many Requests`) to detect rate limits.
+<div class="columns">
+<div>
 
----
+### Exponential Backoff
 
-## 🧩 Implementation Patterns
+- If a request fails, wait for a short time and then retry.
+- Double the waiting time after each failed attempt.
 
-- **Circuit Breaker**: Stop sending requests for a period of time after a certain number of failures.
-- **Token Bucket**: A simple algorithm for rate limiting.
-- **Sliding Window Counter**: A more advanced algorithm for rate limiting.
+</div>
+<div>
 
----
+### Retry Logic
 
-## 🚀 Advanced Techniques
+- Only retry on specific errors (like `429` or `503`).
+- Don't retry on errors that won't be fixed by waiting (like `401 Unauthorized`).
 
-- **Adaptive Rate Limiting**: Dynamically adjust the request rate based on API responses.
-- **Priority-Based Rate Limiting**: Prioritize important requests.
-- **Distributed Rate Limiting**: Coordinate rate limiting across multiple instances.
-
----
-
-## 📊 Monitoring and Alerting
-
-- **Key Metrics**: Request rate, rate limit hits, retry attempts, success rate.
-- **Alerting Rules**: Set up alerts for high rate limit hit rates, circuit breaker open state, etc.
-- **Dashboards**: Visualize rate limit metrics.
+</div>
+</div>
 
 ---
 
-## 👍 Best Practices
+## 🤖 The Demo Workflow
 
-- **Graceful Degradation**: Provide a degraded experience instead of failing completely.
-- **Request Batching**: Combine multiple requests into a single one.
-- **Environment-Based Configuration**: Use different rate limit settings for development, staging, and production.
-- **Testing**: Test your rate limit handling logic.
+`rate-limit-handling-workflow.json`
 
----
+This workflow demonstrates how to handle rate limits:
 
-## 🌐 Real-World Examples
-
-- **Twitter API**: 300 requests per 15 minutes.
-- **GitHub API**: 5000 requests per hour (authenticated).
-- **Slack API**: 1+ request per minute.
+1.  **Set Config**: Defines max retries and delay times.
+2.  **Make API Request**: Tries to call an API.
+3.  **Check for 429 Error**: If a rate limit error occurs, it enters the retry loop.
+4.  **Exponential Backoff**: Calculates how long to wait before the next retry.
+5.  **Wait**: Pauses the workflow.
+6.  **Loop**: Goes back to the API request until it succeeds or runs out of retries.
 
 ---
 
-## ✅ Conclusion
+## ✅ Best Practices
 
-- Effective rate limit handling is crucial for building reliable n8n workflows.
-- Implement retry logic, exponential backoff, and monitoring to build resilient systems.
+- **Read the API documentation** to understand the rate limits.
+- Use **exponential backoff** to avoid overwhelming the API.
+- **Check response headers** like `X-RateLimit-Remaining` and `Retry-After`.
+- Use a **Circuit Breaker** pattern for more advanced scenarios.
+
+---
+
+## 📚 External Resources
+
+- **n8n Error Handling Documentation**: [https://docs.n8n.io/error-handling/](https://docs.n8n.io/error-handling/)
+- **Stripe's Article on Rate Limiters**: [https://stripe.com/blog/rate-limiters](https://stripe.com/blog/rate-limiters)

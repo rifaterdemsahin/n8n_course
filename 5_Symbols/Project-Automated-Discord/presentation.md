@@ -1,85 +1,81 @@
 ---
 marp: true
-theme: default
+theme: uncover
 style: |
-  h1 {
-    color: #007bff; /* blue */
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
-  h2 {
-    color: #fd7e14; /* orange */
+  h1, h2, h3, h4, h5, h6 {
+    color: #0277b5;
+  }
+  a {
+    color: #f89d21;
+  }
+  strong {
+    color: #f89d21;
   }
 ---
 
-# 📢 Project - Automated Discord/Slack Notifications
+# 💬 Automated Discord & Slack Notifications
+
+Keep your team in the loop.
 
 ---
 
-## 📝 Project Overview
+## 🎯 Project Overview
 
-- 🎓 Learn how to create automated notification workflows for Discord and Slack using n8n.
-- 🔗 Connect your accounts, create workflows, send custom messages, and handle errors.
+This project demonstrates how to send automated notifications to **Discord** and **Slack** using n8n.
 
----
+<div class="columns">
+<div>
 
-## 🎯 Learning Objectives
+### 🤖 Discord
 
-- 🔗 Connect Discord/Slack accounts to n8n.
-- 👆 Create manual trigger workflows.
-- 🔀 Implement conditional logic for message types.
-- 🎨 Format rich messages with embeds and attachments.
-- gracefully Handle errors gracefully.
+- Use **webhooks** to send messages.
+- Format messages with **embeds**.
 
----
+</div>
+<div>
 
-## 💬 Part 1: Discord Notifications
+### 🤖 Slack
 
-- **Setup**: Create a Discord webhook and configure it in n8n.
-- **Workflow Features**:
-  - Manual Trigger
-  - Default Values Setup
-  - Conditional Message Formatting
-  - Rich Discord Embeds
-  - Response Formatting
+- Use the **Slack API** to send messages.
+- Format messages with **attachments**.
+
+</div>
+</div>
 
 ---
 
-## slack Part 2: Slack Notifications
+##  workflows
 
-- **Setup**: Create a Slack App, configure bot permissions, and set up credentials in n8n.
-- **Workflow Features**:
-  - Manual Trigger
-  - Default Configuration
-  - Message Type Handling
-  - Rich Slack Attachments
-  - Error Handling
+This project includes two workflows:
+
+- **`discord-notifications-workflow.json`**: Sends a message to a Discord channel with a colored embed based on the message type (info or error).
+
+- **`slack-notifications-workflow.json`**: Sends a message to a Slack channel with a colored attachment based on the message type.
 
 ---
 
-## 🚀 Advanced Features
+## ✨ Features
 
-- динамический **Dynamic Content**: Use n8n expressions to create dynamic messages.
-- 📝 **Message Templates**: Create reusable message templates for Discord and Slack.
-- 🚨 **Error Handling**: Implement try-catch logic and fallback notifications.
-
----
-
-## 🛠️ Troubleshooting
-
-- **Discord**: "Invalid Webhook", "Message Not Appearing".
-- **Slack**: "Invalid Auth Token", "Channel Not Found", "Missing Scope".
-- **General**: Test credentials, check workflow execution, verify node configuration.
+- **Conditional Formatting**: Message color and icon change based on whether the message is a success or an error.
+- **Rich Messages**: Uses embeds (Discord) and attachments (Slack) to create visually appealing notifications.
+- **Dynamic Content**: Uses n8n expressions to include timestamps and other dynamic data.
 
 ---
 
-## 🔒 Security Best Practices
+## ✅ Best Practices
 
-- 🔑 **Credential Management**: Never share webhook URLs or OAuth tokens.
-- 🛡️ **Channel Security**: Use private channels for sensitive information.
-- ✉️ **Message Content**: Sanitize user input and avoid sending sensitive data.
+- Use **n8n credentials** to securely store your webhook URLs and API tokens.
+- Use an **`IF` node** to handle different message types.
+- Use a **`Set` node** to build your message content before sending.
 
 ---
 
-## ✅ Conclusion
+## 📚 External Resources
 
-- You have learned how to build automated notification workflows for Discord and Slack.
-- You can now connect to other services, create more sophisticated logic, and customize notifications.
+- **Discord Webhook Documentation**: [https://discord.com/developers/docs/resources/webhook](https://discord.com/developers/docs/resources/webhook)
+- **Slack API Documentation**: [https://api.slack.com/](https://api.slack.com/)

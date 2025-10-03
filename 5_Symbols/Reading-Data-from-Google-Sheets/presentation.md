@@ -1,100 +1,88 @@
 ---
 marp: true
-theme: default
+theme: uncover
 style: |
-  h1 {
-    color: #007bff; /* blue */
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
-  h2 {
-    color: #fd7e14; /* orange */
+  h1, h2, h3, h4, h5, h6 {
+    color: #0277b5;
+  }
+  a {
+    color: #f89d21;
+  }
+  strong {
+    color: #f89d21;
   }
 ---
 
-# 🔑 Setting up Google API Credentials - A Step-by-Step Guide
+# 📊 Reading Data from Google Sheets
+
+Connecting n8n to your spreadsheets.
 
 ---
 
-## ✅ Prerequisites
+## 🔑 Google API Credentials
 
-- 🇬 Google account
-- ☁️ Access to Google Cloud Console
-- 🤖 n8n instance
-- 🤔 Basic understanding of APIs and OAuth2
+Before you can read from a Google Sheet, you need to set up credentials.
 
----
-
-## 1️⃣ Step 1: Create a Google Cloud Project
-
-1.  ☁️ Access Google Cloud Console.
-2.  ➕ Create a new project.
-3.  🆔 Note the Project ID.
+1.  **Create a Google Cloud Project**.
+2.  **Enable the Google Sheets API**.
+3.  **Configure the OAuth Consent Screen**.
+4.  **Create an OAuth 2.0 Client ID**.
+5.  **Add the credentials to n8n**.
 
 ---
 
-## 2️⃣ Step 2: Enable Required APIs
+## 🤖 The Demo Workflow
 
-1.  Navigate to "APIs & Services" -> "Library".
-2.  ✅ Enable "Google Sheets API".
-3.  ✅ Enable "Google Drive API" (recommended).
+`google-sheets-read-workflow.json`
 
----
+This workflow demonstrates how to read data from a Google Sheet:
 
-## 3️⃣ Step 3: Configure OAuth Consent Screen
-
-1.  Go to "OAuth consent screen".
-2.  🧑‍🤝‍🧑 Choose "External" user type.
-3.  📝 Fill in app information.
-4.  ➕ Add scopes: `https://www.googleapis.com/auth/spreadsheets` and `https://www.googleapis.com/auth/drive`.
-5.  🧑‍💻 Add test users.
+1.  **Set Parameters**: Defines the Spreadsheet ID and range to read.
+2.  **Read Google Sheet**: Uses the Google Sheets node to get the data.
+3.  **Check if Data Exists**: An `IF` node checks if any rows were returned.
+4.  **Process Data**: If data exists, it's processed.
+5.  **Handle Empty Response**: If no data, a different path is taken.
 
 ---
 
-## 4️⃣ Step 4: Create OAuth2 Credentials
+## ✨ The Google Sheets Node
 
-1.  Go to "Credentials".
-2.  ➕ Create "OAuth client ID".
-3.  🌐 Select "Web application".
-4.  ➡️ Add authorized redirect URIs for your n8n instance.
-5.  🤫 Copy the Client ID and Client Secret.
+<div class="columns">
+<div>
 
----
+### Read Operation
 
-## 5️⃣ Step 5: Configure Credentials in n8n
+- **Document ID**: The ID of your Google Sheet.
+- **Sheet Name**: The name of the sheet to read from.
+- **Range**: The cells to read (e.g., `A1:B10`).
 
-1.  In n8n, go to "Credentials" and create a new "Google Sheets OAuth2 API" credential.
-2.  📝 Enter the Client ID, Client Secret, and scopes.
-3.  🔗 Connect your Google account.
+</div>
+<div>
 
----
+### Options
 
-## 6️⃣ Step 6: Test the Connection
+- **Has Header Row**: Tells n8n to use the first row as keys for the JSON objects.
+- **Include Empty Cells**: Choose whether to include empty cells in the output.
 
-1.  ➕ Create a new workflow with a Google Sheets node.
-2.  ⚙️ Configure the node to read from a sheet.
-3.  ▶️ Execute the workflow and verify that data is retrieved.
+</div>
+</div>
 
 ---
 
-## 📊 Google Sheets Integration
+## ✅ Best Practices
 
-- **Operations**: Read, Write, Update, Delete, Create.
-- **Range Notation**: `A1`, `A1:B10`, `A:A`, `1:1`, `A:Z`.
-- **Data Format**: With or without headers.
-
----
-
-## 🛠️ Troubleshooting
-
-- "Invalid Credentials"
-- "Access Denied"
-- "Spreadsheet Not Found"
-- "Range Not Found"
-- "Quota Exceeded"
+- **Use specific ranges** instead of reading the whole sheet.
+- **Enable `Has Header Row`** to get nicely formatted JSON.
+- **Use a dedicated service account** for production workflows for better security.
 
 ---
 
-## 🔒 Security Best Practices
+## 📚 External Resources
 
-- 🤫 Securely store credentials.
-- 👍 Use the principle of least privilege for scopes.
-- 📊 Monitor API usage and access logs.
+- **n8n Google Sheets Node Documentation**: [https://docs.n8n.io/integrations/builtin/cli-nodes/n8n-nodes-base.googlesheets/](https://docs.n8n.io/integrations/builtin/cli-nodes/n8n-nodes-base.googlesheets/)
+- **Google Cloud Console**: [https://console.cloud.google.com/](https://console.cloud.google.com/)
