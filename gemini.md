@@ -8,7 +8,10 @@ This project is an n8n course designed to teach automation concepts through hand
 
 ## Readme Structure
 - Detailed explanation of n8n json in the folder
-- Marp (Markdown presentation ) explains the readme
+
+## Presentation Structure
+- Use the readme in the same folder as source
+- Create in Marp (Markdown presentation ) explains the readme
 - In marp use emojis
 - in marp use orange #f89d21 and blue #0277b5 colors
 - at the last slide give external reading reasources at the end
